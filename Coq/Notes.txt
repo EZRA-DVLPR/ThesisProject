@@ -1,0 +1,8 @@
+Chapter 3:
+
+Mathemathical objects and programs are isomorphic.
+
+Curry-Howard correspondence: same type checking tech used for proofs as validating programs.
+
+any term of type `bool` evaluates to `true` or `false`; Not `True` or `False`
+

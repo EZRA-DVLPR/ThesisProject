@@ -1,20 +1,23 @@
 (* Sample theorem to learn Coq *)
 
-Definition pierce := forall (p q : Prop),
+Definition peirce := forall (p q : Prop),
   ((p -> q) -> p ) -> p. 
 
 Definition lem := forall p, p \/ ~ p.
 
-Theorem pierce_equiv_lem : pierce <-> lem.
+Theorem peirce_equiv_lem : peirce <-> lem.
 
 (* Proof to show theorem is true *)
 Proof.
-  unfold pierce, lem.
+  (* bring out the theorems into expanded forms *)
+  unfold peirce, lem.
+  (*  *)
   firstorder.
   apply H with (q := ~ (p \/ ~ p)).
   firstorder.
   destruct (H p).
   assumption.
+  exfalso.
   tauto.
 Qed.
 
