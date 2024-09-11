@@ -1,9 +1,14 @@
 # Remove temp/aux files from Latex folderas they're unnecessary
 
-/Latex/*.aux
-/Latex/*.log
-/Latex/*.synctex.gz
-/Latex/*.toc
+/Latex/Draft/*.aux
+/Latex/Draft/*.log
+/Latex/Draft/*.synctex.gz
+/Latex/Draft/*.toc
+
+/Latex/Final/*.aux
+/Latex/Final/*.log
+/Latex/Final/*.synctex.gz
+/Latex/Final/*.toc
 
 # Remove sample theses and dissertations that were used here out of respect
 
