@@ -1,9 +1,13 @@
-\documentclass[12pt]{article}
+\documentclass[12pt]{report}
 \usepackage{mathptmx} % Times New Roman
 \usepackage{newclude} % used to not have a new page when including another .tex file
 \usepackage{indentfirst} % used to indent the first line in each section
 \usepackage{fancyhdr} % custom headers/footers (i, ii, etc.)
 \usepackage{etoolbox} % for conditional page numbering
+\usepackage{titlesec} % customize title of TOC, and modify sections/subsections/etc.
+\usepackage{ifthen} % for conditional logic
+\usepackage{sectsty} % used for centering the chapters and text for chapter
+\usepackage{tocloft} % adjust chapter and titles to be not bold
 
 \usepackage{graphicx}
 \usepackage[table]{xcolor}
@@ -17,32 +21,38 @@
 \usepackage{geometry}
 \geometry{left=1in, right=1in, top=1in, bottom=1in}
 
-% Create subsubsubsubsections
-\usepackage{titlesec}
-\newcommand{\subsubsubsection}[1]{\paragraph{#1}\mbox{}\\}
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
 
-%%%%%%%%%% Formatting for each section
+% Create the subsubsection
+\titleformat{\subsubsection}[runin]
+{\normalfont\normalsize\bfseries}
+{\thesubsubsection}
+{0.6em}
+{}
 
-\titleformat{\section}
-{\bfseries\Large\centering} % Main section: Bold, centered, large font
-{\thesection}{1em}{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Formatting for each section
 
-\titleformat{\subsection}
-{\bfseries\large} % Subsection: Bold, large font
-{\thesubsection}{1em}{}
+\chapterfont{\centering\normalsize}
+\sectionfont{\normalsize}
+\subsectionfont{\normalsize}
+\subsubsectionfont{\normalsize}
 
-\titleformat{\subsubsection}
-{\bfseries\normalsize} % Subsubsection: Bold, normal font
-{\thesubsubsection}{1em}{}
+% create new customsection that will be used in the preamble
+% will accept boolean to display the name of the customsection if true
+% and won't display o/w
+\newenvironment{customsection}[2][true]{
+    \vspace{1em}
+    \addcontentsline{toc}{chapter}{#2}
+    \ifthenelse{\equal{#1}{true}}{
+        \begin{center}
+            {#2}
+        \end{center}
+    }{}
+}
 
-\titleformat{\subsubsubsection}
-{\bfseries\normalsize} % Subsubsubsection: Bold, normal font
-{\thesubsubsection}{1em}{}
-
-%TAKE OFF BOLD!!!!
-%TAKE OFF NUMBER BEFORE TITLE OF PAGE
-
-% Roman numerals for page numbers before the abstract
+% Roman numerals for the preamble
 \pagenumbering{roman} % Start Roman numbering from title page
 \pagestyle{fancy}
 \fancyhf{}
@@ -50,7 +60,7 @@
 \renewcommand{\headrulewidth}{0pt} % Remove header line
 \renewcommand{\footrulewidth}{0pt} % Remove footer line
 
-% Change to Arabic numerals starting from Abstract page
+% Change to Arabic numerals starting from Chapter 1 page
 \newcommand{\startarabic}{
   \clearpage
   \pagenumbering{arabic}
@@ -60,114 +70,155 @@
 \patchcmd{\ps@plain}{\thepage}{}{}{}
 \makeatother
 
+%Change TOC name and make non bold
+\renewcommand{\contentsname}{Table of Contents}
+\renewcommand{\cfttoctitlefont}{\hfill\normalsize}
+\renewcommand{\cftaftertoctitle}{\hfill}
+
+%change chapters to be non-bold in TOC
+\renewcommand{\cftchapfont}{\normalfont}
+\renewcommand{\cftchappagefont}{\normalfont}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Document begins
+
 \begin{document}
 
-\begin{titlepage}
-    \centering
-    CALIFORNIA STATE UNIVERSITY, NORTHRIDGE\\
-    [1.5in]
-    %Title
-    Survey of Imperative Style Turing Complete proof techniques\\
-    and an application to prove Proteus Turing Complete\\
-    [1.5in]
-    %Master of _ in _
-    A thesis submitted in partial fulfillment of the requirements\\
-    for the degree of Master of Science in\\
-    Computer Science\\
-    [0.5in]
-    By\\
-    [0.25in]
-    Isaiah Martinez\\
-    [1.5in]
-    %make sure it is spaced to be near where the page number goes
-    December 2024
-\end{titlepage}
+    %Title page
+    \begin{titlepage}
+        \centering
+        CALIFORNIA STATE UNIVERSITY, NORTHRIDGE\\
+        [1.5in]
+        %Title
+        Survey of Imperative Style Turing Complete proof techniques\\
+        and an application to prove Proteus Turing Complete\\
+        [1.5in]
+        %Master of _ in _
+        A thesis submitted in partial fulfillment of the requirements\\
+        for the degree of Master of Science in\\
+        Computer Science\\
+        [0.5in]
+        By\\
+        [0.25in]
+        Isaiah Martinez\\
+        [1.5in]
+        %make sure the date is spaced to be near where the page number goes
+        December 2024
+    \end{titlepage}
 
-%Unsigned Signature Page
-\newpage
-\setcounter{page}{2}
+    \newpage
+    %Unsigned Signature Page
+    \setcounter{page}{2} % set page counter in roman numerals to ii
 
-\vspace*{3in}
-\hspace*{0.88in}
-The thesis of Isaiah Martinez is approved:
+    \begin{customsection}[false]{Signature Page}
+        \vspace*{3in}
+        
+        %this horizontal spacing keeps changing so just make sure it looks good in the pdf
+        %such that it matches the vertical line to be above the 'K' in Kyle
+        \hspace*{0.9in}
+        The thesis of Isaiah Martinez is approved:
+        \vspace{1in}
 
-\vspace{1in}
+        \begin{center}
+            \begin{tabular}{p{3in} p{1in}}
+                \rule{3in}{0.4pt} & \rule{1in}{0.4pt}\\
+                Kyle Dewey, PhD., Chair & Date \\
+            \end{tabular}
+        \end{center}
 
-% Unsigned signature page
-\begin{center}
-    \begin{tabular}{p{3in} p{1in}} % adjust col widths
-        \rule{3in}{0.4pt} & \rule{1in}{0.4pt}\\
-        Kyle Dewey, PhD., Chair & Date \\
-    \end{tabular}
-\end{center}
+        \begin{center}
+            \begin{tabular}{p{3in} p{1in}}
+                \rule{3in}{0.4pt} & \rule{1in}{0.4pt}\\
+                John Noga, PhD. & Date \\
+            \end{tabular}
+        \end{center}
 
-\begin{center}
-    \begin{tabular}{p{3in} p{1in}} % adjust col widths
-        \rule{3in}{0.4pt} & \rule{1in}{0.4pt}\\
-        John Noga, PhD. & Date \\
-    \end{tabular}
-\end{center}
+        \begin{center}
+            \begin{tabular}{p{3in} p{1in}}
+                \rule{3in}{0.4pt} & \rule{1in}{0.4pt}\\
+                Name & Date \\
+            \end{tabular}
+        \end{center}
+    \end{customsection}
 
-\begin{center}
-    \begin{tabular}{p{3in} p{1in}} % adjust col widths
-        \rule{3in}{0.4pt} & \rule{1in}{0.4pt}\\
-        Name & Date \\
-    \end{tabular}
-\end{center}
+    \newpage
 
-\newpage
+    % Acknowledgements
+    \begin{customsection}[true]{Acknowledgements}
+        \vspace{3in}
+        \begin{center}
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Vivamus lacinia odio vitae vestibulum vestibulum.
+            Cras venenatis euismod malesuada.
+            Maecenas vehicula felis quis eros auctor, sed efficitur erat suscipit.
+            Curabitur vel lacus velit. Proin a lacus at arcu porttitor vehicula.
+            Mauris non velit vel lectus tincidunt ullamcorper at id risus.
+            Sed convallis sollicitudin purus a scelerisque.
+            Phasellus faucibus purus at magna tempus, sit amet aliquet nulla cursus.
+        \end{center}
+    \end{customsection}
 
-% Acknowledgements
-\section{Acknowledgements}
+    \newpage
 
-\newpage
+    \tableofcontents
 
-\tableofcontents
+    \newpage
 
-\newpage
+    % List of figures/tables/illustrations
+    % Delete any of the following 3 "List of __" that have < 4 items or are not scattered throughout the text
+    \begin{customsection}[true]{List of Figures}
+        \vspace{3in}
+        \begin{center}
+            This list must reference the figure, page it appears, and subject matter.
+        \end{center}
+    \end{customsection}
 
-% List of figures/tables/illustrations. Delete any that have < 4 or are not scattered throughout the text
-\section{List of Figures}
-This list must reference the figure/table/illustration, page it appears, and subject matter.
+    \newpage
 
-\newpage
+    \begin{customsection}[true]{List of Tables}
+        \vspace{3in}
+        \begin{center}
+            This list must reference the table, page it appears, and subject matter.
+        \end{center}
+    \end{customsection}
 
-\section{List of Tables}
-This list must reference the figure/table/illustration, page it appears, and subject matter.
+    \newpage
 
-\newpage
+    \begin{customsection}[true]{List of Illustrations}
+        \vspace{3in}
+        \begin{center}
+            This list must reference the illustration, page it appears, and subject matter.
+        \end{center}
+    \end{customsection}
 
-\section{List of Illustrations}
-This list must reference the figure/table/illustration, page it appears, and subject matter.
+    \newpage
 
-\newpage
+    \include*{Abstract}
 
-% Abstract
-\include*{Abstract}
+    \newpage
 
-\newpage
-\startarabic % start normal page counting
+    \startarabic % start normal page counting
 
-\include*{Intro}
-\include*{DiffTech}
-\include*{ProteusisTC}
-\include*{Conclusion}
+    \include*{Intro}
+    \include*{DiffTech}
+    \include*{ProteusisTC}
+    \include*{Conclusion}
 
-\newpage
+    \newpage
 
-%only for bibliography
-%must be single spaced
-%blank line between each entry
-%alphabetical order
-%retrieval date is only for non-journal instances where material might change at a later date
+    %only for bibliography
+    %must be single spaced
+    %blank line between each entry
+    %alphabetical order
+    %retrieval date is only for non-journal instances where material might change at a later date
 
-\begin{thebibliography}{}
+    \begin{thebibliography}{}
 
-    \bibitem{baker} Baker, N. 1966,
-    in Stellar Evolution,
-    ed.\ R. F. Stein \& A. G. W. Cameron
-    (Plenum, New York) 333
+        \bibitem{baker} Baker, N. 1966,
+        in Stellar Evolution,
+        ed.\ R. F. Stein \& A. G. W. Cameron
+        (Plenum, New York) 333
 
-\end{thebibliography}
+    \end{thebibliography}
 
 \end{document}
