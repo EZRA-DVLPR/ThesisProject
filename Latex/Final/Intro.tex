@@ -1,26 +1,60 @@
 \chapter{Introduction}
 %Background information.
 %catch the audience up to speed with this part of the document
+
 \section{Turing Machines}
 
-What is a TM?
+Alan Turing is generally considered the father of computer science for his numerous contributions including: formalization of computation theory, algorithm design, complexity theory, as well as creating the idea of the Turing Machine.
+A Turing machine can be described as a machine/automata that is capable of performing operations towards some desired goal given an input.
+In a sense, it was designed to be capable of performing any single computable task, such as addition, division, concatenating strings, rendering graphics, etc.
+TMs are at the highest level of computational power, i.e. capable of handling any computation.
 
-What are some examples?
+INSERT DIAGRAM OF A SIMPLE TURING MACHINE THAT PERFORMS BINARY ADDITION
 
-Why are they important?
+\subsection{Oracles}
+
+Of course there also exists the Oracle, sometimes called Turing Machines with an oracle, which is capable of solving problems that TMs cannot.
+It does so by having the ability to respond to any given problem from the TM it is connected to.
+For example, the oracle would be able to solve the Halting Problem for the associated Turing Machine, but not the Halting Problem in general for all Turing Machines.
+
+INSERT DIAGRAM OF A TM W/ AN ORACLE SOLVING THE HALTING PROBLEM
+
+The reason the oracle is not considered more powerful is because in practice (i.e. reality), is because there is no such all-knowing source to retrieve information from.
+As a result, I will look only at TMs for the rest of the thesis.
+
+\subsection{Universal Turing Machines}
+
+A simple abstraction of the standard TM is a Universal Turing Machine. A UTM is capable of solving any computable problem, given the exact process/rules of the TM that will solve it.
+In essence it is a machine that is not hard-coded with what to perform when given input.
+The UTM will read the input, and respond based on the rules given.
+As a result, the UTM is equivalently as powerful as a TM.
+The only functional difference is the usability of the UTM towards a larger number of problems as opposed to the TM being created for a singular problem.
+
+INSERT DIAGRAM OF A SIMPLE UNIVERSAL TURING MACHINE THAT PERFORMS BINARY ADDITION
+basically it just takes another input which are the instructions
+
+\subsection{The Church-Turing Thesis}
+
+According to the Church-Turing Thesis, every effectively calculable function can be computed by a Turing Machine.
+As explained by Robin Gandy, this idea was to show that the limits of computation of reality are bounded by TMs.
+Thus any automata that violates it, such as an Oracle Machine, would be capable of calculating a non-computable function.
+In his words, displaying "Free Will".
+
+[INSERT REFERENCE TO GANDY 1980 PAPER PG 123-148].
+
+Generally speaking however, the consensus is that the Church-Turing Thesis is widely accepted as fact, and no such oracle machines exist as previously stated.
 
 \section{Turing Complete}
 
-What does TC mean?
+Turing Complete is a closely related term when discussing Turing Machines.
+For a system to be Turing Complete, it must be capable of performing any computation that a standard TM can perform.
+An equivalent description would be that for a system to be TC, it must simulate a UTM.
+By transitivity, if any system is proven to be TC, then it must be equivalent in power to all other systems that are TC.
+Thus, all are TMs, which in turn means they are all equivalently the most powerful computation machine.
 
-How is it different from a TM?
-
-Are all TC things equivalent?
-
-What are the results of being TC?
-
-\subsection{Example of Turing Complete Systems}
-
-Some classical/practical examples
+Some classical/practical examples of TC
 
 Link some funny/interesting examples of TC that have been proven
+
+
+In this thesis, we will look closely at the several methods to showing that a given system is TC.
