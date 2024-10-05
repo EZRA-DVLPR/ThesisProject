@@ -36,25 +36,182 @@ basically it just takes another input which are the instructions
 \subsection{The Church-Turing Thesis}
 
 According to the Church-Turing Thesis, every effectively calculable function can be computed by a Turing Machine.
-As explained by Robin Gandy, this idea was to show that the limits of computation of reality are bounded by TMs.
-Thus any automata that violates it, such as an Oracle Machine, would be capable of calculating a non-computable function.
-In his words, displaying "Free Will".
+As explained by Robin Gandy, the main idea was to show that there is an upper bound on the computation of TMs.
+This upper bound does not exist when comparing the computing power of humans to TMs.
+
+He proposed a series of four Principles that we still use today as a basis for determining what one of the definitions of a TM is capable of computing.
+Any automata that violates any of these Principles is said to have "Free Will", which in context means being able to compute any non-computable function.
+As an example, the Oracle machine would be capable of computing a non-computable function, namely the halting problem, and thus would have "free will".
+We disregard such automata as there aren't any systems that exist in reality as of yet to display "free will".
+As a result, TMs are the most powerful automata that can compute any calculable function.
+This is why the Church-Turing thesis is generally assumed to be true.
 
 [INSERT REFERENCE TO GANDY 1980 PAPER PG 123-148].
 
-Generally speaking however, the consensus is that the Church-Turing Thesis is widely accepted as fact, and no such oracle machines exist as previously stated.
+\section{Turing Completeness}
 
-\section{Turing Complete}
-
-Turing Complete is a closely related term when discussing Turing Machines.
+Turing Completeness is a closely related term when discussing Turing Machines.
 For a system to be Turing Complete, it must be capable of performing any computation that a standard TM can perform.
 An equivalent description would be that for a system to be TC, it must simulate a UTM.
 By transitivity, if any system is proven to be TC, then it must be equivalent in power to all other systems that are TC.
-Thus, all are TMs, which in turn means they are all equivalently the most powerful computation machine.
+Therefore, all TC systems are considered the most powerful computation machine.
 
-Some classical/practical examples of TC
+\subsection{Considering the Practicality of Turing Complete Programming Languages}
 
-Link some funny/interesting examples of TC that have been proven
+Despite all TC systems being equivalent in computation power, this does not mean that all are practically useful.
+This is because despite the TC being able to simulate any TM, it may have a more complex method for simulation or calculation of the same problem.
+This is considered a non-issue as the length of time needed for computation is not considered when discussing TMs and TC systems.
+This is only a factor for practical purposes, such as programming languages, space and time complexity are of major importance.
+
+\subsubsection{Esoteric Progamming Languages}
+
+An example of a highly simplistic well-known esoteric TC language is brainfuck.
+Esoteric programming languages are designed to demonstrate a key concept with language design, but often are done so in a joking manner.
+The language has only 8 instructions, a data pointer, and an instruction pointer.
+I will describe brainfuck and then provide several examples of it in use.
+
+Any characters besides those used in the instructions are considered comments and will be ignored.
+Instructions are executed sequentially unless branching logic is taken via the '[' or ']' instructions.
+The program terminates when the instruction pointer moves to beyond the final command.
+The language has a single dimensional array containing 30,000 byte cells, with each cell initialized to zero.
+It also has a movable data pointer that is set to index 0 of the previously described array.
+Additionally, it has two streams of bytes for input and output which are used for entering keyboard input and displaying output on a monitor using the ASCII encoding scheme.
+[Wikipedia citation brainfuck](https://en.wikipedia.org/wiki/Brainfuck)
+[Github basics of Brainfuck](https://gist.github.com/roachhd/dce54bec8ba55fb17d3a)
+
+The 8 instructions are as follows:
+\begin{table}[h!tb]
+    \centering
+    \begin{tabular}{|c|p{10cm}|}
+        \hline
+        \textbf{$>$} & Increments the data pointer by one. (This points to the next cell on the right). \\
+        \hline
+        \textbf{$<$} & Decrement the data pointer by one. (This points to the next cell on the left). \\
+        \hline
+        \textbf{$+$} & Increments the byte at the data pointer by one. \\
+        \hline
+        \textbf{$-$} & Decrements the byte at the data pointer by one. \\
+        \hline
+        \textbf{$.$} & Output the byte at the data pointer. \\
+        \hline
+        \textbf{$,$} & Accept one byte of input, storing its value in the byte at the data pointer.\\
+        \hline
+        \textbf{[} & If the byte at the data pointer is zero, then instead of moving the instruction forward to the next command, go to the matching ']' command. (Jump forwards). \\
+        \hline
+        \textbf{]} & If the byte at the data pointer is non-zero, then instead of moving the instruction forward to the next command, go to the matching '[' command. (Jump backwards). \\
+        \hline
+    \end{tabular}
+    \caption{Brainfuck Instruction Set}
+    \label{tab:BrainfuckInstructionSet}
+\end{table}
+
+Each '[' or ']' must correspond to match with it's complement symbol, namely ']' and '[' respectively.
+Also, when input is read with the ',' command the given character from a keyboard input will have its value read as a decimal ASCII code.
+eg. '!' corresponds to 33. 'a' corresponds to 97, etc.
+The decimal value is what is then converted to binary and stored within the current byte.
+
+\href{https://stackoverflow.com/questions/16836860/how-does-the-brainfuck-hello-world-actually-work/19869651#19869651}{BRAINFUCK CITATION FROM STACK OVERFLOW}
+
+Here is a simple program that modifies the value of the first cell in the 30,000 byte array.
+
+\begin{verbatim}
+    ++      Add 2 to the byte value in cell 0
+    [-]     Decrement the value of the current cell until it reaches 0
+\end{verbatim}
+
+In fact, we can remove the comments and put the code onto a single line to achieve the same result.
+Recall that comments include any character that is not listed as one of the 8 aforementioned instructions.
+
+\begin{verbatim}
+    ++[-]
+\end{verbatim}
+
+An equivalent program in python is seen below:
+
+\begin{verbatim}
+    # Let 'Array' be our 30,000 byte array
+    Array[0] += 2
+    while (Array[0] != 0):
+        Array[0] -= 1
+\end{verbatim}
+
+Below is an example program that outputs Hello World.
+It has comments and is spaced out by line to demonstrate the effect of each operation.
+
+\begin{verbatim}
+    >++++++++[<+++++++++>-]<.       H
+    >++++[<+++++++>-]<+.            e
+    +++++++..                       l
+    +++.                            l
+    >>++++++[<+++++++>-]<++.        o
+    ------------.                   [space]
+    >++++++[<+++++++++>-]<+.        W
+    <.                              o
+    +++.                            r
+    ------.                         l
+    --------.                       d
+    >>>++++[<++++++++>-]<+.         !
+\end{verbatim}
+
+For an in-depth breakdown of brainfuck with examples and guiding logic, see: [Github basics of Brainfuck](https://gist.github.com/roachhd/dce54bec8ba55fb17d3a).
+
+One common technique utilized when creating programming languages is to bootstrap them.
+This means that the developers will write a compiler for the language, using the language itself.
+This is done for many reasons, but the reason for introducing it here is to show how brainfuck is capable of complex logic that is more practically useful than simple programs as seen above.
+Below is the current smallest compiler for brainfuck, written in brainfuck.
+
+\href{https://esolangs.org/wiki/Brainfuck#Self-interpreters}{PLACE SAYING ITS THE SMALLEST BRAINFUCK COMPILER}
+[SMALLEST BRAINFUCK COMPILER][https://brainfuck.org/dbfi.b]
+
+\begin{verbatim}
+    >>>+[[-]>>[-]++>+>+++++++[<++++>>++<-]++>>+>+>+++++[>++>++++++<<-]+>>>,<++[[>[
+    ->>]<[>>]<<-]<[<]<+>>[>]>[<+>-[[<+>-]>]<[[[-]<]++<-[<+++++++++>[<->-]>>]>>]]<<
+    ]<]<[[<]>[[>]>>[>>]+[<<]<[<]<+>>-]>[>]+[->>]<<<<[[<<]<[<]+<<[+>+<<-[>-->+<<-[>
+    +<[>>+<<-]]]>[<+>-]<]++>>-->[>]>>[>>]]<<[>>+<[[<]<]>[[<<]<[<]+[-<+>>-[<<+>++>-
+    [<->[<<+>>-]]]<[>+<-]>]>[>]>]>[>>]>>]<<[>>+>>+>>]<<[->>>>>>>>]<<[>.>>>>>>>]<<[
+    >->>>>>]<<[>,>>>]<<[>+>]<<[+<<]<]
+\end{verbatim}
+
+As we quickly found out, using brainfuck in any practical sense is simply too much work due to its extreme inefficiency.
+It also is extremely difficult to understand without any given context of what problem is being solved.
+Due to the languages' simplicity, it is very useful for studying Turing Completeness.
+There exist many other esoteric TC programming languages, but the reason for choosing brainfuck in particular is its simplicity in instruction set.
+As a result, we will now look at proper programming languages.
+These languages will be much more efficient and legible, at the cost of increasing complexity in instruction set.
+
+\subsubsection{Procedural Languages}
+
+describe design of these languages
+DESCRIBE C CAPABILITIES
+
+\subsubsection{Object Oriented Languages}
+
+describe design of these languages
+DESCRIBE Java CAPABILITIES
+
+\subsubsection{Mixed/Multi Paradigm Languages}
+
+describe design of these languages
+DESCRIBE PYTHON CAPABILITIES
+
+\subsubsection{Functional Programming Languages}
+
+describe design of these languages
+describe lisp or Haskell capabilities
+
+\subsubsection{Logic Programming Languages}
+
+DESCRIBE Prolog INSTRUCTION Set
+SIMPLISTIC EXAMPLES (1-3)
+
+\section{Proteus}
+
+DESCRIBE WHAT PROTEUS IS, PURPOSE
+
+\subsection{Motivations for Turing Completeness}
+
+WHY DO WE WANT TO STUDY THIS LANGUAGE
 
 
 In this thesis, we will look closely at the several methods to showing that a given system is TC.
+Afterwards, we will demonstrate that Proteus is in fact turing complete using some of the methods seen here.
