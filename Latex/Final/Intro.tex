@@ -65,16 +65,17 @@ This is only a factor for practical purposes, such as programming languages, spa
 
 \subsubsection{Esoteric Progamming Languages}
 
+Esoteric programming languages are designed to demonstrate a key concept with language design, but are often done so in a joking manner.
 An example of a highly simplistic well-known esoteric TC language is brainfuck.
-Esoteric programming languages are designed to demonstrate a key concept with language design, but often are done so in a joking manner.
-The language has only 8 instructions, a data pointer, and an instruction pointer.
-I will describe brainfuck and then provide several examples of it in use.
+I will describe the way brainfuck operates and then provide several example programs with explanations.
 
+The language has only 8 instructions, a data pointer, and an instruction pointer.
+It uses a single dimensional array containing 30,000 byte cells, with each cell initialized to zero.
+The data pointer points to the current cell within the array, initialized to index 0.
+The instruction pointer points to the next instruction to be processed, starting from the first character given in the code.
 Any characters besides those used in the instructions are considered comments and will be ignored.
 Instructions are executed sequentially unless branching logic is taken via the '[' or ']' instructions.
-The program terminates when the instruction pointer moves to beyond the final command.
-The language has a single dimensional array containing 30,000 byte cells, with each cell initialized to zero.
-It also has a movable data pointer that is set to index 0 of the previously described array.
+The program terminates when the instruction pointer moves beyond the final command.
 Additionally, it has two streams of bytes for input and output which are used for entering keyboard input and displaying output on a monitor using the ASCII encoding scheme.
 [Wikipedia citation brainfuck](https://en.wikipedia.org/wiki/Brainfuck)
 [Github basics of Brainfuck](https://gist.github.com/roachhd/dce54bec8ba55fb17d3a)
@@ -106,8 +107,8 @@ The 8 instructions are as follows:
 \end{table}
 
 Each '[' or ']' must correspond to match with it's complement symbol, namely ']' and '[' respectively.
-Also, when input is read with the ',' command the given character from a keyboard input will have its value read as a decimal ASCII code.
-eg. '!' corresponds to 33. 'a' corresponds to 97, etc.
+Also, when input is read with the ',' command the given character from a keyboard input will have its value read as a decimal ASCII code
+(eg. '!' corresponds to 33. 'a' corresponds to 97, etc.).
 The decimal value is what is then converted to binary and stored within the current byte.
 
 \href{https://stackoverflow.com/questions/16836860/how-does-the-brainfuck-hello-world-actually-work/19869651#19869651}{BRAINFUCK CITATION FROM STACK OVERFLOW}
@@ -136,7 +137,8 @@ An equivalent program in python is seen below:
 \end{verbatim}
 
 Below is an example program that outputs Hello World.
-It has comments and is spaced out by line to demonstrate the effect of each operation.
+At the end of each line is the end result of the operations done in the line as a comment.
+Each line prints a new character.
 
 \begin{verbatim}
     >++++++++[<+++++++++>-]<.       H
@@ -158,28 +160,32 @@ For an in-depth breakdown of brainfuck with examples and guiding logic, see: [Gi
 One common technique utilized when creating programming languages is to bootstrap them.
 This means that the developers will write a compiler for the language, using the language itself.
 This is done for many reasons, but the reason for introducing it here is to show how brainfuck is capable of complex logic that is more practically useful than simple programs as seen above.
-Below is the current smallest compiler for brainfuck, written in brainfuck.
+Below is the current smallest bootstrapped compiler for brainfuck.
 
 \href{https://esolangs.org/wiki/Brainfuck#Self-interpreters}{PLACE SAYING ITS THE SMALLEST BRAINFUCK COMPILER}
 [SMALLEST BRAINFUCK COMPILER][https://brainfuck.org/dbfi.b]
 
 \begin{verbatim}
-    >>>+[[-]>>[-]++>+>+++++++[<++++>>++<-]++>>+>+>+++++[>++>++++++<<-]+>>>,<++[[>[
-    ->>]<[>>]<<-]<[<]<+>>[>]>[<+>-[[<+>-]>]<[[[-]<]++<-[<+++++++++>[<->-]>>]>>]]<<
-    ]<]<[[<]>[[>]>>[>>]+[<<]<[<]<+>>-]>[>]+[->>]<<<<[[<<]<[<]+<<[+>+<<-[>-->+<<-[>
-    +<[>>+<<-]]]>[<+>-]<]++>>-->[>]>>[>>]]<<[>>+<[[<]<]>[[<<]<[<]+[-<+>>-[<<+>++>-
-    [<->[<<+>>-]]]<[>+<-]>]>[>]>]>[>>]>>]<<[>>+>>+>>]<<[->>>>>>>>]<<[>.>>>>>>>]<<[
-    >->>>>>]<<[>,>>>]<<[>+>]<<[+<<]<]
+    >>>+[[-]>>[-]++>+>+++++++[<++++>>++<-]++>>+>+>+++++[>++>++++++<<-]+>>>,
+    <++[[>[->>]<[>>]<<-]<[<]<+>>[>]>[<+>-[[<+>-]>]<[[[-]<]++<-[<+++++++++>[
+    <->-]>>]>>]]<<]<]<[[<]>[[>]>>[>>]+[<<]<[<]<+>>-]>[>]+[->>]<<<<[[<<]<[<]
+    +<<[+>+<<-[>-->+<<-[>+<[>>+<<-]]]>[<+>-]<]++>>-->[>]>>[>>]]<<[>>+<[[<]
+    <]>[[<<]<[<]+[-<+>>-[<<+>++>-[<->[<<+>>-]]]<[>+<-]>]>[>]>]>[>>]>>]<<[>>
+    +>>+>>]<<[->>>>>>>>]<<[>.>>>>>>>]<<[>->>>>>]<<[>,>>>]<<[>+>]<<[+<<]<]
 \end{verbatim}
 
 As we quickly found out, using brainfuck in any practical sense is simply too much work due to its extreme inefficiency.
-It also is extremely difficult to understand without any given context of what problem is being solved.
-Due to the languages' simplicity, it is very useful for studying Turing Completeness.
-There exist many other esoteric TC programming languages, but the reason for choosing brainfuck in particular is its simplicity in instruction set.
-As a result, we will now look at proper programming languages.
-These languages will be much more efficient and legible, at the cost of increasing complexity in instruction set.
+It also is extremely difficult to understand without comments indicating the goal of each step.
+Due to the simplicity of the language, it is very useful for studying Turing Completeness.
+There exist many other esoteric TC programming languages, but the reason for choosing brainfuck in particular is its simple instruction set.
+As a result, we will now look at more useful and practical programming language paradigms.
+These languages within these paradigms will be much more efficient and legible, at the cost of increased complexity in instruction set.
 
 \subsubsection{Procedural Languages}
+
+Procedural Programming Languages are designed to be read linearly in execution order, top to bottom.
+There are still
+
 
 describe design of these languages
 DESCRIBE C CAPABILITIES
