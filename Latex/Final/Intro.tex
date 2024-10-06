@@ -184,31 +184,214 @@ These languages within these paradigms will be much more efficient and legible, 
 \subsubsection{Procedural Languages}
 
 Procedural Programming Languages are designed to be read linearly in execution order, top to bottom.
-There are still
+The main idea behind this design of languages is to create procedures and subprocedures (equivalently routines and subroutines), to achieve a larger goal.
+For example to calculate the sum of squares in code you may design it in the C code as follows:
 
+\begin{verbatim}
+    float squareNumber(float a) {
+        return a * a;
+    }
+    float findSumOfSquares (float a, float b) {
+        return squareNumber(a) + squareNumber(b);
+    }
+\end{verbatim}
+    
+When working in Procedural Programming Languages, variables are used to store and modify data.
+These variables may be locally or globally defined, which is where we define the concept of scope.
+Scope refers to the current lens in which we view code and the system memory.
+It identifies which variables exist, what values they have, and what operations are being performed.
+The below example in C provides insight into the importance of scope.
 
-describe design of these languages
-DESCRIBE C CAPABILITIES
+\begin{verbatim}
+    float globalVariable;
+
+    float foo (float bar) {
+        float localVariable;
+        ...
+    }
+
+    float baz (float qux) {
+        float localVariable;
+        ...
+    }
+\end{verbatim}
+
+Notice that we are able to utilize a variable named localVariable in the two functions foo and baz.
+This is allowed because when the scope is inside of either function, the other function does not exist.
+The variable globalVariable is available to both because it is outside of the scope of both functions.
+This means that any other function in the code in the same scope as the globalVariable is capable of accessing its value.
+
+I will now describe the importance of functions in Procedural Programming Languages.
+Functions are designed to complete a single goal and return a single output.
+They are capable of accepting $0^{+}$ inputs and outputting 0 or 1 outputs.
+These functions are capable of calling other functions, including themselves.
+When a function calls itself, this is called recursion.
+Here is an example constructing the fibonacci sequence in C in 2 ways: without recursion, and with recursion.
+
+\begin{verbatim}
+    //Given an integer n, calculate the first n numbers
+    //of the fibonacci sequence without recursion
+    
+    void sequentialFibonacci (int n) {
+        if (n < 1) {
+            printf("Input must be an integer greater than 0");
+            return;
+        }
+
+        int sub1 = 0;
+        int sub2 = 1;
+
+        for (int i = 1; i <= n; i+=1) {
+            if (i > 2) {
+                int curr = sub1 + sub2;
+                sub1 = sub2;
+                sub2 = curr;
+                printf("%d ", curr);
+            }
+            else if (i == 1) {
+                printf("%d ", sub1);
+            }
+            else if (i == 2) {
+                printf("%d ", sub2);
+            }
+        }
+    }
+
+    /***************************************************************/
+
+    //Recursive case
+
+    //keep track of current Index, given amount of fibonacci numbers
+    //to print, and propogate the two subnumbers to the next step
+    void recursiveFibonacci (int currIndex, int n, int sub1, int sub2) {
+        if (currIndex < n) {
+            printf("%d ", sub1 + sub2);
+            recursiveFibonacci(currIndex + 1, n, sub2, sub1 + sub2);
+        }
+        return;
+    }
+
+    //handle base cases (exit conditions)
+    //otherwise start the recursive process
+    void startRecursiveFibonacci (int n) {
+        if (n < 1) {
+            printf("Input must be an integer greater than 0");
+        } else if (n == 1) {
+            printf("%d ", 0);
+        } else if (n == 2) {
+            printf("%d %d ", 0, 1);
+        } else {
+            printf("%d %d ", 0, 1);
+            recursiveFibonacci(0, n - 2, 0, 1);
+        }
+        return;
+    }
+\end{verbatim}
+
+As shown above, recursion is a powerful tool to simplify the amount of lines needed to code the main functionality of the procedure.
+It simplifies the amount of lines written because the overall logical design is more complex.
+
+Through the use of scope and compartmentalizing procedures, Procedural programming is a very straightforward and capable design paradigm for software development.
+Some well known languages that are Turing Complete from this paradigm are: 
+\begin{itemize}
+    \item C
+    \item Pascal
+    \item COBOL
+    \item Fortran
+    \item ALGOL
+    \item Basic        
+\end{itemize}
+
+Although these languages are very old, with some coming from the 1960s, some still find modern use.
+Linus Torvalds, the creator of the Linux kernel and git, chose C to be the main language for developing both of these well known pieces of software.
+Both are still actively developed and improved to this day and remain majorly written in C.
+[SOURCE TO SEE THAT FILES FOR GIT ARE IN C][https://git.kernel.org/pub/scm/git/git.git/tree/]
+[SOURCE TO SEE THAT LINUX KERNEL FILES ARE IN C][https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/]
+Additionally, Richard Stallman led the development for the GNU operating system using C.
+\href{https://www.gnu.org/prep/standards/html_node/Source-Language.html}{SOURCE TO SHOW C IS PREFERRED}
+Although most users are on the Windows or Apple platform for PCs, the GNU operating system with the Linux kernel is still a popular choice amongst users looking for a different experience.
+[SOURCE SHOWING MARKET SHARE OF OS][https://gs.statcounter.com/os-market-share/desktop/worldwide/]
+Besides C, COBOL remains a language that is used professionally for banking.
+Many banks still use COBOL their business application and management.
+[COBOL USED BY BANKS][https://increment.com/programming-languages/cobol-all-the-way-down/]
 
 \subsubsection{Object Oriented Languages}
 
 describe design of these languages
 DESCRIBE Java CAPABILITIES
 
+Some well known languages that are Turing Complete from this paradigm are: 
+\begin{itemize}
+    \item Java
+    \item C++
+    \item Scala
+    \item PHP
+    \item Perl
+    \item Swift        
+\end{itemize}
+
 \subsubsection{Mixed/Multi Paradigm Languages}
 
 describe design of these languages
 DESCRIBE PYTHON CAPABILITIES
 
+
+Some well known languages that are Turing Complete from this paradigm are shown below.
+Notice that some languages mentioned in the previous sections may show up in the list: 
+\begin{itemize}
+    \item JavaScript
+    \item C++
+    \item Python
+    \item R
+    \item Perl
+    \item Fortran
+\end{itemize}
+
+DESCRIBE SOME ACTUAL USAGE OF THESE PROGRAMS IN MODERN SOFTWARE DEVELOPMENT
+
+PYTHON HEADS THE CHARGE FOR AI AND ITS SUBDISCIPLINES OF ML,DL,AND GEN AI
+R is used for data science
+Javascript is still utilized for a large amount of web dev
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+NOT SURE IF I WANT TO KEEP THE FOLLOWING 2 SECTIONS OR NOT.
+I WOULD PROBABLY KEEP IT SIMPLE WITH 1-3 THINGS TO DESCRIBE ABOUT THE WAY THE LANGUAGE IS STRUCTURED.
+MAYBE 1-2 EXAMPLES WITH CODE AND EXPLANATION AS WELL (I ESTIMATE 3-5 PAGES PER SECTION DEPENDING ON SIZE OF EXAMPLES).
+I THINK I'VE SHOWN MY POINT WHICH IS THAT THE DIFFERENT PARADIGMS ARE CAPABLE OF BEING TC DESPITE BEING SO DIFFERENT FROM EACH OTHER.
+IT MIGHT BE COOL/INTERESTING TO SHOW THE DIFFERENT THINKING INVOLVED FOR LANGUAGES LIKE PROLOG.
+I DO ADMIT THAT THIS IS SOMEWHAT OUTSIDE THE SCOPE OF THIS THESIS BECAUSE IM NOT EXACTLY LOOKING AT THE STYLE OF LANGAUGE OF PROTEUS, NOR HOW IT COMPARES TO THESE PARADIGMS TO CATEGORIZE IT.
+IT WOULD BE COOL TO SAY THOUGH, SINCE THE GOAL IS TO SHOW THIS LANGUAGE IS TC, WHICH REQUIRES ME TO LOOK AT THE LANGUAGE ON A DEEPER LEVEL.
+
 \subsubsection{Functional Programming Languages}
 
 describe design of these languages
-describe lisp or Haskell capabilities
+Some well known languages that are Turing Complete from this paradigm are:  
+\begin{itemize}
+    \item Lisp
+    \item Haskell
+    \item Elixir
+    \item OCaml
+    \item Go
+    \item Rust
+\end{itemize}
+
+DESCRIBE SOME ACTUAL USAGE OF THESE PROGRAMS IN MODERN SOFTWARE DEVELOPMENT
+
+RUST IS BEING USED TO TRY TO CREATE A NEW AND DIFF LINUX KERNEL.
+GO IS NEW POPULAR PROGRAMMING LANGUAGE FOR WEB DEVELOPMENT, DEVOPS, ETC.
+
 
 \subsubsection{Logic Programming Languages}
 
-DESCRIBE Prolog INSTRUCTION Set
-SIMPLISTIC EXAMPLES (1-3)
+The most well known Logic Programming Language is Prolog.
+describe design of prolog
+Describe how it basically relies on recursion to do stuff.
+Other languages exist, but are not popular when compared to the aforementioned languages in the previous sections.
+
+IS PROLOG EVEN USED TODAY FOR STUFF IN INDUSTRY???
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Proteus}
 
