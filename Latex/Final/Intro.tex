@@ -317,8 +317,70 @@ Many banks still use COBOL their business application and management.
 
 \subsubsection{Object Oriented Languages}
 
-describe design of these languages
-DESCRIBE Java CAPABILITIES
+A different scheme altogether for a programming language is an Object Oriented Language.
+Developing in this language paradigm is known as a Object Oriented Programming.
+OOP is structured entirely different than Procedural Programming.
+Instead of defining procedures to solve the problem, we utilize a new idea of coding.
+We outline classes, which are representations of some system that we wish to design.
+Classes contain 3 parts: Data Members, Constructors, and Methods.
+Data Members are used to describe what the Class is.
+For example, if I want to model a school, an important data member would be the amount of students enrolled.
+Constructors are ways to create an instance of the class.
+This is where the object is created.
+In the school example, perhaps there would be two ways to create a school: with a total amount of students enrolled already, and another without.
+Both are valid as adding an existing school to the digital system would use the first constructor, while creating a new school would utilize the second constructor.
+Methods are ways we modify the attributes of the objects.
+Perhaps a certain amount of students enroll into the newly created school.
+We must have a way to update the amount of students for any school.
+These 3 parts form the basis of what OOP looks like.
+Below is a snippet of Java code demonstrating these principles.
+
+\begin{verbatim}
+class School {
+    private int numEnrolledStudents;
+    
+    public School () {
+        this.numEnrolledStudents = 0;
+    }
+    
+    public School (int numAlreadyEnrolled) {
+        this.numEnrolledStudents = numAlreadyEnrolled;
+    }
+    
+    public int getNumEnrolled() {
+        return this.numEnrolledStudents;
+    }
+    
+    public void setNumEnrolled(int numStudents) {
+        this.numEnrolledStudents = numStudents;
+        return;
+    }
+}
+
+class RunCode {
+    public static void main(String[] args) {
+        School NewSchool = new School();
+        
+        System.out.println("The number of students enrolled 
+            in the new school is: " + NewSchool.getNumEnrolled()); // 0
+        
+        NewSchool.setNumEnrolled(100);
+        
+        System.out.println("The number of students enrolled
+            in the new school is: " + NewSchool.getNumEnrolled()); // 100
+        
+        School CSUN = new School(32172);
+        
+        System.out.println("The number of students enrolled
+            at CSUN is: " + CSUN.getNumEnrolled());                // 32172
+    }
+}
+\end{verbatim}
+
+There are more advanced features such as Inheritance that allow for more complex design models.
+Furthermore, Java contains Modifiers which are used to change the permission of which piece of code is capable of being accessed by another piece of code.
+In the above example, only the school object is capable of managing the data of numEnrolledStudents.
+Through the use of the methods getNumEnrolled and setNumEnrolled, any other class can modify the value of the class, but only through the reference of the school object,
 
 Some well known languages that are Turing Complete from this paradigm are: 
 \begin{itemize}
@@ -355,13 +417,13 @@ Javascript is still utilized for a large amount of web dev
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-NOT SURE IF I WANT TO KEEP THE FOLLOWING 2 SECTIONS OR NOT.
-I WOULD PROBABLY KEEP IT SIMPLE WITH 1-3 THINGS TO DESCRIBE ABOUT THE WAY THE LANGUAGE IS STRUCTURED.
-MAYBE 1-2 EXAMPLES WITH CODE AND EXPLANATION AS WELL (I ESTIMATE 3-5 PAGES PER SECTION DEPENDING ON SIZE OF EXAMPLES).
-I THINK I'VE SHOWN MY POINT WHICH IS THAT THE DIFFERENT PARADIGMS ARE CAPABLE OF BEING TC DESPITE BEING SO DIFFERENT FROM EACH OTHER.
+NOT SURE IF I WANT TO KEEP THE FOLLOWING 2 SECTIONS OR NOT: FUNCTIONAL PROGRAMMING LANGUAGES, LOGIC PROGRAMMING LANGUAGES.
+I WOULD PROBABLY KEEP IT SIMPLE WITH 1-3 THINGS TO DESCRIBE ABOUT THE WAY THE LANGUAGE IS STRUCTURED W/ 1-2 CODE EXAMPLES AND EXPLANATIONS.
+(I ESTIMATE 3-5 PAGES PER SECTION DEPENDING ON SIZE OF EXAMPLES).
+I THINK I'VE SHOWN MY POINT, WHICH IS THAT THE DIFFERENT PARADIGMS ARE CAPABLE OF BEING TC DESPITE BEING SO DIFFERENT FROM EACH OTHER.
 IT MIGHT BE COOL/INTERESTING TO SHOW THE DIFFERENT THINKING INVOLVED FOR LANGUAGES LIKE PROLOG.
+I COULD ALSO COME BACK TO ACKNOWLEDGE CERTAIN ASPECTS OF LANGUAGE DESIGN PRINCIPLES HERE, WHICH WOULD REQUIRE FURTHER READING.
 I DO ADMIT THAT THIS IS SOMEWHAT OUTSIDE THE SCOPE OF THIS THESIS BECAUSE IM NOT EXACTLY LOOKING AT THE STYLE OF LANGAUGE OF PROTEUS, NOR HOW IT COMPARES TO THESE PARADIGMS TO CATEGORIZE IT.
-IT WOULD BE COOL TO SAY THOUGH, SINCE THE GOAL IS TO SHOW THIS LANGUAGE IS TC, WHICH REQUIRES ME TO LOOK AT THE LANGUAGE ON A DEEPER LEVEL.
 
 \subsubsection{Functional Programming Languages}
 
