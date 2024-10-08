@@ -377,6 +377,8 @@ class RunCode {
 }
 \end{verbatim}
 
+[SRC FOR CURRENT NUM CSUN STUDENTS][https://www.usnews.com/best-colleges/california-state-university-northridge-1153]
+
 There are more advanced features such as Inheritance that allow for more complex design models.
 Furthermore, Java contains Modifiers which are used to change the permission of which piece of code is capable of being accessed by another piece of code.
 In the above example, only the school object is capable of managing the data of numEnrolledStudents.
@@ -392,11 +394,38 @@ Some well known languages that are Turing Complete from this paradigm are:
     \item Swift        
 \end{itemize}
 
-\subsubsection{Mixed/Multi Paradigm Languages}
+\subsubsection{Multi Paradigm Languages}
 
-describe design of these languages
-DESCRIBE PYTHON CAPABILITIES
+Some languages allow for the combination of OOP and Procedural Programming.
+In such paradigms, the code allows for both to be run at the same time and enjoys the benefits of both approaches, at the cost of increased design overhead of the project.
+Here is an example snippet of Python code that demonstrates both at the same time:
 
+\begin{verbatim}
+    def findSumOfSquares(num1, num2):
+    return (num1 ** 2) + (num2 ** 2)
+
+    class Homework:
+        def __init__(self, problem):
+            self.problem = problem
+            
+        def problem(self, problem):
+            self.problem = problem
+
+    HW = Homework("What is the sum of squares of 2 and 3?")
+    print(HW.problem)
+
+    print(findSumOfSquares(2, 3))
+
+    #####       Printed to Terminal     #####
+
+    What is the sum of squares of 2 and 3?
+    13  
+    
+\end{verbatim}
+
+In the code example, we utilize Procedural Programming to create the findSumOfSquares function.
+Through the usage of OOP, we create a Homework object that has a single data member, a single problem.
+By accessing the problem within the Homework object, we are able to print it out, then use the function to solve it.
 
 Some well known languages that are Turing Complete from this paradigm are shown below.
 Notice that some languages mentioned in the previous sections may show up in the list: 
@@ -409,11 +438,17 @@ Notice that some languages mentioned in the previous sections may show up in the
     \item Fortran
 \end{itemize}
 
-DESCRIBE SOME ACTUAL USAGE OF THESE PROGRAMS IN MODERN SOFTWARE DEVELOPMENT
-
-PYTHON HEADS THE CHARGE FOR AI AND ITS SUBDISCIPLINES OF ML,DL,AND GEN AI
-R is used for data science
-Javascript is still utilized for a large amount of web dev
+Multi Paradigm languages have a lot of flexibility for the applications that they can be used to create.
+The top frontend frameworks for web development use Javascript as their main language including React, Vue, Svelte, and more.
+[JS IN FRONTED][https://www.simform.com/blog/javascript-frontend-frameworks/]
+Python is very popular for its legible and flexible code.
+With its libraries such as Tensorflow and Keras, Machine Learning and other AI subgenres are easier to implement than in other languages.
+The popular LLM ChatGPT is primarily written in python.
+[chatgpt uses python][https://enjoymachinelearning.com/blog/is-chatgpt-written-in-python/]
+R is another language that is popular for its data science capabilities.
+It is heavily used within the Sciences (alongside python) because of its simplistic syntax, as well as its numerous libraries for data analysis.
+[LINK TO MY PROJECT ON ML AND DL IN PYTHON AND R][INSERT LINKS]
+[R for data science][https://www.simplilearn.com/what-is-r-article]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -457,12 +492,195 @@ IS PROLOG EVEN USED TODAY FOR STUFF IN INDUSTRY???
 
 \section{Proteus}
 
-DESCRIBE WHAT PROTEUS IS, PURPOSE
+The main goal of this thesis is to outline a proof demonstrating that a novel prototype language, Proteus, is TC.
+In this section, I will describe in detail what Proteus is.
 
-\subsection{Motivations for Turing Completeness}
+\subsection{Proteus Description}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% IS IT ALRIGHT TO COMPLETELY USE THE WHOLE LINE OF SOMEONE ELSES WORK???? WHOLE PARAGRAPHS???
+% I CAN REWORD IF NEED BE, BUT THE FIRST SENTENCE IS PRETTY GOOD IMO
+Proteus is a programming language and compiler being developed as a project for CSUN's Autonomy Research Center for STEAHM in collaboration with the NASA Jet Propulsion Laboratory (JPL).
+JPL system engineers needed a safer language to develop autonomous systems reliably, which is why Proteus was created.
+Proteus allows for the creation of different models: actors and hierarchical state machines.
+It is compiled to C++ with the C++17 standard \cite{ProteusRunTime}.
 
-WHY DO WE WANT TO STUDY THIS LANGUAGE
+Proteus is a programming language that follows the Actor model paradigm, which is somewhat related to the OOP paradigm.
+The difference lies in that Actor model allows for concurrent computation, while OOP generally runs sequentially.
+This means that parallelism is inherently existent in the language.
+[NEED SOURCE HERE]
+Furthermore, because of the design of the events and event queue for Actors, any code involving them is run sequentially.
+This means that Proteus also supports the Procedural Programming langauge paradigm.
+Thus, Proteus is a Multi Paradigm language that enjoys the ability to utilize features such as scope, recursion, and so forth.
 
+\subsubsection{Actors}
 
-In this thesis, we will look closely at the several methods to showing that a given system is TC.
-Afterwards, we will demonstrate that Proteus is in fact turing complete using some of the methods seen here.
+Actors are independent entities within concurrent systems.
+By allowing several actors to operate independently, there is: no sharing of resources, concurrent runtime, and only interact amongst each other via a message system.
+Communication is asynchronous because the messages get buffered by the system until the recipient can handle them.
+Actors can send messages, modify local state, or create more actors based on the message handling.
+
+\subsubsection{Hierarchical State Machines}
+
+Hierarchical State Machines allow developers to model the system that they are developing for.
+These HSMs are an extension to the standard definition of a state machine as HSMs allow states to be HSMs themselves.
+This allows for simplification of the states and transitions amongst states allowing simpler models for usage in the real-world.
+
+Actors have $0^{+}$ HSMs while each HSM belongs to exactly one actor.
+Event Handlers are the way that messages are sent amongst machines as well as how the machine perform state transitions.
+Actors and states are statically defined, which means that they cannot be created nor destroyed at runtime.
+When compiled, Actors and states are created as C++ structs.
+
+\subsection{Proteus Grammar}
+
+Below is the Grammar for Proteus.
+It outlines the command followed by the definition for writing the command.
+Anything outlined in single quotations indicates text to be written explicitly.
+It is to be read as: 'OPERATION' can be written as 'HOW TO WRITE THE OPERATION'.
+
+\begin{verbatim}
+Program: DefEvent* DefGlobalConst* DefFunc* DefActor+
+DefActor: 'actor' ActorName '{' ActorItem* '}'
+ActorItem: DefHSM | DefActorOn | DefMember | DefMethod
+DefActorOn: 'on' EventMatch OnBlock
+DefHSM:   'statemachine' '{' StateItem* '}'
+DefState: 'state' StateName '{' StateItem* '}'
+StateItem: DefOn | DefEntry | DefExit | DefMember | 
+            DefMethod | DefState | InitialState
+DefOn: 'on' EventMatch OnBody
+EventMatch: EventName '{' [VarName (',' VarName)*] '}'
+OnBody: GoStmt | OnBlock
+OnBlock: Block
+DefEntry: 'entry' '{' Block '}'
+DefExit: 'exit' '{' Block '}'
+DefMember: Type VarName '=' ConstExpr ';'
+DefMethod: 'func' FuncName FormalFuncArgs ['->' Type] Block
+InitialState: 'initial' StateName ';'
+Block: '{' Stmt* '}'
+Stmt: IfStmt | WhileStmt | DecStmt | AssignStmt | ExitStmt | 
+            ApplyStmt | SendStmt | PrintStmt | PrintlnStmt
+DefEvent: 'event' EventName '{' [Type (',' Type )*] }' ';'
+DefFunc: 'func' FuncName FormalFuncArgs ['->' Type] Block
+DefGlobalConst: 'const' Type VarName '=' ConstExpr ';'
+ExitStmt: 'exit' '(' NUMBER ')' ';'
+ReturnStmt: 'return' Expr ';'
+DecStmt: Type VarName '=' Expr ';'
+AssignStmt: VarName '=' Expr ';'
+ApplyStmt: ApplyExpr ';'
+SendStmt : HSMName '!' EventName ExprListCurly ';'
+PrintStmt : 'print' ExprListParen ';'
+PrintlnStmt : 'println' ExprListParen ';'
+FormalFuncArgs : '(' [Type VarName (',' Type VarName)*] ')'
+ExprListParen :'(' [Expr (',' Expr)*] ')'
+ExprListCurly :'{' [Expr (',' Expr)*] '}'
+Type: 'int' | 'string' | 'bool' | 'actorname' | 'statename' | 
+            'eventname'
+GoStmt: JustGoStmt | GoIfStmt
+JustGoStmt: 'go' StateName Block
+GoIfStmt: 'goif' ParenExpr StateName Block 
+            ['else' (GoIfStmt | ElseGoStmt)]
+ElseGoStmt: 'go' StateName Block
+IfStmt: 'if' ParenExpr Block ['else' (IfStmt | Block)] 
+WhileStmt: 'while' ParenExpr Block 
+ParenExpr: '(' Expr ')' 
+ConstExpr: IntExpr | BoolExpr | StrExpr
+Expr: ValExpr | BinOpExpr | ApplyExpr
+BinOpExpr: ValExpr BinOp Expr 
+BinOp: '*' | '/' | '%' | '+' | '-' | '<<' | '>>' | '<' | '>' |
+            '<=' | '>=' | '==' | '!=' | '^' | '&&' | '||' | '*=' | 
+            '/=' | '%=' | '+=' | '-=' | '<<=' | '>>=' | '^='
+ApplyExpr: FuncName ExprListParen
+ValExpr: VarExpr | IntExpr | StrExpr | BoolExpr | ActorExpr | 
+            StateExpr | EventExpr | ParenExpr
+VarExpr: VarName
+IntExpr: NUMBER 
+StrExpr: STRING 
+BoolExpr: BOOL
+ActorExpr: 'actor' ActorName
+StateExpr: 'state' StateName
+EventExpr: 'event' EventName
+StateName: NAME
+ActorName: NAME
+FuncName: NAME
+VarName: NAME
+EventName: NAME
+\end{verbatim}
+
+Looking at the grammar is similar to looking at the pieces of a puzzle without actually arranging the pieces together.
+Below is an example written in Proteus code that showcases Actors and HSMs in a system.
+
+There are a total of 3 events: POWER\_ON which accepts a boolean as input, POWER\_OFF, and NEXT with the latter two not accepting an inputs.
+There are 2 actors: Main and Driver.
+Main has a single state machine with 2 states: On and Off.
+Main defines an internal boolean for whether Mode2 is enabled.
+By default it is initialized to false.
+The HSM within Main is initalized to Off, and switches to On when the POWER\_ON event is registered.
+Furthermore, it updates the value for Mode2 being enabled with the input for POWER\_ON.
+When turned On, there is a defined Mode1 that is the initial mode of the machine.
+It then defines what the machine does when it is turned on and off.
+In both cases, it outputs a message indicating the status of the power state of the machine (on prints on, and off prints off).
+Mode1 prints to the output the current Mode, and then has logic determining what to do when the NEXT message is received.
+If the machine has mode2\_enabled set to true, then it should should go to Mode2.
+Mode2 simply prints the current mode when it is entered.
+The second actor is the Driver.
+It determines the actions to be taken by Main in a series of messages (events) that are broadcasted from its internal statemachine.
+Upon turning on the machine, it will send the event for Main to turn on with an input of true.
+Then it sends Main the NEXT event twice.
+It then tells Main to power off with the POWER\_OFF event.
+
+\begin{verbatim}
+event POWER_ON {bool};
+event POWER_OFF {};
+event NEXT {};
+actor Main {
+    bool mode2_enabled = false;
+    statemachine {
+        initial Off;
+        state Off {
+            on POWER_ON {x} {go On {mode2_enabled = x;}}
+        }
+        state On {
+            initial Mode1;
+            entry {println(“turning on”);}
+            exit {println(“turning off”);}
+            on POWER_OFF {} {go Off {}}
+            state Mode1 {
+                entry {println(“mode 1”);}
+                on NEXT {} {goif(mode2_enabled) {Mode2 {}}}
+            }
+            state Mode2 {
+                entry {println(“mode 2”);}
+            }
+        }
+    }
+}
+actor Driver {
+    statemachine {
+        entry {
+            Main ! POWER_ON {true};
+            Main ! NEXT {};
+            Main ! NEXT {};
+            Main ! POWER_OFF {};
+        }
+    }
+}
+\end{verbatim}
+
+From the above example, we can see the OOP and Procedural Programming properties that Proteus is capable of.
+In fact, we can see the property of scope in action.
+The local variable mode2\_enabled is only accessible within Main and the HSM within Main.
+Furthermore, we see that the order of events is run in sequence.
+Main accepts these events in the order received in the internal event queue, and is capable of responding based on the internal state conditions as well as the event received.
+When this code is run, the output is seen below:
+
+\begin{verbatim}
+    turning on
+    mode1
+    mode2
+    mode1
+    turning off
+\end{verbatim}
+
+The goal of this Thesis is to analyze this language to prove that it is TC.
+This is done by looking at the grammar and type of programming paradigm.
+With this understanding, we will also look at different approaches for proving Turing Completeness.
+Afterwards, we will demonstrate that Proteus is in fact turing complete using some of the methods seen in the next chapter.
