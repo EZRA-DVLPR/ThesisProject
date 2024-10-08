@@ -1,19 +1,51 @@
 %\chapter{Different Proof Techniques for demonstrating Turing Completeness}
 \chapter{Different Approaches for Proofs to Demonstrate Turing Completeness}
 
-\section{Turing Complete Proofs Overview}
+\section{Overview}
 
-We will be exploring the different approaches to demonstrate TC
-
-All proofs are equivalent in goal.
-The difference lies in their usability for specific domains.
+We will be exploring the different approaches to demonstrate TC for different systems.
+I have oultined the approaches based on their respective discipline.
+I hope that this allows for the logic to be legible and digestible.
+My intention is to add clarity on where the logic behind these proofs/techniques exist.
+For example, in the Computer Engineering perspective, they analyze the TM based on its mechanical properties such as Addition, Logic Gates and so forth.
+This is vastly different compared to how Mathematicians show TM and TC, which is through the use of Lambda calculus which is a model for representing functions as a basic unit.
+However, all proofs are equivalent in goal.
+These are not the only perspectives and types of proofs for showing TC, as this is simply a survey into what TC looks like across the disciplines.
 
 \section{Computer Engineering}
 
-\subsection{Logical Design from a perspective of physical requirements}
+In this section, we will analyze what a TM looks like from a physical perspective.
+This may seem contradictory because the TM is described as a theoeretical machine.
+But in fact, the very computers that we use today are are capable of processing TC systems through the usage of programming languages.
+This means that they are limited TMs, because they are bounded only in memory.
+In this approach, we will look at the core components of Computer Engineering such as the wiring components, logic gates, adders, and so forth.
 
-Gates \& Wiring
-NOR, ADDER, OR, NOT gates
+\subsection{Logical Design of a TM}
+
+To define what a TM does, we must explore what it is capable of.
+Recall the Church-Turing Thesis in \ref{subsec:Church-Turing Thesis}, "Every effectively calculable function can be computed by a Turing Machine."
+Every effictively calculable function, as Turing and Church understood, was any mathematical calculation.
+This means that a TM must have some ability to perform any operation on numbers, such as the basic operations of addition, subtraction, multiplication, and division.
+Furthermore, they must be capable of combining these together to form more complex operations such as exponential arithmetic.
+Beyond the mathematical aspect, they must allow for some sort of logic handling.
+This can be achieved with OR, NOR, AND, etc. gates.
+
+[BIOLOGY PAPER ON TM]
+
+I will now give a succinct description of each of the necessary parts.
+
+Adder
+OR
+NOR
+AND
+XOR
+...
+Multiplexer
+Demultiplexer
+
+\subsection{Constructing the TM}
+
+Combining these smaller components to form a circuit.
 
 \section{Computer Science}
 
