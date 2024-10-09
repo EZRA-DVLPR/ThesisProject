@@ -1,8 +1,8 @@
-\chapter{Introduction}
+\chapter{Introduction}\label{chapter:Intro}
 %Background information.
 %catch the audience up to speed with this part of the document
 
-\section{Turing Machines}
+\section{Turing Machines}\label{sec:TM}
 
 Alan Turing is generally considered the father of computer science for his numerous contributions including: formalization of computation theory, algorithm design, complexity theory, as well as creating the idea of the Turing Machine.
 A Turing machine can be described as a machine/automata that is capable of performing operations towards some desired goal given an input.
@@ -11,7 +11,7 @@ TMs are at the highest level of computational power, i.e. capable of handling an
 
 INSERT DIAGRAM OF A SIMPLE TURING MACHINE THAT PERFORMS BINARY ADDITION
 
-\subsection{Oracles}
+\subsection{Oracles}\label{subsec:Oracles}
 
 Of course there also exists the Oracle, sometimes called Turing Machines with an oracle, which is capable of solving problems that TMs cannot.
 It does so by having the ability to respond to any given problem from the TM it is connected to.
@@ -22,7 +22,7 @@ INSERT DIAGRAM OF A TM W/ AN ORACLE SOLVING THE HALTING PROBLEM
 The reason the oracle is not considered more powerful is because in practice (i.e. reality), is because there is no such all-knowing source to retrieve information from.
 As a result, I will look only at TMs for the rest of the thesis.
 
-\subsection{Universal Turing Machines}
+\subsection{Universal Turing Machines}\label{subsec:UTM}
 
 A simple abstraction of the standard TM is a Universal Turing Machine. A UTM is capable of solving any computable problem, given the exact process/rules of the TM that will solve it.
 In essence it is a machine that is not hard-coded with what to perform when given input.
@@ -46,7 +46,7 @@ We disregard such automata as there aren't any systems that exist in reality as 
 As a result, TMs are the most powerful automata that can compute any calculable function.
 This is why the Church-Turing thesis is generally assumed to be true \cite{GandyPaper}.
 
-\section{Turing Completeness}
+\section{Turing Completeness}\label{sec:TC}
 
 Turing Completeness is a closely related term when discussing Turing Machines.
 For a system to be Turing Complete, it must be capable of performing any computation that a standard TM can perform.
@@ -54,14 +54,14 @@ An equivalent description would be that for a system to be TC, it must simulate 
 By transitivity, if any system is proven to be TC, then it must be equivalent in power to all other systems that are TC.
 Therefore, all TC systems are considered the most powerful computation machine.
 
-\subsection{Considering the Practicality of Turing Complete Programming Languages}
+\subsection{Considering the Practicality of Turing Complete Programming Languages}\label{subsec:PracticalTC}
 
 Despite all TC systems being equivalent in computation power, this does not mean that all are practically useful.
 This is because despite the TC being able to simulate any TM, it may have a more complex method for simulation or calculation of the same problem.
 This is considered a non-issue as the length of time needed for computation is not considered when discussing TMs and TC systems.
 This is only a factor for practical purposes, such as programming languages, space and time complexity are of major importance.
 
-\subsubsection{Esoteric Progamming Languages}
+\subsubsection{Esoteric Progamming Languages}\label{subsubsec:EsotericPL}
 
 Esoteric programming languages are designed to demonstrate a key concept with language design, but are often done so in a joking manner.
 An example of a highly simplistic well-known esoteric TC language is brainfuck.
@@ -179,7 +179,7 @@ There exist many other esoteric TC programming languages, but the reason for cho
 As a result, we will now look at more useful and practical programming language paradigms.
 These languages within these paradigms will be much more efficient and legible, at the cost of increased complexity in instruction set.
 
-\subsubsection{Procedural Languages}
+\subsubsection{Procedural Languages}\label{subsubsec:ProceduralPL}
 
 Procedural Programming Languages are designed to be read linearly in execution order, top to bottom.
 The main idea behind this design of languages is to create procedures and subprocedures (equivalently routines and subroutines), to achieve a larger goal.
@@ -313,7 +313,7 @@ Besides C, COBOL remains a language that is used professionally for banking.
 Many banks still use COBOL their business application and management.
 [COBOL USED BY BANKS][https://increment.com/programming-languages/cobol-all-the-way-down/]
 
-\subsubsection{Object Oriented Languages}
+\subsubsection{Object Oriented Languages}\label{subsubsec:OOPL}
 
 A different scheme altogether for a programming language is an Object Oriented Language.
 Developing in this language paradigm is known as a Object Oriented Programming.
@@ -392,7 +392,7 @@ Some well known languages that are Turing Complete from this paradigm are:
     \item Swift        
 \end{itemize}
 
-\subsubsection{Multi Paradigm Languages}
+\subsubsection{Multi Paradigm Languages}\label{subsubsec:MultiParadigmPL}
 
 Some languages allow for the combination of OOP and Procedural Programming.
 In such paradigms, the code allows for both to be run at the same time and enjoys the benefits of both approaches, at the cost of increased design overhead of the project.
@@ -488,12 +488,12 @@ IS PROLOG EVEN USED TODAY FOR STUFF IN INDUSTRY???
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Proteus}
+\section{Proteus}\label{sec:Proteus}
 
 The main goal of this thesis is to outline a proof demonstrating that a novel prototype language, Proteus, is TC.
 In this section, I will describe in detail what Proteus is.
 
-\subsection{Proteus Description}
+\subsection{Proteus Description}\label{subsec:ProteusDescription}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % IS IT ALRIGHT TO COMPLETELY USE THE WHOLE LINE OF SOMEONE ELSES WORK???? WHOLE PARAGRAPHS???
 % I CAN REWORD IF NEED BE, BUT THE FIRST SENTENCE IS PRETTY GOOD IMO
@@ -510,14 +510,14 @@ Furthermore, because of the design of the events and event queue for Actors, any
 This means that Proteus also supports the Procedural Programming langauge paradigm.
 Thus, Proteus is a Multi Paradigm language that enjoys the ability to utilize features such as scope, recursion, and so forth.
 
-\subsubsection{Actors}
+\subsubsection{Actors}\label{subsubsec:Actors}
 
 Actors are independent entities within concurrent systems.
 By allowing several actors to operate independently, there is: no sharing of resources, concurrent runtime, and only interact amongst each other via a message system.
 Communication is asynchronous because the messages get buffered by the system until the recipient can handle them.
 Actors can send messages, modify local state, or create more actors based on the message handling.
 
-\subsubsection{Hierarchical State Machines}
+\subsubsection{Hierarchical State Machines}\label{subsubsec:HSM}
 
 Hierarchical State Machines allow developers to model the system that they are developing for.
 These HSMs are an extension to the standard definition of a state machine as HSMs allow states to be HSMs themselves.
@@ -528,7 +528,7 @@ Event Handlers are the way that messages are sent amongst machines as well as ho
 Actors and states are statically defined, which means that they cannot be created nor destroyed at runtime.
 When compiled, Actors and states are created as C++ structs.
 
-\subsection{Proteus Grammar}
+\subsection{Proteus Grammar}\label{subsec:ProteusGrammar}
 
 Below is the Grammar for Proteus.
 It outlines the command followed by the definition for writing the command.

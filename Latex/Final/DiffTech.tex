@@ -1,7 +1,7 @@
 %\chapter{Different Proof Techniques for demonstrating Turing Completeness}
-\chapter{Different Approaches for Proofs to Demonstrate Turing Completeness}
+\chapter{Different Approaches for Proofs to Demonstrate Turing Completeness}\label{chapter:ProofApproachesForTC}
 
-\section{Overview}
+\section{Overview}\label{sec:ProofOverview}
 
 We will be exploring the different approaches to demonstrate TC for different systems.
 I have oultined the approaches based on their respective discipline.
@@ -12,7 +12,7 @@ This is vastly different compared to how Mathematicians show TM and TC, which is
 However, all proofs are equivalent in goal.
 These are not the only perspectives and types of proofs for showing TC, as this is simply a survey into what TC looks like across the disciplines.
 
-\section{Computer Engineering}
+\section{Computer Engineering}\label{sec:CE}
 
 In this section, we will analyze what a TM looks like from a physical perspective.
 This may seem contradictory because the TM is described as a theoeretical machine.
@@ -20,7 +20,7 @@ But in fact, the very computers that we use today are are capable of processing 
 This means that they are limited TMs, because they are bounded only in memory.
 In this approach, we will look at the core components of Computer Engineering such as the wiring components, logic gates, adders, and so forth.
 
-\subsection{Logical Design of a TM}
+\subsection{Logical Design of a TM}\label{subsec:TMLogicalDesign}
 
 To define what a TM does, we must explore what it is capable of.
 Recall the Church-Turing Thesis in \ref{subsec:Church-Turing Thesis}, "Every effectively calculable function can be computed by a Turing Machine."
@@ -31,7 +31,7 @@ Beyond the mathematical aspect, they must allow for some sort of logic handling.
 This can be achieved with OR, NOR, AND, etc. gates which form more complex units.
 [BIOLOGY PAPER ON TM]
 
-\subsubsection{Architecture}
+\subsubsection{Architecture}\label{subsubsec:Arch}
 
 Looking at modern day computer architecture, there are several components that work independently but operate concurrently.
 It is based off of the Modified Harvard Structure which is a variation of the Harvard computer architecture and Von Neumann architecture.
@@ -84,7 +84,7 @@ Some notable examples include the NVIDIA RTX 4080 which has over 8000 cores \hre
 By allowing each one to independently operate, but still have the CPU as the "brains" of the operation.
 We will now dive slightly deeper into the discussion to see what lies beneath these components within modern computer systems.
 
-\subsubsection{Logic Gates}
+\subsubsection{Logic Gates}\label{subsec:LogicGates}
 
 The basic building blocks for devices such as the ALU, CPU, and such are logic gates.
 These are simplistic logical components that allow for processing of data and performing operations on them.
@@ -95,31 +95,41 @@ Registers are associated with an address for referencing purposes.
 
 Within the ALU there are smallers components that perform specific operations such as addition and subtraction.
 These smaller components utilize logical gates such as the OR gate to compute the result with the given input.
+See the example below for a 2-Bit ALU that can process OR, AND, XOR, and addition calculations.
 
-\subsection{Constructing the TM}
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=10cm]{Images/2-bit_ALU.svg.png}
+       \caption{2-Bit ALU.}
+           \label{Fig:2BitALU}
+\end{figure}
+
+\href{https://en.wikibooks.org/wiki/File:2-bit_ALU.svg}{img src}
+
+\subsection{Constructing the TM}\label{subsec:CreateTM}
 
 With the ability to construct logic gates, we can create more complex components such as the ALU, CPU, and more.
 Accompanied with the ability to store memory, as well as have a way to interact with the system through Input and Output, we are able to create a functional computer.
-In these examples below, these developers have successfully created Computers in Minecraft and Terraria respectively
+In the following examples, developers have successfully created computers in well-known video games of Minecraft and Terraria respectively,
 \href{https://www.youtube.com/watch?v=CW9N6kGbu2I}{Computer in Minecraft}
 \href{https://www.youtube.com/watch?v=zXPiqk0-zDY}{Computer in Terraria}.
-In fact, we will see later on that the computer built inside Terraria is verifiably TC via a method introduced in \ref{subsubsec:CGoL}
+In fact, we will see later on that the computer built inside Terraria is verifiably TC via a method introduced in \ref{subsubsec:CGoL}.
 
-This means that to construct a TM on a physical level (of course assuming unbounded memory), these would be the minimum requirements.
+This means that to construct a TM on a physical level (of course alleviating the restriciton of unbounded memory), these would be the minimum requirements.
 
-\section{Computer Science}
+\section{Computer Science}\label{sec:CompSci}
 
-\subsection{State Machines}
+\subsection{State Machines}\label{subsec:StateMachines}
 
-\subsubsection{Formal Technical Writing}
+\subsubsection{Formal Technical Writing}\label{subsubsec:FormalWriting}
 
 $\lambda \gamma \tau $ etc. being used to describe TC
 
-\subsubsection{Gamified Writing}
+\subsubsection{Gamified Writing}\label{subsubsec:GamifiedWriting}
 
 $\lambda \gamma \tau $ etc. being used to describe TC, but based on a very verbose and interactive style
 
-\subsection{Software Implementation}
+\subsection{Software Implementation}\label{subsec:SoftwareImplementation}
 
 Demonstrate an example of a problem/scenario which shows TC.
 
@@ -127,24 +137,24 @@ Demonstrate an example of a problem/scenario which shows TC.
 
 Classic example to implement
 
-\subsubsection{Rule 110}
+\subsubsection{Rule 110}\label{subsubsec:Rule110}
 
 Simpler example to implement
 
-\subsubsection{Calculator with Store Value}
+\subsubsection{Calculator with Store Value}\label{subsubsec:CalculatorStore}
 
 More challenging to implement than the previous two.
 
-\subsection{Interpreter for a known Turing Complete language}
+\subsection{Interpreter for a known Turing Complete language}\label{subsec:InterpreterTC}
 
 Implement an interpreter for a known TC language in a given language.
 Must faithfully and accurately simulate the behavior of the given language to be interpreted.
 
 typically, we will implement a simple TC language such as brainfuck
 
-\section{Mathematics}
+\section{Mathematics}\label{sec:Maths}
 
-\subsection{Lambda Calculus}
+\subsection{Lambda Calculus}\label{subsec:LambdaCalc}
 
 Basically a simplistic view of math functions.
 can be shown as TC through construction of certain concepts.
