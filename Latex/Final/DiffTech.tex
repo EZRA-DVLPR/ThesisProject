@@ -117,6 +117,9 @@ In fact, we will see later on that the computer built inside Terraria is verifia
 
 This means that to construct a TM on a physical level (of course alleviating the restriction of unbounded memory), these would be the minimum requirements.
 
+SRC - https://www.nand2tetris.org/
+\href{https://www.amazon.com/Elements-Computing-Systems-Building-Principles/dp/0262640686/ref=ed_oe_p}{SRC - }
+
 \section{Computer Science}\label{sec:CompSci}
 
 In this section, we will conceptualize what a TM looks like under the lens of Computer Science.
@@ -178,42 +181,176 @@ and
     \end{aligned}
 \]
 
-With this now understood, I will divulge into the two general lines of thought for demonstrating a system TC.
+With this now understood, I will talk about the two general lines of thought for demonstrating a system TC.
+
+SRC - The Analysis and Research on Computational Complexity
 
 \subsubsection{Formal Technical Writing}\label{subsubsec:FormalWriting}
 
 $\lambda \gamma \tau $ etc. being used to describe TC
 
+SRC - The Game Description Language is TC
+
+SRC - Java Generics are Turing Complete
+
+SRC - Turing Completness and Sid Meier's Civilization
+
 \subsubsection{Gamified Writing}\label{subsubsec:GamifiedWriting}
 
 $\lambda \gamma \tau $ etc. being used to describe TC, but based on a very verbose and interactive style
 
+SRC - Magic: The Gathering is TC
+
 \subsection{Software Implementation}\label{subsec:SoftwareImplementation}
 
-Demonstrate an example of a problem/scenario which shows TC.
+As opposed to the various theoretical approaches seen previously in section \ref{subsec:AutomataThy}, this section outlines a different perspective.
+Instead of constructing a TM within the compounds of the system, an equivalent proof is to implement a program that demonstrates TC.
+By implementing any known TC program successfully implies that the overall system is TC.
+
+One such implementation would be to create a functional example of a known TC cellular automata.
+Cellular automata are models of computation which use grids of cells.
+Each cell contains a finite number of states, belonging to only one at any given time.
+There are rules that determine what state a cell should become.
+These rules are applied to all cells simultaneously, and thus form the next step in the sequence.
+These steps are made sequentially to show the changes over time.
+This makes all cellular automata 0-player games, meaning after an initial configuration there is no further input from the user.
+With the work from Stephen Wolfram and other researchers such as Matthew Cook, some of these rules of cellular automata have been shown to be TC.
+Famous examples of cellular automata include Conway's Game of Life and Rule 110.
+
+https://mathworld.wolfram.com/CellularAutomaton.html
+\href{https://en.wikipedia.org/wiki/Cellular_automaton}{wiki cell automata} 
+
+Cellular automata are sorted into 4 classes:
+\begin{itemize}
+    \item Class 1: Nearly all initial patterns evolve quickly into a stable, homogenous state.
+    Any randomness in the initial pattern disappears.
+    \item Class 2: Nearly all initial patterns evolve quickly into stable or oscillating structures.
+    Some of the randomness in the initial pattern may filter out, but some remains.
+    Local changes to the initial pattern tend to remain local.
+    \item Class 3: Nearly all initial patterns evolve in a pseudo-random or chaotic manner.
+    Any stable structures that appear are quickly destroyed by the surrounding noise.
+    Local changes to the initial pattern tend to spread infinitely.
+    \item Class 4:Nearly all initial patterns evolve into structures that interact in complex and interesting ways, with the formation of local structures that are able to survive for long periods of time.
+    Class 2 type stable or oscillating structures may be the eventual outcome, but the number of required to reach this state may be very large, even when the initial pattern is realtively simple.
+    Local changes to the initial pattern may spread indefinitely.
+\end{itemize}
+
+Wolfram conjectured that many class 4 cellular automata are capable of universal computation.
+Both Conway's Game of Life and Rule 110 exhibit "Class 4 behavior" and have been proven to be Turing Complete.
+
+\href{https://en.wikipedia.org/wiki/Cellular_automaton#Classification}{Wiki src}
+SRC - Cellular Automata: A Discrete Universe by Andrew Ilachinski
 
 \subsubsection{Conway's Game of Life}\label{subsubsec:CGoL}
 
-Classic example to implement
+Conway's Game of Life is a 2D grid of cells extending infinitely in the x and y directions.
+Each cell contains only 2 states: Alive (On) or Dead (Off).
+The rules of CGoL are simple:
+
+\begin{enumerate}
+    \item Any live cell with fewer than two live neighbors dies. (Underpopulation)
+    \item Any live cell with two or three live neighbors lives on to the next generation. (Survival)
+    \item Any live cell with more than three live neighbors dies. (Overpopulation)
+    \item Any dead cell with exactly three live neighbors becomes a live cell. (Reproduction)
+\end{enumerate}
+
+They are demonstrated in the following graphic:
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=10cm]{images/cgol.png}
+       \caption{rules of conway's game of life visualized}
+           \label{fig:cgolrules}
+\end{figure}
+
+\href{https://www.quantamagazine.org/maths-game-of-life-reveals-long-sought-repeating-patterns-20240118/}{src for graphic}
+
+CGoL is considered undecidable.
+This is because given any initial pattern and a desired pattern at some later generation, there is no algorithm to determine whether the desired pattern will exist.
+As such, it is analogous to the Halting Problem.
 
 \subsubsection{Rule 110}\label{subsubsec:Rule110}
 
-Simpler example to implement
+Whereas CGoL is created on a 2D plane, Rule 110 lives in the 1D space.
+There is an infinite tape of cells that each may exist in one of two states: 0 or 1.
+By looking at three cells in series, one can find what the next state of the middle cell will be.
+Below are the rules for Rule 110:
 
-\subsubsection{Calculator with Store Value}\label{subsubsec:CalculatorStore}
+\begin{enumerate}
+    \item 111 makes 0
+    \item 110 makes 1
+    \item 101 makes 1
+    \item 100 makes 0
+    \item 011 makes 1
+    \item 010 makes 1
+    \item 001 makes 1
+    \item 000 makes 0
+\end{enumerate}
 
-More challenging to implement than the previous two.
+Here is an associated graphic:
 
-\subsection{Interpreter for a known Turing Complete language}\label{subsec:InterpreterTC}
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=10cm]{images/rule110.png}
+       \caption{Rules for Rule 110}
+           \label{fig:Rule110}
+\end{figure}
 
-Implement an interpreter for a known TC language in a given language.
-Must faithfully and accurately simulate the behavior of the given language to be interpreted.
+Rule 110 is one of the simplest TC system that is known.
+This makes it a relatively easy system to create to demonstrate Turing Completeness as opposed to CGoL.
 
-typically, we will implement a simple TC language such as brainfuck
+\href{https://commons.wikimedia.org/wiki/File:One-d-cellular-automaton-rule-110.gif}{SRC - WIKI page for graphic}
+
+\subsubsection{Programmable Calculator}\label{subsubsec:ProgCalc}
+
+An entirely different approach to create a program that demonstrates Turing Completeness is to model the behavior of TMs directly.
+This means that you create a system that does everything that a TM can do.
+Recalling the Church-Turing Thesis (Theorem\ref{thm:CTT}), it must be able to calculate any function.
+In a basic sense, this means that the system is capable of:
+
+\begin{itemize}
+    \item Reading/Writing memory
+    \item Elementary Arithmetic/Logical operations
+    \item Conditional Logic
+    \item Looping Logic
+\end{itemize}
+
+Programmable Calculators meet all of these requirements.
+By being able to store values into variables which can be referenced later, it can read/write memory.
+Because it is a calculator, it is capable of performing arithmetic operations.
+If statements and while loops are sufficient for handling the conditional and looping logic.
+A programmable calculator thefore is TC.
+
+A simplistic set of steps is outlined below:
+
+\begin{enumerate}
+    \item Start by making a basic arithmetic calculator.
+    \item Then add the ability to store values into variables.
+    \item Afterwards, create functionality for if statements, allowing boolean logic.
+    \item Finally, create looping logic with while statements.
+\end{enumerate}
+
+\href{https://www.youtube.com/watch?v=_Uoyufkb5lk}{TC language in Ruby using Bable-Bridge}
+
+This much simpler approach is easier to digest and reason out with some software engineering design principles.
+
+\subsubsection{Interpreter for a known Turing Complete language}\label{subsec:InterpreterTC}
+
+Alternatively, to show a programming language is TC, one can create an interpreter for a known TC language.
+Many programming languages feature complex grammars and rulesets, which is why TC esoteric programming languages are preferred.
+In fact brainfuck, as seen in section \ref{sec:EstotericPL}, is used to demonstrate TC for its concise ruleset.
+
+SRC - Add 2 sources showing a system is TC by creating an interpreter.
 
 \section{Mathematics}\label{sec:Maths}
 
+In this section, I will take a look at the mathematical system that is most well known for being TC, Lambda Calculus.
+This is an abstract form of understanding functions and their capabilities.
+It was actually shown to be TC by Church himself.
+
+SRC - CHURCH SHOWING LAMBDA CALC IS TC.
+
 \subsection{Lambda Calculus}\label{subsec:LambdaCalc}
 
-Basically a simplistic view of math functions.
-can be shown as TC through construction of certain concepts.
+go though explanation of Lambda calc.
+Discuss the proof and how it can model a TM.
