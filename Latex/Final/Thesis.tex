@@ -9,7 +9,8 @@
 \usepackage{sectsty} % used for centering the chapters and text for chapter
 \usepackage{tocloft} % adjust chapter and titles to be not bold
 \usepackage{hyperref} % used for website linkes to be displayed correctly
-
+\usepackage{amsthm} % used for theorems and the like
+\usepackage{amsmath} % insert text inside of math sections
 \usepackage{graphicx}
 \usepackage[table]{xcolor}
 \usepackage{cite}
@@ -79,6 +80,10 @@
 %change chapters to be non-bold in TOC
 \renewcommand{\cftchapfont}{\normalfont}
 \renewcommand{\cftchappagefont}{\normalfont}
+
+%make setup for definitions, theorems, etc.
+\newtheorem{thm}{Theorem}
+\newtheorem{definition}{Definition}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Document begins
@@ -167,7 +172,6 @@
     % List of figures/tables/illustrations
     % Delete any of the following 3 "List of __" that have < 4 items or are not scattered throughout the text
     \begin{customsection}[true]{List of Figures}
-        \vspace{3in}
         \begin{center}
             This list must reference the figure, page it appears, and subject matter.
         \end{center}
@@ -176,7 +180,6 @@
     \newpage
 
     \begin{customsection}[true]{List of Tables}
-        \vspace{3in}
         \begin{center}
             This list must reference the table, page it appears, and subject matter.
         \end{center}
@@ -185,7 +188,6 @@
     \newpage
 
     \begin{customsection}[true]{List of Illustrations}
-        \vspace{3in}
         \begin{center}
             This list must reference the illustration, page it appears, and subject matter.
         \end{center}
@@ -218,7 +220,7 @@
 
         \bibitem{ProteusRunTime} B. McClelland, “Adding Runtime Verification to the Proteus Language,” CSUN, May 2021.
 
-        
+        \bibitem{IntroFormLangAuto} P. Linz, An Introduction to Formal Languages and Automata. Jones \& Bartlett Learning, 2016.
 
     \end{thebibliography}
 

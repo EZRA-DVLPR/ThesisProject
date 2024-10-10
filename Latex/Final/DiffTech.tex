@@ -4,13 +4,14 @@
 \section{Overview}\label{sec:ProofOverview}
 
 We will be exploring the different approaches to demonstrate TC for different systems.
-I have oultined the approaches based on their respective discipline.
-I hope that this allows for the logic to be legible and digestible.
-My intention is to add clarity on where the logic behind these proofs/techniques exist.
-For example, in the Computer Engineering perspective, they analyze the TM based on its mechanical properties such as Addition, Logic Gates and so forth.
-This is vastly different compared to how Mathematicians show TM and TC, which is through the use of Lambda calculus which is a model for representing functions as a basic unit.
-However, all proofs are equivalent in goal.
-These are not the only perspectives and types of proofs for showing TC, as this is simply a survey into what TC looks like across the disciplines.
+I have outlined the approaches based on their respective discipline, increasing in abstraction.
+With each discipline comes a more theoretical view and understanding of TMs and TC systems.
+My intention is to add clarity on the logic for these proofs/techniques.
+For example, in the Computer Engineering perspective, TM is created from its mechanical properties through the usage of logic gates.
+This is vastly different compared to how Mathematicians show TC, which is through the use of Lambda calculus -- a model for representing mathematical logic.
+All proofs are equivalent in goal, however.
+These are not the only perspectives and types of proofs for showing Turing Completeness as well as TMs.
+This is simply a survey into what TMs and Turing Completeness looks like across the disciplines.
 
 \section{Computer Engineering}\label{sec:CE}
 
@@ -18,17 +19,16 @@ In this section, we will analyze what a TM looks like from a physical perspectiv
 This may seem contradictory because the TM is described as a theoeretical machine.
 But in fact, the very computers that we use today are are capable of processing TC systems through the usage of programming languages.
 This means that they are limited TMs, because they are bounded only in memory.
-In this approach, we will look at the core components of Computer Engineering such as the wiring components, logic gates, adders, and so forth.
+In this approach, we will look at the core components of Computer Engineering to create a TM.
 
 \subsection{Logical Design of a TM}\label{subsec:TMLogicalDesign}
 
 To define what a TM does, we must explore what it is capable of.
-Recall the Church-Turing Thesis in \ref{subsec:Church-Turing Thesis}, "Every effectively calculable function can be computed by a Turing Machine."
-Every effictively calculable function, as Turing and Church understood, was any mathematical calculation.
+Recall Theorem \ref{thm:CTT} in \ref{subsec:Church-Turing Thesis}, "Every effectively calculable function can be computed by a Turing Machine."
+Every effectively calculable function, as Turing and Church understood, was any mathematical calculation.
 This means that a TM must have some ability to perform any operation on numbers, such as the basic operations of addition, subtraction, multiplication, and division.
 Furthermore, they must be capable of combining these together to form more complex operations such as exponential arithmetic.
 Beyond the mathematical aspect, they must allow for some sort of logic handling.
-This can be achieved with OR, NOR, AND, etc. gates which form more complex units.
 [BIOLOGY PAPER ON TM]
 
 \subsubsection{Architecture}\label{subsubsec:Arch}
@@ -100,7 +100,7 @@ See the example below for a 2-Bit ALU that can process OR, AND, XOR, and additio
 \begin{figure}[htb]
     \centering
     \includegraphics[width=10cm]{Images/2-bit_ALU.svg.png}
-       \caption{2-Bit ALU.}
+       \caption{A 2-Bit ALU.}
            \label{Fig:2BitALU}
 \end{figure}
 
@@ -110,16 +110,75 @@ See the example below for a 2-Bit ALU that can process OR, AND, XOR, and additio
 
 With the ability to construct logic gates, we can create more complex components such as the ALU, CPU, and more.
 Accompanied with the ability to store memory, as well as have a way to interact with the system through Input and Output, we are able to create a functional computer.
-In the following examples, developers have successfully created computers in well-known video games of Minecraft and Terraria respectively,
+In the following examples, developers have successfully created computers in the well-known video games of Minecraft and Terraria respectively,
 \href{https://www.youtube.com/watch?v=CW9N6kGbu2I}{Computer in Minecraft}
 \href{https://www.youtube.com/watch?v=zXPiqk0-zDY}{Computer in Terraria}.
-In fact, we will see later on that the computer built inside Terraria is verifiably TC via a method introduced in \ref{subsubsec:CGoL}.
+In fact, we will see later on that the computer built inside Terraria is verifiably TC via a method discussed in \ref{subsubsec:CGoL}.
 
-This means that to construct a TM on a physical level (of course alleviating the restriciton of unbounded memory), these would be the minimum requirements.
+This means that to construct a TM on a physical level (of course alleviating the restriction of unbounded memory), these would be the minimum requirements.
 
 \section{Computer Science}\label{sec:CompSci}
 
-\subsection{State Machines}\label{subsec:StateMachines}
+In this section, we will conceptualize what a TM looks like under the lens of Computer Science.
+There are 2 main perspectives: that of the Automata Theory and the Software Engineering approach.
+The Automata Theory approach utilizes theoretical designs more reminiscent of those listed by Turing and Gavin.
+The Software Engineering approach instead applies it to a problem to showcase Turing Completeness via programs and code.
+
+\subsection{Automata Theory}\label{subsec:AutomataThy}
+
+We will now abstract from the physical understanding of how to create a TM, to creating a theoretical one using Automata theory.
+In automata theory, Turing Machines are described using logical notation.
+The definition of a TM is stated within \cite{IntroFormLangAuto}.
+
+\begin{definition}
+    A Turing Machine $M$ is defined by:
+        \[M = (Q, \Sigma ,\Gamma, \delta, q_{0}, \raisebox{0.1cm}{\fbox{}}, F)\]
+        \par \hangindent=3cm \hangafter=1
+        where: \\
+        \( Q \) is the set of internal states,\\
+        \( \Sigma \) is the input alphabet,\\
+        \( \Gamma \) is the finite set of symbols called the tape alphabet,\\
+        \( \delta \) is the transition function,\\
+        \( \raisebox{0.1cm}{\fbox{}} \in \Gamma \) is a special symbol called the blank,\\
+        \( q_{0} \in Q \) is the initial state,\\
+        \( F \subseteq Q \) is the set of final states.
+\end{definition}
+
+The transition function $\delta$ is defined as \[\delta: Q \times \Gamma \rightarrow Q \times \Gamma \times \{L, R, S\}.\]
+This means that for a given $\delta$ transition with inputs $q \in Q$ and $a \in \Gamma$, the tape will move to another state $x \in Q$, write nothing to the tape (indicated by \raisebox{0.1cm}{\fbox{}}) or some symbol $y \in \Gamma$, and choose to move the tape head Left one cell, Right one cell, or to Stay at the current cell.
+An example transition can be written: \[\delta(q_{0}, a) = (q_{1}, d, R)\] where the internal state is $q_{0}$, and we read input token a.
+After the transition, we have internal state $q_{1}$, wrote symbol d onto the tape, and moved to the right one cell.
+See the below diagram demonstrating this change:
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=16cm]{Images/deltatransition.png}
+       \caption{Delta transition example from \cite{IntroFormLangAuto}.}
+           \label{Fig:DeltaTransition}
+\end{figure}
+
+Recall Figure \ref{Fig:TM} which represents a simplistic TM.
+In formal nomenclature, it can be written as follows:
+\[
+    \begin{aligned}
+        Q &= \{q_{0}, q_{1}, q_{2}\} \text{ with associated labels \{Even, Odd, Halt\}}\\
+        \Sigma &= {0,1}\\
+        \Gamma &= {0,1}\\
+        F &= \{q_{2}\}\\
+        q_{0} &\in \text{ Q as the initial state}
+    \end{aligned}
+\]
+and
+\[
+    \begin{aligned}
+        \delta (q_{0}, 0) &= (q_{2}, 1, S),\\
+        \delta (q_{0}, 1) &= (q_{1}, \raisebox{0.1cm}{\fbox{}}, R),\\
+        \delta (q_{1}, 0) &= (q_{2}, 0, S),\\
+        \delta (q_{1}, 1) &= (q_{0}, \raisebox{0.1cm}{\fbox{}}, R).\\
+    \end{aligned}
+\]
+
+With this now understood, I will divulge into the two general lines of thought for demonstrating a system TC.
 
 \subsubsection{Formal Technical Writing}\label{subsubsec:FormalWriting}
 
