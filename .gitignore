@@ -13,3 +13,7 @@
 # Remove sample theses and dissertations that were used here out of respect
 
 /Papers/Samples
+
+# Remove the JFLAP program
+
+/JFLAP/*.jar
