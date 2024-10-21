@@ -70,6 +70,36 @@ We disregard such automata as there aren't any systems that exist in reality as 
 As a result, TMs are the most powerful automata that can compute any calculable function.
 This is why the Church-Turing thesis is generally assumed to be true \cite{GandyPaper}.
 
+\subsection{Rice's Theorem}\label{subsec:RiceThm}
+
+Another famous theorem to consider is Rice's Theorem.
+It is widely known in the domain of computability theory as it defines the bounds of research in a formal manner.
+Below is the Formal statement of Rice's Theorem, which will be supplemented with a concise statement summarizing the theorem.
+\href{https://mathworld.wolfram.com/RicesTheorem.html}{Wolfram Rice Thm}
+
+\begin{thm}
+    \label{thm:CTT}
+    (Rice's Theorem) Let $\varphi$ be an admissable numbering of partial computable functions. 
+    Let P be a subset of $\mathbb{Z}$.
+    Suppose that:
+    \begin{enumerate}
+        \item P is non-trivial: P is neither empty nor $\mathbb{N}$ itself.
+        \item P is extensional: $\forall  m,n \in \mathbb{N}$, if $\varphi_{m} = \varphi_{n}$,
+        then $m \in P \Leftrightarrow n \in P$.
+    \end{enumerate}
+    Then P is undecidable.
+
+    I.e. The only decidable index sets are $\emptyset$ and $\mathbb{N}$.
+\end{thm}
+
+\href{https://en.wikipedia.org/wiki/Rice\%27s_theorem}{Rice Thm wiki}
+
+This directly translates to programming languages as stating: All non-trivial smenatic properties of programs are undecidable.
+Thus, Rice's theorem is a generalization of the Halting Problem.
+Because of this theorem, it is impossible to design a program that determines if a given program is able to execute without error.
+Another view of thie theorem is that it states only trivial properties of programs are algorithmically decidable.
+Eg. If a program has an if statement inside the code.
+
 \section{Turing Completeness}\label{sec:TC}
 
 Turing Completeness is a closely related term when discussing Turing Machines.
