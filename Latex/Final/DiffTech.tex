@@ -181,33 +181,22 @@ and
     \end{aligned}
 \]
 
-With this now understood, I will talk about the two general lines of thought for demonstrating a system TC.
+\subsubsection{Notable examples using Formal language}
 
-SRC - The Analysis and Research on Computational Complexity
+The proofs constructed using formal language usually modify the given system to meet these requirements.
 
-\subsubsection{Formal Technical Writing}\label{subsubsec:FormalWriting}
+In "Magic: the Gathering is Turing Complete", the authors modified the way the game is understood between 2 players.
+They make the system force moves through clever leverage of the cards and their functions within the game \cite{MtGTC}.
 
-(
-EN - I am trying to figure out a better way to describe and outline these sections.
-As it stands, they are much more easy to desribe at the same time.
-Furthermore, the main sources that I have are very much intense for designing the system.
-I might just follow one proof and use the others as supplemental?
-Or I might use the 2 most different proofs to show the slight differences?
-Will take some time, but I will revisit it.
-)
-$\lambda \gamma \tau $ etc. being used to describe TC
+In a different paper, "Turing Completeness and Sid Meier's Civilization", the system was also creatively modified to demonstrate Turing Completeness.
+In each game, they constructed UTMs by utilizing the layout of the maps, as well as mechanics for changing states of the roads within the game \cite{CivTC}.
 
-SRC - The Game Description Language is TC
+To show that Java Generics are TC, the authors showed that by creating a subtyping machine, it corresponds to only a small portion of the Java Generics while simulating TMs.
+Following this discovery, they simulate a TM and then show that the given inputs are undecidable \cite{JavaGenericsTC}.
+I.e. leveraging an extension of Rice's Theorem, see \ref{RiceThm}.
 
-SRC - Java Generics are Turing Complete
-
-SRC - Turing Completness and Sid Meier's Civilization
-
-\subsubsection{Gamified Writing}\label{subsubsec:GamifiedWriting}
-
-$\lambda \gamma \tau $ etc. being used to describe TC, but based on a very verbose and interactive style
-
-SRC - Magic: The Gathering is TC
+The idea of describing the system as a TM and showing it has an undecidable input is a common practice.
+This technique is also seen in a paper titled "The Game Description Language is Turing Complete" \cite{GDLTC}.
 
 \subsection{Software Implementation}\label{subsec:SoftwareImplementation}
 

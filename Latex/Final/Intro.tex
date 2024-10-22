@@ -2,17 +2,18 @@
 
 \section{Outline}
 
-This project aims to understand how Turing Completeness is demonstrated across different disciplines and apply them to a novel programming language, Proteus, which I want to show is Turing Complete.
-As such, I will first describe some major concepts such as Turing Machines, Turing Completeness, and major theorems in regards to both.
-I will supplement this with some programming language design details which prove important for showing that the language I am modeling, Proteus, is Turing Complete.
+This project aims to understand how Turing Completeness is demonstrated across different disciplines and apply them to a novel programming language, Proteus.
+The goal of this thesis is to show Proteus is Turing Complete.
+As such, I will first describe some major concepts such as Turing Machines, Turing Completeness, and major theorems that will be utilized.
+I will supplement this with some programming language design details which prove important for showing that Proteus is Turing Complete.
 Afterwards, I will describe Proteus in detail.
 
-The following section will describe the different approaches from each domain showing Turing Completeness.
-These include Computer Engineering, Computer Science, and Mathematics.
+The following chapter will describe the different approaches from each domain showing Turing Completeness.
+These include Computer Engineering, Computer Science, and Mathematics where the different proofs will be discussed in detail.
 
-After understanding the different approaches to showing Turing Completeness, the next chapter will show how I applied them to Proteus.
-The goal is to show that Proteus is Turing Complete.
-Once the proof is outlined, I will rigorously follow the outline to show with examples that Proteus is indeed Turing Complete.
+With this understanding of showing a system is Turing Complete, I will outline a proof to show that Proteus is Turing Complete.
+With the proof outlined, I will discuss the design and approach.
+After this, I will follow the outline to flesh out the proof.
 
 After demonstrating that Proteus is Turing Complete, I will reflect on the knowledge gained and applied towards this project.
 I will remark on some points of improvement, and then conclude the Thesis.
@@ -23,6 +24,10 @@ Alan Turing is generally considered the father of computer science for his numer
 A Turing machine can be described as a machine/automata that is capable of performing operations towards some desired goal given an input.
 In a sense, it was designed to be capable of performing any single computable task, such as addition, division, concatenating strings, rendering graphics, etc.
 TMs are at the highest level of computational power, i.e. capable of handling any computation.
+
+There are two different kinds of TMs: Deterministic and Non-deterministic.
+Regardless of such a construction, both are equivalent in power to each other, and as such remain interchangeable until practice \cite{NDTMeqDTM}.
+Assume all TMs discussed are Deterministic unless otherwise stated.
 
 Figure \ref{Fig:TM} is an example of a Turing Machine designed using JFLAP, see \href{https://www.jflap.org/}{https://www.jflap.org/} for more information on this software.
 The described machine takes an input string of 1's followed by a 0.
