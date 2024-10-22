@@ -13,12 +13,18 @@ Working title: "Survey of Imperative Style TC proof techniques & an application 
 ├── ARCS
 │   └── Project Progress Report
 │
+├── JFLAP
+│   └── SampleTM
+│
 ├── Latex
-│   └── Images
-│   ├── LaTeXFinalPaperFiles
-│   ├── finalPaper.pdf
-│   └── Sample
-│       └── Images
+│   ├── Draft
+│   │   ├── Images
+│   │   ├── LaTeXSampleFiles
+│   │   └── Sample.pdf
+│   └── Final
+│       ├── Images
+│       ├── LaTeXThesisFiles
+│       └── Thesis.pdf
 │
 ├── OldBranch
 │   ├── Coq
@@ -40,6 +46,12 @@ Working title: "Survey of Imperative Style TC proof techniques & an application 
 └── Readme.md
 ```
 
+## JFLAP
+
+JFLAP is a tool to model state machines.
+I utilize it in the thesis to demonstrate a simplistic state machine.
+It's pretty powerful and useful for automata theory.
+
 ## Proof Assistants
 
 Proof Assistants will not be used as they themselves are not TC.
@@ -48,11 +60,11 @@ They were fun to explore and understand, as by the end I was able to uyse what I
 
 ### Coq
 
-Currently using Coq for proofs for the thesis.
+No longer using Coq for proofs for the thesis.
 
 ### Dafny
 
-Might look into Dafny in the future.
+No longer will look into Dafny in the future.
 
 ### TLA+
 
@@ -64,6 +76,7 @@ Thus, I won't really be looking at it much more.
 Thank you Kyle for the books, guides, and resources you've provided.
 
 # Related Links
-[Coq](https://coq.inria.fr/)
-[Dafny](https://dafny.org/)
-[TLA+](https://lamport.azurewebsites.net/tla/tla.html)
+- [JFLAP](https://www.jflap.org/)
+- [Coq](https://coq.inria.fr/)
+- [Dafny](https://dafny.org/)
+- [TLA+](https://lamport.azurewebsites.net/tla/tla.html)
