@@ -1,4 +1,3 @@
-%\chapter{Different Proof Techniques for demonstrating Turing Completeness}
 \chapter{Different Approaches for Proofs to Demonstrate Turing Completeness}\label{chapter:ProofApproachesForTC}
 
 \section{Overview}\label{sec:ProofOverview}
@@ -131,7 +130,7 @@ The Software Engineering approach instead applies it to a problem to showcase Tu
 
 We will now abstract from the physical understanding of how to create a TM, to creating a theoretical one using Automata theory.
 In automata theory, Turing Machines are described using logical notation.
-The definition of a TM is stated within \cite{IntroFormLangAuto}.
+The definition of a TM is stated within \cite{IntroFormLangAuto} and \cite{TuBB}.
 
 \begin{definition}
     A Turing Machine $M$ is defined by:
@@ -233,7 +232,7 @@ Cellular automata are sorted into 4 classes:
 \end{itemize}
 
 Wolfram conjectured that many class 4 cellular automata are capable of universal computation.
-Both Conway's Game of Life and Rule 110 exhibit "Class 4 behavior" and have been proven to be Turing Complete.
+Both Conway's Game of Life and Rule 110 exhibit "Class 4 behavior" and have been proven to be Turing Complete \cite{CGoLTM}.
 
 \href{https://en.wikipedia.org/wiki/Cellular_automaton#Classification}{Wiki src}
 SRC - Cellular Automata: A Discrete Universe by Andrew Ilachinski
@@ -349,11 +348,25 @@ python bf interpreter: https://martin-ueding.de/posts/creating-a-brainfuck-inter
 
 In this section, I will take a look at the mathematical system that is most well known for being TC, Lambda Calculus.
 This is an abstract form of understanding functions and their capabilities.
-It was actually designed by Church, and proven to be TC.
-
-SRC - CHURCH SHOWING LAMBDA CALC IS TC.
+It was actually designed by Church, and proven to be TC later on based off the work of Turing and Church by a famous mathematician: Stephen Cole Kleene \cite{LambdaCalcKleene}.
 
 \subsection{Lambda Calculus}\label{subsec:LambdaCalc}
 
-go though explanation of Lambda calc.
-Discuss the proof and how it models a TM.
+Lambda calculus upon initial inspection seems like a very abstract form of functions and relations within mathematics.
+It can be understood to those in Computer Science as a very abstract programming language, and actually forms the basis of Functional Programming Languages
+\href{https://learn.saylor.org/mod/book/tool/print/index.php?id=33044&chapterid=13087}{SRC - functional programming}.
+
+
+
+
+describe the basis of lambda calculus
+
+re-create the TM from earlier using lambda calculus
+(if i can, otherwise just use the default example from the below link)
+
+
+
+
+
+
+https://theory.stanford.edu/~blynn/lambda/
