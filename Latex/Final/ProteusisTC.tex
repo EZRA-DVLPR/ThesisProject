@@ -1,22 +1,45 @@
 \chapter{Proteus is Turing Complete}\label{chapter:ProteusTC}
 
-This section will describe how we will construct the proof(s) for showing that Proteus is TC.
+This section will describe how we will construct the proof showing that Proteus is TC.
 
-\section{Initial Thoughts based off of the grammar}
+\section{Useful information to be used in the proof}
 
-Recall the proteus grammar
+First, I will discuss features about Proteus programs on a theoretical level.
+Then, I will discuss features about the Proteus language that allows for the creation of a TM.
+This information is the background information that will guide the construction of the proof outline and the proof itself.
+
+\subsection{Undecidable input}
+
+Because Proteus is a higher-level programming language, we can leverage the usage of Rice's Theorem, Theorem \ref{thm:RiceThm}.
+Thus, given any input it is impossible to determine an answer to the Halting Problem.
+Furthermore, one cannot determine if there is an actor that will be told to switch to a particular state.
+By determining that any given Proteus program is undecidable, I will look at how to create a TM.
+
+\subsection{Requirements of a TM}
+
+In this section, I will point out critical pieces of Proteus that prove useful to create a TM.
+Recall the proteus grammar seen in section \ref{subsec:ProteusGrammar}.
+We can see...
 
 Analyze the grammar to see what would allow for a TC system.
 
 \section{Proof Outline}
 
-Theorems that would be used
-Steps for proof outline
+By showing that any input to Proteus is undecidable and creating a TM, I can show that Proteus is TC.
+This leverages the usage of both the Church-Turing Thesis, Theorem \ref{thm:CTT}, and Rice's Theorem, Theorem \ref{thm:RiceThm}.
 
-\section{Proof v1}
+I will outline the explicit definitions of a TM with, seen in \ref{subsec:AutomataThy}.
+
+Then I will explicitly show how to implement Rule 110 in Proteus using the same explicit definition of a TM.
+I will also show it implemented in Proteus code itself.
+
+Lastly, I will show an interpreter for brainfuck using Proteus, also written in formal language.
+
+\section{Proof}
 
 Formal proof that follows the outline.
-describes the state transitions, state machine, given problem is undecidable.
+
+Must recall that the inputs are undecidable and we are creating a TM => Proteus is TC.
 
 \section{Implementing Rule 110}
 
