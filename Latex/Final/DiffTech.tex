@@ -353,20 +353,107 @@ It was actually designed by Church, and proven to be TC later on based off the w
 \subsection{Lambda Calculus}\label{subsec:LambdaCalc}
 
 Lambda calculus upon initial inspection seems like a very abstract form of functions and relations within mathematics.
-It can be understood to those in Computer Science as a very abstract programming language, and actually forms the basis of Functional Programming Languages
+It can be understood to those in Computer Science as a very abstract programming language, and actually forms the basis of Functional Programming Languages \cite{TutLambdaCalc}.
 \href{https://learn.saylor.org/mod/book/tool/print/index.php?id=33044&chapterid=13087}{SRC - functional programming}.
 
+Lambda Calculus is a form of expressing functions in a simple manner that allows for creating any complex system \cite{LambdaCalcRG}.
+At its core, it consists of three inductive rules defining what lambda terms are.
+Each lambda term is a valid statement in lambda calculus:
+\begin{enumerate}
+    \item \textit{x}: A \textbf{variable} to represent a character or string.
+    This is to be understood as a parameter for functions.
+    \item \textit{$\lambda x.M$}: A lambda \textbf{abstraction} that is a function definition.
+    This function takes the bound variable \textit{x} as input, and returns the body \textit{M}.
+    \item \textit{(M N)}: An \textbf{application} where it applies the function \textit{M} to argument \textit{N}.
+\end{enumerate}
 
+There also exist reduction operations to improve legibility but retain equivalent logical meaning:
+\begin{enumerate}
+    \item \textit{($\lambda x.M[x]$) $\rightarrow$ ($\lambda y.M[y]$)}: $\alpha$-conversion, which renames the bound variables in the expression.
+    This is be used to avoid name collisions.
+    \item \textit{(($\lambda x.M$)\textit{N}) $\rightarrow$ ($M[x:=N]$)}: $\beta$-reduction, which replaces bound variables with the argument expression in the body of the abstraction.
+    This is used to simplify chained functions being written out.
+\end{enumerate}
 
+Parentheses may be used to to disambiguate terms from each other.
+This is especially useful when constructing complex applications using lambda calculus.
 
-describe the basis of lambda calculus
+\href{https://en.wikipedia.org/wiki/Lambda_calculus}{SRC - Lambda Calculus wiki}
 
-re-create the TM from earlier using lambda calculus
-(if i can, otherwise just use the default example from the below link)
+I will define an equivalent TM to the previously mentioned TM seen in Figure \ref{Fig:TM} and in section \ref{subsec:AutomataThy}.
+Recall that the goal of the TM was to determine if there are an even or odd number of '1's in a sequence.
 
+We construct the list of Natural Numbers, $\mathbb{N}$, as follows:
+\[
+    \begin{aligned}
+        0 &\equiv \lambda sz.s(z)\\
+        1 &\equiv \lambda sz.s(s(z))\\
+        2 &\equiv \lambda sz.s(s(s(z)))\\
+        &\text{and so on...}\\
+    \end{aligned}
+\]
 
+Now we construct the ideas of Arithmetic Boolean Logic, and other necessary logical operators.
+Treat 'f' as a function and variables as only locally defined to their respective operator.
+These examples can be seen here: \href{https://jwodder.freeshell.org/lambda.html}{SRC}.
+Some notation can be interpreted as SKI combinator calculus \href{https://en.wikipedia.org/wiki/SKI_combinator_calculus}{SRC}.
 
+EN - This should be cut so that it doesnt extend past the confines of the page
+\[
+    \begin{aligned}
+        K &:= \lambda xy. x \equiv X(X (X X)) \equiv X' X' X'\\
+        S &:= \lambda xyz. (x z) (y z) \equiv X (X (X (X X))) \equiv X K \equiv X' (X' X')\\
+        I &:= \lambda x. x \equiv S K S \equiv S K K \equiv X X\\
+        Y &:= \lambda g. (\lambda x. g (x x)) (\lambda x. g (x x))\\
+    \end{aligned}
+\]
+\[
+    \begin{aligned}
+        SUCC &:= \lambda nfx. f (n f x)\\
+        PRED &:= \lambda n fx. n (\lambda gh. h(g f)) (\lambda u. x) (\lambda u. u)\\
+            &\equiv \lambda n. n (\lambda gk. \hspace{0.1cm} ISZERO \hspace{0.1cm} (g \hspace{0.1cm} 1) k \hspace{0.1cm} (PLUS (g \hspace{0.1cm}k) 1))  (\lambda v. 0) 0\\
+        PLUS &:= \lambda mnfx. n f (m f x)\\
+            &\equiv \lambda mn. n \hspace{0.1cm} SUCC \hspace{0.1cm} m\\
+        SUB &:= \lambda mn. n \hspace{0.1cm} PRED \hspace{0.1cm} m\\
+        MULT &:= \lambda mnf. m(n \hspace{0.1cm} f)\\
+            &\equiv \lambda mn. m (PLUS \hspace{0.1cm} n) 0\\
+        DIV &:= \lambda Y (\lambda gqab. \hspace{0.1cm} LT \hspace{0.1cm} a \hspace{0.1cm} b \hspace{0.1cm} (PAIR \hspace{0.1cm} q \hspace{0.1cm} a)(g \hspace{0.1cm} (SUCC \hspace{0.1cm} q) (SUB \hspace{0.1cm} a \hspace{0.1cm} b) \hspace{0.1cm} b)) 0\\
+        MOD &:= \lambda ab. \hspace{0.1cm} CDR \hspace{0.1cm} (DIV \hspace{0.1cm} a \hspace{0.1cm} b)\\
+        TRUE &:= \lambda xy. x \equiv K\\
+        FALSE &:= \lambda xy. y \equiv 0 \equiv \lambda x. I \equiv K I \equiv S K \equiv X (X X)\\
+        NOT &:= \lambda pab. p  b a \equiv \lambda p. p \hspace{0.1cm} FALSE \hspace{0.1cm} TRUE\\
+        ISZERO &:= \lambda n. n (\lambda x. \hspace{0.1cm} FALSE) \hspace{0.1cm} TRUE\\
+        LT &:= \lambda ab. \hspace{0.1cm} NOT \hspace{0.1cm} (LEQ \hspace{0.1cm} b \hspace{0.1cm} a)\\
+        LEQ &:= \lambda mn. \hspace{0.1cm} ISZERO \hspace{0.1cm} (SUB \hspace{0.1cm} n \hspace{0.1cm} m)\\
+        PAIR &:= \lambda xyf. f x y\\
+        CAR &:= \lambda p. p \hspace{0.1cm} TRUE\\
+        CDR &:= \lambda p. p \hspace{0.1cm} FALSE\\
+        NIL &:= \lambda x. \hspace{0.1cm} TRUE\\
+        NULL &:= \lambda p. p (\lambda xy. \hspace{0.1cm} FALSE)\\
+        LENGTH &:= Y \lambda (gcx. \hspace{0.1cm} NULL \hspace{0.1cm} x c (g \hspace{0.1cm} (SUCC \hspace{0.1cm} c) \hspace{0.1cm} (CDR \hspace{0.1cm} x))) 0\\
+    \end{aligned}
+\]
 
+Now we can combine these lambda functions from a higher abstraction level to perform the operation.
 
+\begin{verbatim}
+    Obtain the Length of the List.
+    With the list length, subtract 1 from it.
+    Take the mod of the result.
+    If the new result is 0, then that means it was even.
+    If instead it was 1, then it was odd.
+\end{verbatim}
 
-https://theory.stanford.edu/~blynn/lambda/
+Resulting in the following simplified lambda calculus operation:\[MOD \hspace{0.1cm} (SUB \hspace{0.1cm} (LENGTH \hspace{0.1cm} (\textbf{input}) \hspace{0.1cm} 1)) \hspace{0.1cm} 2\]
+with \textbf{input} being the input string.
+One can expand this result to the above lambda calculus notation, resulting in an extraneously long sequence.
+See the below image for an example of an expanded lambda calculus function that determines if a number is even or odd, i.e. it's cardinality \href{https://www.reddit.com/r/ProgrammerHumor/comments/78z90f/when_you_need_to_know_if_a_number_is_even_or_odd/}{SRC - REDDIT PROGRAMMER HUMOR}.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=16cm]{Images/oddevenlambda.png}
+       \caption{Expanded lambda calculus function to determine the cardinality of a number.}
+           \label{Fig:OddEvenLambda}
+\end{figure}
+
+With the ability to define any calculable function, Lambda Calculus is TC, as stated in the Church-Turing Thesis, Theorem \ref{thm:CTT}.
