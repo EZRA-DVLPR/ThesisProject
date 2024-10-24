@@ -1,34 +1,26 @@
-\documentclass[12pt]{report}
+\documentclass[12pt]{report} % use report for thesis formatting and setup with 12 pt font
+\usepackage[american]{babel} % use standard american english for hyphenation rules, date format, etc.
 \usepackage{mathptmx} % Times New Roman
-\usepackage{newclude} % used to not have a new page when including another .tex file
-\usepackage{indentfirst} % used to indent the first line in each section
-\usepackage{fancyhdr} % custom headers/footers (i, ii, etc.)
-\usepackage{etoolbox} % for conditional page numbering
-\usepackage{titlesec} % customize title of TOC, and modify sections/subsections/etc.
-\usepackage{ifthen} % for conditional logic
-\usepackage{sectsty} % used for centering the chapters and text for chapter
-\usepackage{tocloft} % adjust chapter and titles to be not bold
+\usepackage{graphicx} % for importing images
+\usepackage{cite} % referencing citations in bib
+\usepackage[doublespacing]{setspace} %\doublespacing % set double spaced for entire doc
+\usepackage[margin=1in]{geometry} % 1 inch margins
 \usepackage{hyperref} % used for website linkes to be displayed correctly
-\usepackage{amsthm} % used for theorems and the like
+\usepackage{etoolbox} % used for changing vertical space before chapter headers to 0
+\usepackage{titlesec} % customize title of TOC, and modify sections/subsections/etc.
+\usepackage{sectsty} % used for centering the chapters and text for chapter
+\usepackage{tocloft} % adjust spacing in TOC. adjust chapter and titles to be not bold in TOC
 \usepackage{amsmath} % insert text inside of math sections
-\usepackage{amsfonts} % math symbols like Naturals, Integers, etc.
-\usepackage{amssymb} % same as above
-\usepackage{graphicx}
-\usepackage[table]{xcolor}
-\usepackage{cite}
+\usepackage{amssymb} % math symbols like Naturals, Integers, etc.
 
-% Double spaced
-\usepackage{setspace}
-\doublespacing
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DOCUMENT SETUP
 
-% 1 inch margins
-\usepackage{geometry}
-\geometry{left=1in, right=1in, top=1in, bottom=1in}
+% displays subsubsection to TOC and doc
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
 
-\setcounter{secnumdepth}{5}
-\setcounter{tocdepth}{5}
-
-% Create the subsubsection
+% create the subsubsection
 \titleformat{\subsubsection}[runin]
 {\normalfont\normalsize\bfseries}
 {\thesubsubsection}
@@ -36,62 +28,48 @@
 {}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Formatting for each section
+% FORMATTING FOR EACH SECTION
 
+% set each chapter/section/subsection/subsubsection to normal sized font. Centered chapters
 \chapterfont{\centering\normalsize}
 \sectionfont{\normalsize}
 \subsectionfont{\normalsize}
 \subsubsectionfont{\normalsize}
 
-% create new customsection that will be used in the preamble
-% will accept boolean to display the name of the customsection if true
-% and won't display o/w
-\newenvironment{customsection}[2][true]{
-    \vspace{1em}
-    \addcontentsline{toc}{chapter}{#2}
-    \ifthenelse{\equal{#1}{true}}{
-        \begin{center}
-            {#2}
-        \end{center}
-    }{}
-}
+% remove vertical space before & after the TOC title
+\setlength{\cftbeforetoctitleskip}{0em}
+\setlength{\cftaftertoctitleskip}{0em}
 
-% Roman numerals for the preamble
-\pagenumbering{roman} % Start Roman numbering from title page
-\pagestyle{fancy}
-\fancyhf{}
-\fancyfoot[C]{\thepage} % Center page number below the bottom margin
-\renewcommand{\headrulewidth}{0pt} % Remove header line
-\renewcommand{\footrulewidth}{0pt} % Remove footer line
-
-% Change to Arabic numerals starting from Chapter 1 page
-\newcommand{\startarabic}{
-  \clearpage
-  \pagenumbering{arabic}
-}
-
+% remove the vertical space before the chapter & chapter* title name
 \makeatletter
-\patchcmd{\ps@plain}{\thepage}{}{}{}
+\patchcmd{\@makechapterhead}{50\p@}{\chapheadtopskip}{}{} % Space from top of page to CHAPTER X
+\patchcmd{\@makeschapterhead}{50\p@}{\chapheadtopskip}{}{} % Space from top of page to CHAPTER TITLE
 \makeatother
 
-%Change TOC name and make non bold
-\renewcommand{\contentsname}{Table of Contents}
-\renewcommand{\cfttoctitlefont}{\hfill\normalsize}
-\renewcommand{\cftaftertoctitle}{\hfill}
+% apply the changes to the chapter & chapter* vertical spacing before the title name
+\newlength{\chapheadtopskip}\setlength{\chapheadtopskip}{0pt}
 
-%change chapters to be non-bold in TOC
+% change TOC name, center horizontally, and make non bold
+\addto\captionsamerican{
+    \renewcommand{\contentsname}{\hfill Table of Contents \hfill}
+    \renewcommand{\cfttoctitlefont}{\normalsize}
+    \renewcommand{\cftaftertoctitle}{\hfill}
+}
+
+% change chapters to be non-bold in TOC
 \renewcommand{\cftchapfont}{\normalfont}
 \renewcommand{\cftchappagefont}{\normalfont}
 
-%make setup for definitions, theorems, etc.
+% setup for definitions, theorems, etc.
 \newtheorem{thm}{Theorem}
 \newtheorem{definition}{Definition}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Document begins
+% BEGIN DOCUMENT
 
 \begin{document}
-    %Title page
+    % title page & begin roman numeral numbering
+    \pagenumbering{roman}
     \begin{titlepage}
         \centering
         CALIFORNIA STATE UNIVERSITY, NORTHRIDGE\\
@@ -109,15 +87,16 @@
         [0.25in]
         Isaiah Martinez\\
         [1.5in]
-        %make sure the date is spaced to be near where the page number goes
+        % make sure the date is spaced to be near where the page number goes
         December 2024
     \end{titlepage}
 
     \newpage
-    %Unsigned Signature Page
+    % unsigned Signature Page
     \setcounter{page}{2} % set page counter in roman numerals to ii
 
-    \begin{customsection}[false]{Signature Page}
+    \chapter*{}\label{chapter:SignPage}
+    \addcontentsline{toc}{chapter}{Signature Page}
         \vspace*{3in}
         
         %this horizontal spacing keeps changing so just make sure it looks good in the pdf
@@ -146,13 +125,13 @@
                 Maryam Jalali, PhD. & Date \\
             \end{tabular}
         \end{center}
-    \end{customsection}
 
     \newpage
 
-    % Acknowledgements
-    \begin{customsection}[true]{Acknowledgements}
-        \vspace{3in}
+    % acknowledgements
+    \chapter*{\normalfont Acknowledgements}\label{chapter:Acknowledgements}
+    \addcontentsline{toc}{chapter}{Acknowledgements}
+    \vspace{3in}
         \begin{center}
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             Vivamus lacinia odio vitae vestibulum vestibulum.
@@ -163,7 +142,7 @@
             Sed convallis sollicitudin purus a scelerisque.
             Phasellus faucibus purus at magna tempus, sit amet aliquet nulla cursus.
         \end{center}
-    \end{customsection}
+    
 
     \newpage
 
@@ -173,85 +152,88 @@
 
     % List of figures/tables/illustrations
     % Delete any of the following 3 "List of __" that have < 4 items or are not scattered throughout the text
-    \begin{customsection}[true]{List of Figures}
-        \begin{center}
-            This list must reference the figure, page it appears, and subject matter.
-        \end{center}
-    \end{customsection}
+
+    \chapter*{\normalfont List of Figures}\label{chapter:ListFigures}
+    \addcontentsline{toc}{chapter}{List of Figures}
+    \begin{center}
+        This list must reference the figure, page it appears, and subject matter.
+    \end{center}
+    
+    \newpage
+
+    \chapter*{\normalfont List of Tables}\label{chapter:ListTables}
+    \addcontentsline{toc}{chapter}{List of Tables}
+    \begin{center}
+        This list must reference the table, page it appears, and subject matter.
+    \end{center}
+    
+    \newpage
+
+    \chapter*{\normalfont List of Illustrations}\label{chapter:ListIllustrations}
+    \addcontentsline{toc}{chapter}{List of Illustrations}
+    \begin{center}
+        This list must reference the illustration, page it appears, and subject matter.
+    \end{center}
+    
+    \newpage
+
+    \input{Abstract}
 
     \newpage
 
-    \begin{customsection}[true]{List of Tables}
-        \begin{center}
-            This list must reference the table, page it appears, and subject matter.
-        \end{center}
-    \end{customsection}
+    \pagenumbering{arabic} % start normal page counting
+    \input{Intro}
+    \input{DiffTech}
+    \input{ProteusisTC}
+    \input{Conclusion}
 
     \newpage
 
-    \begin{customsection}[true]{List of Illustrations}
-        \begin{center}
-            This list must reference the illustration, page it appears, and subject matter.
-        \end{center}
-    \end{customsection}
-
-    \newpage
-
-    \include*{Abstract}
-
-    \newpage
-
-    \startarabic % start normal page counting
-
-    \include*{Intro}
-    \include*{DiffTech}
-    \include*{ProteusisTC}
-    \include*{Conclusion}
-
-    \newpage
-
-    %only for bibliography
-    %must be single spaced
-    %blank line between each entry
+    % bibliography
+    
     %alphabetical order
     %retrieval date is only for non-journal instances where material might change at a later date
 
-    \begin{thebibliography}{}
+    \begin{singlespace}
 
-        \bibitem{NDTMeqDTM} Q. Gao and X. Xu, “The Analysis and Research on Computational Complexity,” pp. 3467–3472.
+        \begin{thebibliography}{}
 
-        \bibitem{GandyPaper} R. Gandy, “Church’s Thesis and Principles for Mechanisms,” The Kleene Symposium, pp. 123–148, Jun. 1980.
+            \bibitem{NDTMeqDTM} Q. Gao and X. Xu, “The Analysis and Research on Computational Complexity,” pp. 3467–3472.
 
-        \bibitem{ProteusRunTime} B. McClelland, “Adding Runtime Verification to the Proteus Language,” CSUN, May 2021.
+            \bibitem{GandyPaper} R. Gandy, “Church’s Thesis and Principles for Mechanisms,” The Kleene Symposium, pp. 123–148, Jun. 1980.
 
-        \bibitem{IntroFormLangAuto} P. Linz, An Introduction to Formal Languages and Automata. Jones \& Bartlett Learning, 2016.
+            \bibitem{ProteusRunTime} B. McClelland, “Adding Runtime Verification to the Proteus Language,” CSUN, May 2021.
 
-        \bibitem{JavaGenericsTC} R. Grigore, “Java generics are turing complete,” ACM SIGPLAN Notices, vol. 52, no. 1, pp. 73–85, Jan. 2017, doi: https://doi.org/10.1145/3093333.3009871.
+            \bibitem{IntroFormLangAuto} P. Linz, An Introduction to Formal Languages and Automata. Jones \& Bartlett Learning, 2016.
 
-        \bibitem{MtGTC} A. Churchill, S. Biderman, and A. Herrick, “Magic: The Gathering is Turing Complete.”
+            \bibitem{JavaGenericsTC} R. Grigore, “Java generics are turing complete,” ACM SIGPLAN Notices, vol. 52, no. 1, pp. 73–85, Jan. 2017, doi: https://doi.org/10.1145/3093333.3009871.
 
-        \bibitem{CivTC} A. de Wynter, “Turing Completeness and Sid Meier’s Civilization,” IEEE Transactions on Games, vol. 15, no. 2, pp.292-299, June 2023.
+            \bibitem{MtGTC} A. Churchill, S. Biderman, and A. Herrick, “Magic: The Gathering is Turing Complete.”
 
-        \bibitem{GDLTC} A. Saffidine, “The Game Description Language Is Turing Complete,” IEEE Transactions on Computational Intelligence and AI in Games, vol. 6, no. 4, pp. 320–324, Dec. 2014, doi: https://doi.org/10.1109/tciaig.2014.2354417.
+            \bibitem{CivTC} A. de Wynter, “Turing Completeness and Sid Meier’s Civilization,” IEEE Transactions on Games, vol. 15, no. 2, pp.292-299, June 2023.
 
-        \bibitem{CGoLTM} P. Rendell, "A Universal Turing Machine in Conway's Game of Life," 2011 International Conference on High Performance Computing \& Simulation, Istanbul, Turkey, 2011, pp. 764-772, doi: 10.1109/HPCSim.2011.5999906.
-    
-        \bibitem{TTTTM} S. S. T. Gontumukkala, Y. S. V. Godavarthi, B. R. R. T. Gonugunta and S. M., "Implementation of Tic Tac Toe Game using Multi-Tape Turing Machine," 2022 International Conference on Computational Intelligence and Sustainable Engineering Solutions (CISES), Greater Noida, India, 2022, pp. 381-386, doi: 10.1109/CISES54857.2022.9844404.
+            \bibitem{GDLTC} A. Saffidine, “The Game Description Language Is Turing Complete,” IEEE Transactions on Computational Intelligence and AI in Games, vol. 6, no. 4, pp. 320–324, Dec. 2014, doi: https://doi.org/10.1109/tciaig.2014.2354417.
 
-        \bibitem{ShallityAutomataThy} Jeffrey Outlaw Shallit, A second course in formal languages and automata theory. Cambridge ; New York: Cambridge University Press, 2009.
-
-        \bibitem{JFLAPGrading} M. Biçer, F. Albayrak and U. Orhan, "Automatic Automata Grading System Using JFLAP," 2023 Innovations in Intelligent Systems and Applications Conference (ASYU), Sivas, Turkiye, 2023, pp. 1-4, doi: 10.1109/ASYU58738.2023.10296744.
-
-        \bibitem{TuBB} E. Luce and S. H. Rodger, "A visual programming environment for Turing machines," Proceedings 1993 IEEE Symposium on Visual Languages, Bergen, Norway, 1993, pp. 231-236, doi: 10.1109/VL.1993.269602.
+            \bibitem{CGoLTM} P. Rendell, "A Universal Turing Machine in Conway's Game of Life," 2011 International Conference on High Performance Computing \& Simulation, Istanbul, Turkey, 2011, pp. 764-772, doi: 10.1109/HPCSim.2011.5999906.
         
-        \bibitem{LambdaCalcKleene} Dezani‐Ciancaglini Mariangiola and J. R. Hindley, “Lambda-Calculus,” Wiley Encyclopedia of Computer Science and Engineering, pp. 1–8, Sep. 2008, doi: https://doi.org/10.1002/9780470050118.ecse212.
+            \bibitem{TTTTM} S. S. T. Gontumukkala, Y. S. V. Godavarthi, B. R. R. T. Gonugunta and S. M., "Implementation of Tic Tac Toe Game using Multi-Tape Turing Machine," 2022 International Conference on Computational Intelligence and Sustainable Engineering Solutions (CISES), Greater Noida, India, 2022, pp. 381-386, doi: 10.1109/CISES54857.2022.9844404.
 
-        \bibitem{LambdaCalcRG} M. Dezani-Ciancaglini and J. R. Hindley, “Lambda-Calculus,” Nov. 2007, Available: \href{https://www.researchgate.net/publication/228107078_Lambda-Calculus}{Here}
+            \bibitem{ShallityAutomataThy} Jeffrey Outlaw Shallit, A second course in formal languages and automata theory. Cambridge ; New York: Cambridge University Press, 2009.
 
-        \bibitem{TutLambdaCalc} R. Rojas, “A Tutorial Introduction to the Lambda Calculus,” 2015, Available: \href{https://arxiv.org/pdf/1503.09060}{Here}
+            \bibitem{JFLAPGrading} M. Biçer, F. Albayrak and U. Orhan, "Automatic Automata Grading System Using JFLAP," 2023 Innovations in Intelligent Systems and Applications Conference (ASYU), Sivas, Turkiye, 2023, pp. 1-4, doi: 10.1109/ASYU58738.2023.10296744.
 
-    \end{thebibliography}
+            \bibitem{TuBB} E. Luce and S. H. Rodger, "A visual programming environment for Turing machines," Proceedings 1993 IEEE Symposium on Visual Languages, Bergen, Norway, 1993, pp. 231-236, doi: 10.1109/VL.1993.269602.
+            
+            \bibitem{LambdaCalcKleene} Dezani‐Ciancaglini Mariangiola and J. R. Hindley, “Lambda-Calculus,” Wiley Encyclopedia of Computer Science and Engineering, pp. 1–8, Sep. 2008, doi: https://doi.org/10.1002/9780470050118.ecse212.
+
+            \bibitem{LambdaCalcRG} M. Dezani-Ciancaglini and J. R. Hindley, “Lambda-Calculus,” Nov. 2007, Available: \href{https://www.researchgate.net/publication/228107078_Lambda-Calculus}{Here}
+
+            \bibitem{TutLambdaCalc} R. Rojas, “A Tutorial Introduction to the Lambda Calculus,” 2015, Available: \href{https://arxiv.org/pdf/1503.09060}{Here}
+
+        \end{thebibliography}
     
+    \end{singlespace}
+
 \end{document}
 
 %discusses security vuln based off of TC
