@@ -5,47 +5,138 @@ This section will describe how we will construct the proof showing that Proteus 
 \section{Useful information to be used in the proof}
 
 First, I will discuss features about Proteus programs on a theoretical level.
-Then, I will discuss features about the Proteus language that allows for the creation of a TM.
-This information is the background information that will guide the construction of the proof outline and the proof itself.
+Then, I will discuss features about the Proteus language that allow for the creation of a TM.
+This is the background information that will guide the construction of the proof outline and ultimately the proof itself.
 
-\subsection{Undecidable input}
+\subsection{Undecidable input}\label{subsec:UndecidableInput}
 
 Because Proteus is a higher-level programming language, we can leverage the usage of Rice's Theorem, Theorem \ref{thm:RiceThm}.
 Thus, given any input it is impossible to determine an answer to the Halting Problem.
 Furthermore, one cannot determine if there is an actor that will be told to switch to a particular state.
-By determining that any given Proteus program is undecidable, I will look at how to create a TM.
+With this knowledge, it is understood that any given Proteus program is undecidable.
+Thus, I will look at how to create a TM in Proteus.
 
-\subsection{Requirements of a TM}
+\subsection{Requirements of a TM}\label{subsec:ReqsofTM}
 
 In this section, I will point out critical pieces of Proteus that prove useful to create a TM.
+We can see that the core features to create a TM, seen previously in sections \ref{subsec:TMLogicalDesign} and \ref{subsubsec:ProgCalc}, include:
+\begin{enumerate}
+    \item Arithmetic and Logical Processing
+    \item Memory storage and manipulation
+    \item Conditional Logic
+    \item Looping Logic
+    \item Input/Output
+\end{enumerate}
+
 Recall the proteus grammar seen in section \ref{subsec:ProteusGrammar}.
-We can see...
+I will now describe from the Proteus grammar how to construct/use Proteus creating each part of the TM.
 
-Analyze the grammar to see what would allow for a TC system.
+\subsubsection{Arithmetic and Logical Processing}\label{subsubsec:ArithLogProc}
 
-\section{Proof Outline}
+The grammar provides the following definitions for arithmetic and logical processing:
+\begin{itemize}
+    \item BinOp
+    \item Type
+    \item ConstExpr
+\end{itemize}
 
-By showing that any input to Proteus is undecidable and creating a TM, I can show that Proteus is TC.
-This leverages the usage of both the Church-Turing Thesis, Theorem \ref{thm:CTT}, and Rice's Theorem, Theorem \ref{thm:RiceThm}.
+We can do both arithmetic and logical processing.
+BinOp does...
 
-I will outline the explicit definitions of a TM with, seen in \ref{subsec:AutomataThy}.
+\subsubsection{Memory Storage and Manipulation}\label{subsubsec:MemStoManip}
+
+The grammar provides the following definitions for memory storage and manipulation:
+\begin{itemize}
+    \item DefHSM
+    \item DefState
+    \item DefGlobalConst
+    \item DecStmt
+    \item AssignStmt
+\end{itemize}
+
+\subsubsection{Conditional Logic}\label{subsubsec:CondLog}
+
+The grammar provides the following definitions for conditional logic:
+\begin{itemize}
+    \item GoStmt
+    \item JustGoStmt
+    \item GoIfStmt
+    \item ElseGoStmt
+    \item IfStmt
+\end{itemize}
+
+Conditional Logic or Branching is necessary for a TM to compute any calculable function (see: Theorem \ref{thm:CTT}).
+'GoStmt' is considered either a 'JustGoStmt' or a 'GoIfStmt', which are used to switch between states of a given HSM.
+Similarly, the 'ElseGoStmt' switches to a particular state of a given HSM if the condition from the 'GoIfStmt' fails.
+
+The 'IfStmt' is utilized for conditional logic within the processing of the state machines, and is akin to the standard if statements in other programming languages.
+It is defined recursively to allow for nested "If ... else if.... else ..." statements.
+These definitions allow for conditional statements to occur for a given HSM and within the code itself.
+
+\subsubsection{Looping Logic}\label{subsubsec:LoopLog}
+
+The only looping logic that can be seen in the garmmar that is built in, is the:
+\begin{itemize}
+    \item WhileStmt
+\end{itemize}
+
+This is the only necessary form of looping, as it can be broken by conditional statements and is capable of performing like other loops such as the do-while, for, and so forth.
+This allows for more complex logical processing, such as recursion, which is a necessary requirement for TMs to perform any calculation.
+A simplistic example of a problem that requires recursion would be the Ackermann Function.
+See the definition of the Ackermann function here:
+\[
+\begin{aligned}
+    A(0, n) &= n + 1\\
+    A(m + 1, 0) &= A(m,1)\\
+    A(m + 1, n + 1) &= A(m, A(m + 1,n))
+\end{aligned}
+\]
+
+Although being able to compute the Ackermann function requires recursion, it doesn't conclude that any system that can compute it is TC.
+It was created to show that not all total computable functions are primitively recursive \cite{AckermannPR}.
+The Ackermann function exists to show that not all functions can be represented with for loops, which is what primitive recursive functions are \cite{RecursiveFuncs}.
+Nonetheless, all computable functions (regardless of their expression) are capable of being calculated by a TM, as stated by the Church-Turing Thesis (Theorem \ref{thm:CTT}).
+
+\subsubsection{Input/Output}\label{subsubsec:IO}
+
+Looking at the grammar definitions for:
+\begin{itemize}
+    \item Stmt
+    \item PrintlnStmt
+    \item PrintStmt
+    \item SendStmt
+\end{itemize}
+
+From 'Stmt' I would like to highlight the 'SendStmt' command.
+'SendStmt' is utilized to send events to a particular State Machine (i.e. an output).
+By default, all actors are able to receive events.
+'PrintlnStmt' and 'PrintStmt' are the standard print and println commands that are well known from other languages which serve as output to the console.
+Although there is no explicit way to allow for input from the systems grammar dynamically, this is unnecessary as it can be preconfigured before runtime.
+Thus, there exists a way to send inputs before the program is run via static input of values.
+
+\section{Proof Outline}\label{sec:ProofOutline}
+
+By showing that any input to Proteus is undecidable and it is possible to create a TM in Proteus, Proteus can be shown to be TC.
+This proof leverages the usage of both the Church-Turing Thesis, Theorem \ref{thm:CTT}, and Rice's Theorem, Theorem \ref{thm:RiceThm}.
+
+I will outline the explicit definitions of a TM outlined previously in section \ref{subsec:ReqsofTM}
 
 Then I will explicitly show how to implement Rule 110 in Proteus using the same explicit definition of a TM.
 I will also show it implemented in Proteus code itself.
 
 Lastly, I will show an interpreter for brainfuck using Proteus, also written in formal language.
 
-\section{Proof}
+\section{Proof}\label{sec:Proof}
 
 Formal proof that follows the outline.
 
 Must recall that the inputs are undecidable and we are creating a TM => Proteus is TC.
 
-\section{Implementing Rule 110}
+\section{Implementing Rule 110}\label{sec:ImplementRule110}
 
 Implementation of Rule 110 that is a demonstration of TC.
 
-\section{Interpreter for Brainfuck}
+\section{Interpreter for Brainfuck}\label{sec:ImplementBF}
 
 (
 EN - I dont think i will do this one, but I leave it as an option.
