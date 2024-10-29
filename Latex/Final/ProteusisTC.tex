@@ -41,8 +41,13 @@ The grammar provides the following definitions for arithmetic and logical proces
 \end{itemize}
 
 'BinOp' handles all binary operations for both arithmetic and logical calculation.
-Some features include addition, subtraction, multiplication, division, modular, equivalence relations, and, and or.
-Type consists of all the possible types that are built into the language:
+Some features include addition, subtraction, multiplication, division, modular arithmetic, equivalence relations, and, and or.
+Looking at brainfuck in section \ref{subsubsec:EsotericPL}, one can notice that the only necessary mathematical operations are addition and subtraction.
+Furthermore, the only logical processing is seen in the looping mechanism.
+If the value at the pointer is 0 and the input token is a '[', then the loop is skipped.
+This means that there is an equality check which returns a boolean result.
+
+Looking deeper at the types of Proteus, type consists of all the possible types that are built into the language:
 \begin{itemize}
     \item int
     \item string
@@ -51,15 +56,13 @@ Type consists of all the possible types that are built into the language:
     \item statename
     \item eventname
 \end{itemize}
-These types are not inclusive however.
-For example, division with particular numbers may result in non-integer values: eg. $5 / 2 = 2.5 \notin \mathbb{Z}$,
-I will attribute this inconsistency to oversight when constructing the grammar.
-Allowing for floats maintains the consistency of the language.
-Of course, assuming that a language is sound or is consistent, i.e. without errors, is something that is undecidable.
-This a fascinating result from Rice's Theorem, Theorem \ref{thm:RiceThm}.
+
+Despite allowing for division, the set of integers is closed under truncation, which is how Proteus handles cases where normally it wouldn't be.
+eg. 5 / 2 = 2.5, but under truncation 5 / 2 = 2.
+These truncation rules are similar to those seen in other languages such as Java and C, \href{https://www.javatpoint.com/what-is-truncation-in-java}{in JAVA} \href{https://www.geeksforgeeks.org/trunc-truncf-truncl-c-language/}{in C}.
 
 'ConstExpr' describes the 3 simple data types: Int, String, and Boolean.
-These types are well-defined and are consistent (assuming floats are allowed as results).
+These 3 types are capable of mimicking the behavior of brainfuck as well.
 
 \subsubsection{Memory Storage and Manipulation}\label{subsubsec:MemStoManip}
 
@@ -143,21 +146,26 @@ Thus, there exists a way to send inputs before the program is run via static inp
 
 \section{Proof Outline}\label{sec:ProofOutline}
 
-By showing that any input to Proteus is undecidable and it is possible to create a TM in Proteus, Proteus can be shown to be TC.
+By showing that any input to Proteus programs are undecidable and it is possible to create a TM in Proteus, Proteus can be shown to be TC.
 This proof leverages the usage of both the Church-Turing Thesis, Theorem \ref{thm:CTT}, and Rice's Theorem, Theorem \ref{thm:RiceThm}.
 
-I will outline the explicit definitions of a TM outlined previously in section \ref{subsec:ReqsofTM}
+I will explicitly create a TM using the built-in features seen previously in section \ref{subsec:ReqsofTM}.
+After showing how to create a TM within Proteus, I will use Proteus to implement Rule 110 and a brainfuck interpreter.
+This is to demonstrate that the system is TC, verified previously in sections \ref{subsec:InterpreterTC} and \ref{subsubsec:Rule110}.
 
-Then I will explicitly show how to implement Rule 110 in Proteus using the same explicit definition of a TM.
-I will also show it implemented in Proteus code itself.
-
-Lastly, I will show an interpreter for brainfuck using Proteus, also written in formal language.
+\begin{enumerate}
+    \item Define the set of internal states
+    \item Define the input alphabet
+    \item Define the tape alphabet
+    \item Define the state transitions
+    \item Define the blank symbol
+    \item Define the initial state
+    \item Define the final states
+\end{enumerate}
 
 \section{Proof}\label{sec:Proof}
 
-Formal proof that follows the outline.
-
-Must recall that the inputs are undecidable and we are creating a TM => Proteus is TC.
+The proof begins
 
 \section{Implementing Rule 110}\label{sec:ImplementRule110}
 
