@@ -40,8 +40,26 @@ The grammar provides the following definitions for arithmetic and logical proces
     \item ConstExpr
 \end{itemize}
 
-We can do both arithmetic and logical processing.
-BinOp does...
+'BinOp' handles all binary operations for both arithmetic and logical calculation.
+Some features include addition, subtraction, multiplication, division, modular, equivalence relations, and, and or.
+Type consists of all the possible types that are built into the language:
+\begin{itemize}
+    \item int
+    \item string
+    \item boolean
+    \item actorname
+    \item statename
+    \item eventname
+\end{itemize}
+These types are not inclusive however.
+For example, division with particular numbers may result in non-integer values: eg. $5 / 2 = 2.5 \notin \mathbb{Z}$,
+I will attribute this inconsistency to oversight when constructing the grammar.
+Allowing for floats maintains the consistency of the language.
+Of course, assuming that a language is sound or is consistent, i.e. without errors, is something that is undecidable.
+This a fascinating result from Rice's Theorem, Theorem \ref{thm:RiceThm}.
+
+'ConstExpr' describes the 3 simple data types: Int, String, and Boolean.
+These types are well-defined and are consistent (assuming floats are allowed as results).
 
 \subsubsection{Memory Storage and Manipulation}\label{subsubsec:MemStoManip}
 
@@ -52,7 +70,16 @@ The grammar provides the following definitions for memory storage and manipulati
     \item DefGlobalConst
     \item DecStmt
     \item AssignStmt
+    \item SendStmt
 \end{itemize}
+
+'HSM' are Hierarchical State Machines which are actors in the language.
+These state machines utilize states to determine logical processing.
+These logical processes may utilize local or global variables that are stored, via the 'DecStmt' and 'DefGlobalConst' definitions respectively.
+
+To modify data, the 'AssignStmt' was defined which allows for modifying the value of a given variable.
+State Machines can modify state via the 'SendStmt' command.
+Utilizing 'SendStmt', state machines can modify the state of themselves and other state machines as well.
 
 \subsubsection{Conditional Logic}\label{subsubsec:CondLog}
 
@@ -88,7 +115,7 @@ See the definition of the Ackermann function here:
 \begin{aligned}
     A(0, n) &= n + 1\\
     A(m + 1, 0) &= A(m,1)\\
-    A(m + 1, n + 1) &= A(m, A(m + 1,n))
+    A(m + 1, n + 1) &= A(m,\hspace{0.1cm} A(m + 1,n))
 \end{aligned}
 \]
 
