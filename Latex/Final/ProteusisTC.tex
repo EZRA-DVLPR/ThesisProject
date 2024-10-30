@@ -144,14 +144,15 @@ By default, all actors are able to receive events.
 Although there is no explicit way to allow for input from the systems grammar dynamically, this is unnecessary as it can be preconfigured before runtime.
 Thus, there exists a way to send inputs before the program is run via static input of values.
 
-\section{Proof Outline}\label{sec:ProofOutline}
+\section{Proteus Turing Machine Description}\label{sec:ProteusTMDescr}
 
 By showing that any input to Proteus programs are undecidable and it is possible to create a TM in Proteus, Proteus can be shown to be TC.
 This proof leverages the usage of both the Church-Turing Thesis, Theorem \ref{thm:CTT}, and Rice's Theorem, Theorem \ref{thm:RiceThm}.
 
 I will explicitly create a TM using the built-in features seen previously in section \ref{subsec:ReqsofTM}.
 After showing how to create a TM within Proteus, I will use Proteus to implement Conway's Game of Life and Rule 110 .
-This is to demonstrate that the system is TC, verified previously in sections \ref{subsubsec:CGoL} and \ref{subsubsec:Rule110} respectively.
+This is to demonstrate that the system is TC.
+Recall demonstrating an implementation of CGoL or Rule110 indicates the system is TC from sections \ref{subsubsec:CGoL} and \ref{subsubsec:Rule110}.
 
 \begin{enumerate}
     \item Define the set of internal states
@@ -164,14 +165,58 @@ This is to demonstrate that the system is TC, verified previously in sections \r
 \end{enumerate}
 
 A Proteus program will simulate the TM by having several parts.
-The tape will be a series of state machines, HSMs, that will be ordered as $c_{0}, c_{1}, \dots , c_{\text{m}}$ arbitrarily with $c_{\text{m}}$ being the last cell that is non-empty.
+The tape is a series of state machines, HSMs, that will be ordered as $c_{0}, c_{1}, \dots , c_{\text{n}}$ arbitrarily with $c_{\text{n}}$ being the last non-empty cell.
 This order will be consistent and not allow state machines to swap places with each other in the sequence.
 There will be an additional state machine which functions as the read/write head.
-This state machine will be the one describing what the state of the TM/program is.
+This state machine will be the one describing what the state of the TM and overall program is.
 It contains a queue of events to be broadcast, with each entry in the queue containing a single event and target state machine.
-For simplicity sake, I will assume that the machine will be able to find the target state machine based on some algorithm, eg. Brute force from $c_{0}$ to $c_{\text{m}}$.
+Below is an image describing the system as a whole, followed by another image which shows the states and logical flow of the proposed TM.
 
-\section{Proof}\label{sec:Proof}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=16cm]{images/ProteusTMDesign.png}
+       \caption{Design of TM in Proteus}
+           \label{fig:ProteusTMDesign}
+\end{figure}
+
+When the Proteus program is run, the read/write head will enter the 'ProgramOn' State.
+If the tape is empty, as in there are no state machines that are created by the programmer, then the read/write head enters the 'ProgramOff' state and halts.
+If instead the cell is non-empty, then the read/write head enters the 'Read' state which begins the process of reading information from the tape.
+If a write is to be issued, then the read/write head enter the 'Write' state and writes the new data in the current cell.
+After the write, the read/write enters the 'Read' state once again.
+
+The logic for movement to an adjacent cell is mirrored on the left and right sides.
+I will describe the movement to the left-adjacent cell.
+From the current cell, the read/write head enters the 'BoundLeft' state and determines whether it encounters another symbol or the blank.
+If there is a symbol, then it still lies within the non-empty tape information and returns to the 'Read' state.
+If instead there is a blank, this means that there is no state machine defined, and has extended past the bounds of the tape with given information.
+The read/write head moves one cell to the right, then returns to the 'Read' state to continue processing.
+Because Proteus does not allow for dynamic state machine creation, the read/write head leaves the blank unmodified along the tape.
+
+To exit the program and enter the halting state, all state machines within the tape must enter the 'Off' state, indicated by the 'O' within Figure \ref{fig:ProteusStateTM}.
+The read/write head enters the 'FindStart' state from the 'Read' state to prepare for halting.
+In the 'FindStart' state, the read/write head will move to the left, one cell at a time.
+When it encounters a blank cell, it moves the read/write head to the adjacent right cell and enters the 'Check' state.
+In the check state, the read/write head moves one cell at a time to the right and checks if they are in the 'Off' state.
+Upon encountering a cell that is not in the 'Off' state the read/write head enters the 'Read' state for further processing.
+If every cell is in the 'Off' state, then the read/write head will encounter a blank on the next cell after $c_{\text{n}}$.
+In this case, all state machines are in the 'Off' state and the read/write head enters the 'ProgramOff' state to halt.
+
+Because the read/write head is itself a state machine, it contains an event queue for events to be broadcasted.
+Each event is associated to a single state machine.
+In order to find the proper state machine to send the event to, the read/write head must search for it within the bounds of the non-empty tape.
+This searching cannot utilize 'FindStart', because if all state machines are off and there are some nonzero number of events still in the queue, then the machine will still have events to process, but end up in the 'ProgramOff' state.
+As such, it must search for them and find them using an unoptimized algorithm such as brute forcing all possible movements across the non-empty tape.
+Note that I will explicitly describe what values $x, y, \text{O}$ must be in the following section \ref{sec:Proof}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=16cm]{images/ProteusTM.png}
+       \caption{TM State Diagram in Proteus}
+           \label{fig:ProteusStateTM}
+\end{figure}
+
+\section{Definition of a Turing Machine in Proteus}\label{sec:DefnTMProteus}
 
 To begin, I will describe the set of internal states of the TM, specifically of the state machine that is the read/write head.
 There are two internal states that define the current status of the read/write head: 'ProgramOn' and 'ProgramOff'.
@@ -216,10 +261,12 @@ I will assume there is some number of states $n \in \mathbb{Z}_{\geq \text{0}}$ 
 Each state, $s_i$, are programmer created states which are not the 'On' or 'Off' states.
 All states must output what the current state is of the state machine as a string.
 This is to ensure that the read/write head is capable of knowing what state at the current location.
+The last symbol to be included is the blank.
+The blank represents that the cell has not changed state.
 Thus, the list of symbols that can be written to and from the tape is as follows:
 
 \[
-\Gamma = \{\text{'On'}, \text{'Off'}, s_{0}, \dots, s_{n}\} \text{ for } n \in \mathbb{Z}_{\geq \text{0}}
+\Gamma = \{\text{'On'}, \text{'Off'}, s_{0}, \dots, s_{n}, \raisebox{0.1cm}{\fbox{}}\} \text{ for } n \in \mathbb{Z}_{\geq \text{0}}
 \]
 
 The transition function is what allows the read/write head to change states.
@@ -244,7 +291,7 @@ In summary, the following definitions create a TM for an arbitrary Proteus progr
         F &= \{\text{'ProgramOff'}\}\\
         q_{0} &= \text{'ProgramOn'}\\
         \Sigma &= \{\text{'On'}, \text{'Off'}\}\\
-        \Gamma &= \{\text{'On'}, \text{'Off'}, s_{0}, \dots, s_{n}\} \text{ for } n \in \mathbb{Z}_{\geq \text{0}}\\
+        \Gamma &= \{\text{'On'}, \text{'Off'}, s_{0}, \dots, s_{n}, \raisebox{0.1cm}{\fbox{}}\} \text{ for } n \in \mathbb{Z}_{\geq \text{0}}
     \end{aligned}
 \]
 
