@@ -150,29 +150,119 @@ By showing that any input to Proteus programs are undecidable and it is possible
 This proof leverages the usage of both the Church-Turing Thesis, Theorem \ref{thm:CTT}, and Rice's Theorem, Theorem \ref{thm:RiceThm}.
 
 I will explicitly create a TM using the built-in features seen previously in section \ref{subsec:ReqsofTM}.
-After showing how to create a TM within Proteus, I will use Proteus to implement Rule 110 and a brainfuck interpreter.
-This is to demonstrate that the system is TC, verified previously in sections \ref{subsec:InterpreterTC} and \ref{subsubsec:Rule110}.
+After showing how to create a TM within Proteus, I will use Proteus to implement Conway's Game of Life and Rule 110 .
+This is to demonstrate that the system is TC, verified previously in sections \ref{subsubsec:CGoL} and \ref{subsubsec:Rule110} respectively.
 
 \begin{enumerate}
     \item Define the set of internal states
+    \item Define the initial state
+    \item Define the final state
     \item Define the input alphabet
     \item Define the tape alphabet
     \item Define the state transitions
     \item Define the blank symbol
-    \item Define the initial state
-    \item Define the final states
 \end{enumerate}
+
+A Proteus program will simulate the TM by having several parts.
+The tape will be a series of state machines, HSMs, that will be ordered as $c_{0}, c_{1}, \dots , c_{\text{m}}$ arbitrarily with $c_{\text{m}}$ being the last cell that is non-empty.
+This order will be consistent and not allow state machines to swap places with each other in the sequence.
+There will be an additional state machine which functions as the read/write head.
+This state machine will be the one describing what the state of the TM/program is.
+It contains a queue of events to be broadcast, with each entry in the queue containing a single event and target state machine.
+For simplicity sake, I will assume that the machine will be able to find the target state machine based on some algorithm, eg. Brute force from $c_{0}$ to $c_{\text{m}}$.
 
 \section{Proof}\label{sec:Proof}
 
-The proof begins
+To begin, I will describe the set of internal states of the TM, specifically of the state machine that is the read/write head.
+There are two internal states that define the current status of the read/write head: 'ProgramOn' and 'ProgramOff'.
+'ProgramOn' means that the program is currently running, while 'ProgramOff' means that the program has halted.
+The read/write head also contains the following additional states:
+\begin{itemize}
+    \item Read state: Reads the current state of the cell at the read/write head.
+    \item Send state: Broadcasts the event at the front of the event queue to the current cell.
+    \item Move state: Moves the read/write head to the next/previous cell in the tape.
+\end{itemize}
+Let the set of internal states, be defined as follows:
+
+\[
+Q = \{\text{'ProgramOn'}, \text{'ProgramOff'}, \text{'Read'}, \text{'Send'}, \text{'Move'}\}
+\]
+
+$q_{0}$ is a state demonstrating that the program is currently running, i.e. the initial state.
+To differentiate 'On' for the program (read/write head) versus the cell, the read/write head's initial state is defined as 'ProgramOn'.
+Similarly, I named the final state of the Program as 'ProgramOff' for consistency.
+Fis the set of halting states, and in this case contains only the element 'ProgramOff'.
+Therefore, the initial state of the program and the halting state of the program can be described as:
+
+\[
+    \begin{aligned}
+        q_{0} &= \text{'ProgramOn'} \\
+        F &= \{\text{'ProgramOff'}\}
+    \end{aligned}
+\] 
+
+The input alphabet consists of the symbols that appear as already existing on the tape.
+Recall that each cell is a state machine in Proteus, seen in section \ref{sec:ProofOutline}.
+The starting states for each cell (state machine) will be one of the following states: 'On' or 'Off'.
+With this information we have the input alphabet:
+
+\[
+\Sigma = \{\text{'On'}, \text{'Off'}\}
+\]
+
+The symbols that can be written to and from the tape consist of the states within each state machine.
+These are user defined, but also include the previously defined states: 'On' and 'Off'.
+I will assume there is some number of states $n \in \mathbb{Z}_{\geq \text{0}}$ indicating that there are $0^{+}$ additional states designed for each state machine by the programmer.
+Each state, $s_i$, are programmer created states which are not the 'On' or 'Off' states.
+All states must output what the current state is of the state machine as a string.
+This is to ensure that the read/write head is capable of knowing what state at the current location.
+Thus, the list of symbols that can be written to and from the tape is as follows:
+
+\[
+\Gamma = \{\text{'On'}, \text{'Off'}, s_{0}, \dots, s_{n}\} \text{ for } n \in \mathbb{Z}_{\geq \text{0}}
+\]
+
+The transition function is what allows the read/write head to change states.
+In order to change the state of the overall program from 'ProgramOn' to 'ProgramOff' all internal state machines must be turned off.
+This means that all non-blank cells on the tape must be in the 'ProgramOff' state.
+Therefore, we can define transition states as:
+
+DEFINE ALL THE TRANSITIONS FOR EACH OF THE INTERNAL STATES: READ, SEND, MOVE, PROGON, PROGOFF
+
+\[
+\delta = \text{hahahahaha}
+\]
+
+The blank symbol refers to a lambda transition, similar to those used in JFLAP (see section \ref{sec:TM} for information on JFLAP).
+These blank symbols allow for transitioning between states without changing the internal state, or writing to the tape.
+
+In summary, the following definitions create a TM for an arbitrary Proteus program:
+
+\[
+    \begin{aligned}
+        Q &= \{\text{'ProgramOn'}, \text{'ProgramOff'}, \text{'Read'}, \text{'Send'}, \text{'Move'}\}\\
+        F &= \{\text{'ProgramOff'}\}\\
+        q_{0} &= \text{'ProgramOn'}\\
+        \Sigma &= \{\text{'On'}, \text{'Off'}\}\\
+        \Gamma &= \{\text{'On'}, \text{'Off'}, s_{0}, \dots, s_{n}\} \text{ for } n \in \mathbb{Z}_{\geq \text{0}}\\
+    \end{aligned}
+\]
+
+with the transition functions: 
+
+\[
+    \begin{aligned}
+        \delta (q_{0}, 0) &= (q_{2}, 1, S),\\
+        \delta (q_{0}, 1) &= (q_{1}, \raisebox{0.1cm}{\fbox{}}, R),\\
+        \delta (q_{1}, 0) &= (q_{2}, 0, S),\\
+        \delta (q_{1}, 1) &= (q_{0}, \raisebox{0.1cm}{\fbox{}}, R).\\
+    \end{aligned}
+\]
+
+\section{Implementing Conway's Game of Life}\label{sec:ImplementCGoL}
+
+Implementation of CGoL that is a demonstration of TC.
 
 \section{Implementing Rule 110}\label{sec:ImplementRule110}
 
 Implementation of Rule 110 that is a demonstration of TC.
-
-\section{Interpreter for Brainfuck}\label{sec:ImplementBF}
-
-(
-EN - I dont think i will do this one, but I leave it as an option.
-)
