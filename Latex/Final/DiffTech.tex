@@ -61,7 +61,7 @@ The Harvard architecture looks at the problem as says that if the CPU is too lar
 This allows for the tasks to be distributed evenly amongst the several smaller components like the ALU and Instruction memory as opposed to having them live inside the CPU.
 The CPU is capable of simultaneous reads and writes.
 However, a similar bottleneck occurs where the bus connecting each of the components is the limiting factor.
-Figure \ref{fig:HarvardArch} is a visualization of the Harvard Architecture.
+Figure \ref{fig:HarvardArch} illustrates the Harvard Architecture \cite{HarvardArchImg}.
 
 \begin{figure}[htb]
     \centering
@@ -70,7 +70,6 @@ Figure \ref{fig:HarvardArch} is a visualization of the Harvard Architecture.
            \label{fig:HarvardArch}
 \end{figure}
 
-Figure \ref{fig:HarvardArch} illustrates the Harvard architecture \cite{HarvardArchImg}.
 However, modern day computers utilize a mixed computer architecture called the Modified Harvard architecture.
 It combines both architectures into a single model.
 This usually is of the form of separating the components of the computer, but allowing several smaller memory caches for the CPU.
@@ -148,7 +147,7 @@ See Figure \ref{fig:DeltaTransition} demonstrating this change:
     \includegraphics[width=16cm]{Images/deltatransition.png}
        \caption{Delta transition example from \cite{IntroFormLangAuto}.}
            \label{fig:DeltaTransition}
-end{figure}
+\end{figure}
 
 Recall Figure \ref{fig:TM} which represents a simplistic TM.
 In formal nomenclature, it can be written as follows:
@@ -171,7 +170,7 @@ and
     \end{aligned}
 \]
 
-\subsubsection{Notable examples using Formal language}
+\subsubsection{Notable examples using Formal language}\label{subsubsec:NotableEgsFormalLang}
 
 The proofs constructed using formal language usually modify the given system to meet these requirements.
 
@@ -223,9 +222,12 @@ Both Conway's Game of Life and Rule 110 exhibit "Class 4 behavior" and have been
 
 \subsubsection{Conway's Game of Life}\label{subsubsec:CGoL}
 
-Conway's Game of Life is a 2D grid of cells extending infinitely in the x and y directions.
-Each cell contains only 2 states: Alive (On) or Dead (Off).
-The rules of CGoL are simple and are illustrated in Figure \ref{fig:cgolrules} \cite{CGoLImg}:
+Conway's Game of Life is a 2D grid of cells extending infinitely in the cartesian plane.
+Each cell may switch between only 2 states: Alive (On) or Dead (Off).
+The rules of CGoL are simple and are illustrated in Figure \ref{fig:cgolrules} \cite{CGoLImg}.
+CGoL is considered undecidable.
+This is because given any initial pattern and a desired pattern at some later generation, there is no algorithm to determine whether the desired pattern will exist.
+As such, it is analogous to the Halting Problem.
 
 \begin{enumerate}
     \item Any live cell with fewer than two live neighbors dies. (Underpopulation)
@@ -236,14 +238,12 @@ The rules of CGoL are simple and are illustrated in Figure \ref{fig:cgolrules} \
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=10cm]{images/cgol.png}
-       \caption{rules of conway's game of life visualized}
-           \label{fig:cgolrules}
+    \includegraphics[width=10cm]{Images/CGoL.png}
+       \caption{Rules of Conway's Game of Life visualized.}
+            \label{fig:cgolrules}
 \end{figure}
 
-CGoL is considered undecidable.
-This is because given any initial pattern and a desired pattern at some later generation, there is no algorithm to determine whether the desired pattern will exist.
-As such, it is analogous to the Halting Problem.
+\newpage
 
 \subsubsection{Rule 110}\label{subsubsec:Rule110}
 
@@ -364,16 +364,16 @@ Some notation can be interpreted as SKI combinator calculus \cite{SKICalcWiki}.
         S &:= \lambda xyz. (x z) (y z) \equiv X (X (X (X X))) \equiv X K \equiv X' (X' X')\\
         I &:= \lambda x. x \equiv S K S \equiv S K K \equiv X X\\
         Y &:= \lambda g. (\lambda x. g (x x)) (\lambda x. g (x x))\\
-    \end{aligned}
-\]
-\[
-    \begin{aligned}
         SUCC &:= \lambda nfx. f (n f x)\\
         PRED &:= \lambda n fx. n (\lambda gh. h(g f)) (\lambda u. x) (\lambda u. u)\\
             &\equiv \lambda n. n (\lambda gk. \hspace{0.1cm} ISZERO \hspace{0.1cm} (g \hspace{0.1cm} 1) k \hspace{0.1cm} (PLUS (g \hspace{0.1cm}k) 1))  (\lambda v. 0) 0\\
         PLUS &:= \lambda mnfx. n f (m f x)\\
             &\equiv \lambda mn. n \hspace{0.1cm} SUCC \hspace{0.1cm} m\\
         SUB &:= \lambda mn. n \hspace{0.1cm} PRED \hspace{0.1cm} m\\
+    \end{aligned}
+\]
+\[
+    \begin{aligned}
         MULT &:= \lambda mnf. m(n \hspace{0.1cm} f)\\
             &\equiv \lambda mn. m (PLUS \hspace{0.1cm} n) 0\\
         DIV &:= \lambda Y (\lambda gqab. \hspace{0.1cm} LT \hspace{0.1cm} a \hspace{0.1cm} b \hspace{0.1cm} (PAIR \hspace{0.1cm} q \hspace{0.1cm} a)(g \hspace{0.1cm} (SUCC \hspace{0.1cm} q) (SUB \hspace{0.1cm} a \hspace{0.1cm} b) \hspace{0.1cm} b)) 0\\
@@ -393,7 +393,7 @@ Some notation can be interpreted as SKI combinator calculus \cite{SKICalcWiki}.
     \end{aligned}
 \]
 
-Now we can combine these lambda functions from a higher abstraction level to perform the operation.
+Now one can combine these lambda functions from a higher abstraction level to perform the operation.
 
 \begin{verbatim}
     Obtain the Length of the List.

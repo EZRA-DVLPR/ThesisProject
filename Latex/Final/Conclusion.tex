@@ -1,27 +1,74 @@
-\chapter{Conclusion}\label{chatper:Concl}
+\chapter{Conclusion}\label{chapter:Concl}
 
 This chapter will summarize, reflect, and look beyond the scope of this thesis project.
 
-\section{Summary}
+\section{Summary}\label{sec:summary}
 
-summarize the work that was done in the thesis and reference the stuff from previous sections that was utilized and why
+Previously, several methods of demonstrating that a system can proven TC were discussed in chapter \ref{chapter:ProofApproachesForTC}.
+Of these, the automata theory, section \ref{subsec:AutomataThy}, and software engineering approaches, section \ref{subsec:SoftwareImplementation}, were utilized in this proof for their direct application to Proteus.
+Utilizing Rice's Theorem, Theorem \ref{thm:RiceThm}, we can demonstrate that with an undecidable input and the construction of a TM in the system that the system is TC.
+Similarly, because Proteus is a programming language, I implemented some software implementations of TC programs.
+The choice of CGoL and Rule110 is because of the application of each state machine representing a cell on a grid; similar to the infinite tape described in the proof.
 
-\section{Reflections and Remarks}
+After showing how to create a TM in Proteus, the proof is complete.
+This concludes the goal of the thesis.
 
-personal thoughts on the process and outcome
+\section{Personal Reflections and Remarks}\label{sec:RefRem}
 
-\subsection{Importance of Turing Completeness}
-Why does it matter?
+Turing Completeness was a topic was discussed only in my higher level courses (300+) for my undergraduate degree.
+Even when it was discussed, it was seldomly discussed on a very deep level outside of the Automata classes, which admittedly makes sense.
+However, it seems that such a theoretical machine of such power and capability would be discussed across the other classes.
+It seemed to me that perhaps there was a fundamental reason which spearheaded my interest into the topic.
+Turing Machines seemed simplistic to understand based on the Church-Turing Thesis, Theorem \ref{thm:CTT}.
+Despite this, there exist many equivalent definitions of a TM from automata theory, such as a DTM and a NDTM.
+Then I was interested in some systems that were unintentionally TC such as Excel or Java Generics \cite{ExcelTC,JavaGenericsTC}.
+There exist many unassuming systems that are TC by allowing for the creation of a TM or through other various methods \cite{AccTC,AccTC2}.
 
-It's a matter of security as well as theory.
-By having a system that is TC, one must be extremely careful about how to cover up security access and permissions.
-Mismanagement of memory may allow for bad actors to obtain access to memory they shouldn't and furthermore exploit the system.
+Working with NASA JPL and through CSUN STEAHM ARCS, I was introduced to the Proteus project where I was able to assist by analyzing the theoretical implications of the system that would eventually be used to power rovers for interstellar research.
+My intentions were to show the computation power of this language and highlight some theoretical implications that may have otherwise been unthought of.
 
-discusses security vuln based off of TC
-SRC - https://googleprojectzero.blogspot.com/2021/12/a-deep-dive-into-nso-zero-click.html?m=1
+\subsection{Importance of Turing Completeness}\label{subsec:ImportanceTC}
 
-\section{Further Research and Improvements}
+For a system to be shown TC, recalling the Church-Turing Thesis, Thoerem \ref{thm:CTT}, this means that it can compute just about any practical result.
+This means that it would be a major security vulnerability if a bad actor was able to utilize the TM for nefarious deeds.
+Thus, it's a matter of security as well as theory.
+By having a system that is TC, one must be extremely careful about how to handle security access and permissions.
+Mismanagement of memory may allow for adversaries to obtain access to memory they shouldn't and furthermore exploit the system.
+Such exploits have already been seen in systems that were shown TC \cite{SecVuln}.
 
-where to improve the proof/examples given
+\section{Further Research and Improvements}\label{sec:FurtherResImprov}
 
-where to look further for resources to show TC and stuff
+This section outlines alternative proofs to show Proteus is TC.
+It also describes some improvements to the proof provided in chapter \ref{chapter:ProteusTC}.
+
+\subsection{Utilizing the other approaches discussed}
+
+Omitting the brainfuck interpreter was intentional.
+This is because to properly implement an interpreter for brainfuck, I would have needed to implement a system to represent an input to the system, which is not available explicitly from the Proteus Grammar.
+This can be circumvented by some creative usage of state machines and understanding how to statically implement the input from the user, which would have otherwise been impossible.
+By instead writing out the input values statically encoded as an event, it would be possible to create a proper brainfuck interpreter.
+This seemed unnecessary complicated, but remains possible and an area for improvement.
+
+Because of the truncation to maintain closure of the integers with arithmetic, there is no legitimate way to create a calculator using the Proteus Grammar explicitly.
+The other parts of the calculator to demonstrate a TC system are applicable, seen in section \ref{subsubsec:ProgCalc}.
+If one was able to represent decimal values by utilizing state machines for holding the whole value portion and the decimal portion, then it would be possible to create a programmable calculator.
+The crux of the proof remains how to represent and achieve these numbers.
+This is also a possible improvement and method to demonstrate that Proteus is TC.
+
+The mathematical approach for lambda calculus (section \ref{sec:Maths}) is not applicable because Proteus is not a Functional Programming language and would require more in-depth theoretical definitions.
+
+Using the Modified Harvard Architecture to create a TM, seen within section \ref{subsubsec:Arch}, would quickly prove to be very verbose.
+This is because defining the separate components and building a set of MUX along with other logical gates, would require many state machines with associated events.
+Even more, it would still require a way to interact with the I/O system which may be modeled similar to the one previously mentioned for the brainfuck interpreter.
+As a result, it isn't quite capable of receiving input naturally.
+Additionally, the restriction of truncation along the integers proves challenging in representing arithmetic such as division within the ALU.
+Nevertheless it is possible due to Proteus being TC, but remains a notion for future work.
+
+\section{Concluding Comments}\label{sec:ConclComm}
+
+By analyzing how other disciplines define Turing Completeness and prove systems TC is remarkable.
+These seemingly complex proofs are all equivalent in determining that a system is TC, the most powerful theoretical machine that exists.
+By performing this survey into theory across the disciplines, the gap between them reduces.
+
+Proving that a novel programming language, Proteus, is TC through several methods discussed shows that these methods are useful and verifiable.
+Perhaps not all are applicable, but all are equivalent in purpose and truth.
