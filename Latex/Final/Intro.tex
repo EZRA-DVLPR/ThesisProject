@@ -29,7 +29,7 @@ There are two different kinds of TMs: Deterministic and Non-deterministic.
 Regardless of such a construction, both are equivalent in power to each other, and as such remain interchangeable until practice \cite{NDTMeqDTM}.
 Assume all TMs discussed are Deterministic unless otherwise stated.
 
-Figure \ref{Fig:TM} is an example of a Turing Machine designed using JFLAP, see the \href{https://www.jflap.org/}{official website for JFLAP} for more information on this software (\href{https://www.jflap.org/}{https://www.jflap.org/}).
+Figure \ref{fig:TM} is an example of a Turing Machine designed using JFLAP, see the \href{https://www.jflap.org/}{official website for JFLAP} for more information on this software (\href{https://www.jflap.org/}{https://www.jflap.org/}).
 In fact JFLAP has been tested to grade students homework on computation \cite{JFLAPGrading}, showcasing just how useful this tool is.
 The described machine takes an input string of 1's followed by a 0.
 The machine then outputs whether there is an even number of 1's or not.
@@ -38,8 +38,8 @@ We will revisit this exact machine later in section \ref{sec:CompSci}.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=10cm]{Images/SampleTMCrop.png}
-       \caption{A TM that determines if there is an even number of 1's on the tape.}
-           \label{Fig:TM}
+       \caption{A TM that determines the cardinality of the length of a sequence of 1's on the tape.}
+           \label{fig:TM}
 \end{figure}
 
 \subsection{Oracles}\label{subsec:Oracles}

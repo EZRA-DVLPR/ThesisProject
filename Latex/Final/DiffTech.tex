@@ -61,7 +61,7 @@ The Harvard architecture looks at the problem as says that if the CPU is too lar
 This allows for the tasks to be distributed evenly amongst the several smaller components like the ALU and Instruction memory as opposed to having them live inside the CPU.
 The CPU is capable of simultaneous reads and writes.
 However, a similar bottleneck occurs where the bus connecting each of the components is the limiting factor.
-Below is a diagram demonstrating the Harvard Architecture.
+Figure \ref{fig:HarvardArch} is a visualization of the Harvard Architecture.
 
 \begin{figure}[htb]
     \centering
@@ -141,16 +141,16 @@ The transition function $\delta$ is defined as \[\delta: Q \times \Gamma \righta
 This means that for a given $\delta$ transition with inputs $q \in Q$ and $a \in \Gamma$, the tape will move to another state $x \in Q$, clear the current cell (indicated by \raisebox{0.1cm}{\fbox{}}) or some symbol $y \in \Gamma$, and choose to move the tape head Left one cell (L), Right one cell (R), or to Stay at the current cell (S).
 An example transition can be written: \[\delta(q_{0}, a) = (q_{1}, d, R)\] where the internal state is $q_{0}$, and we read input token a.
 After the transition, we have internal state $q_{1}$, wrote symbol d onto the tape, and moved to the right one cell.
-See the below diagram demonstrating this change:
+See Figure \ref{fig:DeltaTransition} demonstrating this change:
 
 \begin{figure}[htb]
     \centering
     \includegraphics[width=16cm]{Images/deltatransition.png}
        \caption{Delta transition example from \cite{IntroFormLangAuto}.}
-           \label{Fig:DeltaTransition}
-\end{figure}
+           \label{fig:DeltaTransition}
+end{figure}
 
-Recall Figure \ref{Fig:TM} which represents a simplistic TM.
+Recall Figure \ref{fig:TM} which represents a simplistic TM.
 In formal nomenclature, it can be written as follows:
 \[
     \begin{aligned}
@@ -341,7 +341,7 @@ There also exist reduction operations to improve legibility but retain equivalen
 Parentheses may be used to to disambiguate terms from each other.
 This is especially useful when constructing complex applications using lambda calculus \cite{LambdaCalcWiki}.
 
-I will define an equivalent TM to the previously mentioned TM seen in Figure \ref{Fig:TM} and in section \ref{subsec:AutomataThy}.
+I will define an equivalent TM to the previously mentioned TM seen in Figure \ref{fig:TM} and in section \ref{subsec:AutomataThy}.
 Recall that the goal of the TM was to determine if there are an even or odd number of '1's in a sequence.
 
 We construct the list of Natural Numbers, $\mathbb{N}$, as follows:
@@ -406,13 +406,13 @@ Now we can combine these lambda functions from a higher abstraction level to per
 Resulting in the following simplified lambda calculus operation:\[MOD \hspace{0.1cm} (SUB \hspace{0.1cm} (LENGTH \hspace{0.1cm} (\textbf{input}) \hspace{0.1cm} 1)) \hspace{0.1cm} 2\]
 with \textbf{input} being the input string.
 One can expand this result to the above lambda calculus notation, resulting in an extraneously long sequence.
-See the below image for an example of an expanded lambda calculus function that determines if a number is even or odd, i.e. it's cardinality \cite{RedditLambdaCalcPost,RedditLambdaCalcComment}.
+See Figure \ref{fig:OddEvenLambda} for an example of an expanded lambda calculus function that determines if a number is even or odd, i.e. it's cardinality \cite{RedditLambdaCalcPost,RedditLambdaCalcComment}.
 
 \begin{figure}[htb]
     \centering
     \includegraphics[width=16cm]{Images/oddevenlambda.png}
        \caption{Expanded lambda calculus function to determine the cardinality of a number.}
-           \label{Fig:OddEvenLambda}
+           \label{fig:OddEvenLambda}
 \end{figure}
 
 With the ability to define any calculable function, Lambda Calculus is TC, as stated in the Church-Turing Thesis, Theorem \ref{thm:CTT}.
