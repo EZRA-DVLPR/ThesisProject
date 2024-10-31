@@ -164,13 +164,14 @@ Recall demonstrating an implementation of CGoL or Rule110 indicates the system i
     \item Define the blank symbol
 \end{enumerate}
 
-A Proteus program will simulate the TM by having several parts.
+I will now describe how to create a TM within Proteus from a higher abstraction layer with section \ref{sec:DefnTMProteus} going into the formal definition.
 The tape is a series of state machines, HSMs, that will be ordered as $c_{0}, c_{1}, \dots , c_{\text{n}}$ arbitrarily with $c_{\text{n}}$ being the last non-empty cell.
 This order will be consistent and not allow state machines to swap places with each other in the sequence.
 There will be an additional state machine which functions as the read/write head.
-This state machine will be the one describing what the state of the TM and overall program is.
+The read/write head will be the one describing what the state of the TM and overall program is.
 It contains a queue of events to be broadcast, with each entry in the queue containing a single event and target state machine.
-Below is an image describing the system as a whole, followed by another image which shows the states and logical flow of the proposed TM.
+Whenever a non-empty cell is encountered by the read/write head, it will broadcast what the current state is.
+Figure \ref{fig:ProteusTMDesign} shows the design of the TM in a simplified manner.
 
 \begin{figure}[h!]
     \centering
@@ -207,7 +208,7 @@ Each event is associated to a single state machine.
 In order to find the proper state machine to send the event to, the read/write head must search for it within the bounds of the non-empty tape.
 This searching cannot utilize 'FindStart', because if all state machines are off and there are some nonzero number of events still in the queue, then the machine will still have events to process, but end up in the 'ProgramOff' state.
 As such, it must search for them and find them using an unoptimized algorithm such as brute forcing all possible movements across the non-empty tape.
-Note that I will explicitly describe what values $x, y, \text{O}$ must be in the following section \ref{sec:Proof}.
+Note that I will explicitly describe what values $x, y, \text{O}$ must be in the following section \ref{sec:DefnTMProteus}.
 
 \begin{figure}[h!]
     \centering
@@ -218,36 +219,19 @@ Note that I will explicitly describe what values $x, y, \text{O}$ must be in the
 
 \section{Definition of a Turing Machine in Proteus}\label{sec:DefnTMProteus}
 
-To begin, I will describe the set of internal states of the TM, specifically of the state machine that is the read/write head.
-There are two internal states that define the current status of the read/write head: 'ProgramOn' and 'ProgramOff'.
-'ProgramOn' means that the program is currently running, while 'ProgramOff' means that the program has halted.
-The read/write head also contains the following additional states:
-\begin{itemize}
-    \item Read state: Reads the current state of the cell at the read/write head.
-    \item Send state: Broadcasts the event at the front of the event queue to the current cell.
-    \item Move state: Moves the read/write head to the next/previous cell in the tape.
-\end{itemize}
-Let the set of internal states, be defined as follows:
-
+The list of internal states describes the states that the read/write head has.
+The list of states is seen in Figure \ref{fig:ProteusStateTM} and will be described formally below.
 \[
-Q = \{\text{'ProgramOn'}, \text{'ProgramOff'}, \text{'Read'}, \text{'Send'}, \text{'Move'}\}
+Q = \{\text{'ProgramOn'}, \text{'ProgramOff'}, \text{'Read'}, \text{'Write'}, \text{'BoundLeft'}, \text{'BoundRight'}, \text{'FindStart'}, \text{'Check'}\}
 \]
 
-$q_{0}$ is a state demonstrating that the program is currently running, i.e. the initial state.
-To differentiate 'On' for the program (read/write head) versus the cell, the read/write head's initial state is defined as 'ProgramOn'.
-Similarly, I named the final state of the Program as 'ProgramOff' for consistency.
-Fis the set of halting states, and in this case contains only the element 'ProgramOff'.
-Therefore, the initial state of the program and the halting state of the program can be described as:
+The initial state of the program is 'ProgramOn', thus \[q_{0} = \text{'ProgramOn'}.\]
 
-\[
-    \begin{aligned}
-        q_{0} &= \text{'ProgramOn'} \\
-        F &= \{\text{'ProgramOff'}\}
-    \end{aligned}
-\] 
+There is only a single halting state, 'ProgramOff'.
+Therefore, the set of Final states is written, \[F = \{\text{'ProgramOff'}\}.\]
 
 The input alphabet consists of the symbols that appear as already existing on the tape.
-Recall that each cell is a state machine in Proteus, seen in section \ref{sec:ProofOutline}.
+Recall that each cell is a state machine in Proteus, seen in section \ref{sec:ProteusTMDescr}.
 The starting states for each cell (state machine) will be one of the following states: 'On' or 'Off'.
 With this information we have the input alphabet:
 
@@ -257,37 +241,54 @@ With this information we have the input alphabet:
 
 The symbols that can be written to and from the tape consist of the states within each state machine.
 These are user defined, but also include the previously defined states: 'On' and 'Off'.
-I will assume there is some number of states $n \in \mathbb{Z}_{\geq \text{0}}$ indicating that there are $0^{+}$ additional states designed for each state machine by the programmer.
-Each state, $s_i$, are programmer created states which are not the 'On' or 'Off' states.
-All states must output what the current state is of the state machine as a string.
-This is to ensure that the read/write head is capable of knowing what state at the current location.
-The last symbol to be included is the blank.
-The blank represents that the cell has not changed state.
-Thus, the list of symbols that can be written to and from the tape is as follows:
+I will assume there is some number of states $n \in \mathbb{Z}_{\geq \text{0}}$ indicating that there exists a non-negative number of states defined by the programmer.
+Each programmer created state, $s_i$, is not to be either of the 'On' or 'Off' states.
+Because $\Gamma$ must contain the '$\raisebox{0.1cm}{\fbox{}}$' symbol, it indicates that it is capable of writing blanks to the cells.
+Because Proteus disallows dynamic creation and deletion of state machines, I will say that writing a blank means the state machine at the specific cell is regarded as being in the 'Off' state.
+Notice that in the described TM, there is no overwriting of data within the non-empty cells with a blank.
+Because JFLAP does not allow for multiple characters to be a single element within the set of $\Gamma$, I use the symbol O to represent the 'Off' state in Figure \ref{fig:ProteusStateTM}.
 
 \[
 \Gamma = \{\text{'On'}, \text{'Off'}, s_{0}, \dots, s_{n}, \raisebox{0.1cm}{\fbox{}}\} \text{ for } n \in \mathbb{Z}_{\geq \text{0}}
 \]
 
-The transition function is what allows the read/write head to change states.
-In order to change the state of the overall program from 'ProgramOn' to 'ProgramOff' all internal state machines must be turned off.
-This means that all non-blank cells on the tape must be in the 'ProgramOff' state.
-Therefore, we can define transition states as:
-
-DEFINE ALL THE TRANSITIONS FOR EACH OF THE INTERNAL STATES: READ, SEND, MOVE, PROGON, PROGOFF
-
-\[
-\delta = \text{hahahahaha}
-\]
-
-The blank symbol refers to a lambda transition, similar to those used in JFLAP (see section \ref{sec:TM} for information on JFLAP).
-These blank symbols allow for transitioning between states without changing the internal state, or writing to the tape.
-
-In summary, the following definitions create a TM for an arbitrary Proteus program:
+The transition function determines the conditions for the read/write head to change states.
+These transitions can be seen clearly in Figure \ref{fig:ProteusStateTM}.
 
 \[
     \begin{aligned}
-        Q &= \{\text{'ProgramOn'}, \text{'ProgramOff'}, \text{'Read'}, \text{'Send'}, \text{'Move'}\}\\
+        \text{let \hspace{0.1cm}} x, y \in \Gamma\\
+        \delta (\text{'ProgramOn'}, x) &= (\text{'Read'}, x, S)\\
+        \delta (\text{'ProgramOn'}, \raisebox{0.1cm}{\fbox{}}) &= (\text{'ProgramOff'}, \raisebox{0.1cm}{\fbox{}}, S)\\
+%
+        \delta (\text{'Read'}, x) &= (\text{'Write'}, x, S)\\
+        \delta (\text{'Read'}, x) &= (\text{'BoundLeft'}, x, L)\\
+        \delta (\text{'Read'}, x) &= (\text{'BoundRight'}, x, R)\\
+        \delta (\text{'FindStart'}, x) &= (\text{'BoundLeft'}, x, S)\\
+%
+        \delta (\text{'Write'}, x) &= (\text{'BoundLeft'}, y, S)\\
+%
+        \delta (\text{'BoundLeft'}, x) &= (\text{'Read'}, x, S)\\
+        \delta (\text{'BoundLeft'}, \raisebox{0.1cm}{\fbox{}}) &= (\text{'Read'}, \raisebox{0.1cm}{\fbox{}}, R)\\
+%
+        \delta (\text{'BoundRight'}, x) &= (\text{'Read'}, x, S)\\
+        \delta (\text{'BoundRight'}, \raisebox{0.1cm}{\fbox{}}) &= (\text{'Read'}, \raisebox{0.1cm}{\fbox{}}, L)\\
+%
+        \delta (\text{'FindStart'}, x) &= (\text{'FindStart'}, x, L)\\
+        \delta (\text{'FindStart'}, \raisebox{0.1cm}{\fbox{}}) &= (\text{'Check'}, \raisebox{0.1cm}{\fbox{}}, R)\\
+%
+        \delta (\text{'Check'}, x) &= (\text{'Read'}, x, S)\\
+        \delta (\text{'Check'}, \text{'Off'}) &= (\text{'Check'}, \text{'Off'}, R)\\
+        \delta (\text{'Check'}, \raisebox{0.1cm}{\fbox{}}) &= (\text{'ProgramOff'}, \raisebox{0.1cm}{\fbox{}}, S)\\
+    \end{aligned}
+\]
+
+\newpage
+
+In summary, the following definitions create a TM for an arbitrary Proteus program:
+\[
+    \begin{aligned}
+        Q &= \{\text{'ProgramOn'}, \text{'ProgramOff'}, \text{'Read'}, \text{'Write'}, \text{'BoundLeft'}, \text{'BoundRight'}, \text{'FindStart'}, \text{'Check'}\}\\
         F &= \{\text{'ProgramOff'}\}\\
         q_{0} &= \text{'ProgramOn'}\\
         \Sigma &= \{\text{'On'}, \text{'Off'}\}\\
@@ -295,21 +296,40 @@ In summary, the following definitions create a TM for an arbitrary Proteus progr
     \end{aligned}
 \]
 
-with the transition functions: 
+with the transition functions:
 
 \[
     \begin{aligned}
-        \delta (q_{0}, 0) &= (q_{2}, 1, S),\\
-        \delta (q_{0}, 1) &= (q_{1}, \raisebox{0.1cm}{\fbox{}}, R),\\
-        \delta (q_{1}, 0) &= (q_{2}, 0, S),\\
-        \delta (q_{1}, 1) &= (q_{0}, \raisebox{0.1cm}{\fbox{}}, R).\\
+        \text{let \hspace{0.1cm}} x, y \in \Gamma\\
+        \delta (\text{'ProgramOn'}, x) &= (\text{'Read'}, x, S)\\
+        \delta (\text{'ProgramOn'}, \raisebox{0.1cm}{\fbox{}}) &= (\text{'ProgramOff'}, \raisebox{0.1cm}{\fbox{}}, S)\\
+%
+        \delta (\text{'Read'}, x) &= (\text{'Write'}, x, S)\\
+        \delta (\text{'Read'}, x) &= (\text{'BoundLeft'}, x, L)\\
+        \delta (\text{'Read'}, x) &= (\text{'BoundRight'}, x, R)\\
+        \delta (\text{'FindStart'}, x) &= (\text{'BoundLeft'}, x, S)\\
+%
+        \delta (\text{'Write'}, x) &= (\text{'BoundLeft'}, y, S)\\
+%
+        \delta (\text{'BoundLeft'}, x) &= (\text{'Read'}, x, S)\\
+        \delta (\text{'BoundLeft'}, \raisebox{0.1cm}{\fbox{}}) &= (\text{'Read'}, \raisebox{0.1cm}{\fbox{}}, R)\\
+%
+        \delta (\text{'BoundRight'}, x) &= (\text{'Read'}, x, S)\\
+        \delta (\text{'BoundRight'}, \raisebox{0.1cm}{\fbox{}}) &= (\text{'Read'}, \raisebox{0.1cm}{\fbox{}}, L)\\
+%
+        \delta (\text{'FindStart'}, x) &= (\text{'FindStart'}, x, L)\\
+        \delta (\text{'FindStart'}, \raisebox{0.1cm}{\fbox{}}) &= (\text{'Check'}, \raisebox{0.1cm}{\fbox{}}, R)\\
+%
+        \delta (\text{'Check'}, x) &= (\text{'Read'}, x, S)\\
+        \delta (\text{'Check'}, \text{'Off'}) &= (\text{'Check'}, \text{'Off'}, R)\\
+        \delta (\text{'Check'}, \raisebox{0.1cm}{\fbox{}}) &= (\text{'ProgramOff'}, \raisebox{0.1cm}{\fbox{}}, S)\\
     \end{aligned}
 \]
 
 \section{Implementing Conway's Game of Life}\label{sec:ImplementCGoL}
 
-Implementation of CGoL that is a demonstration of TC.
+Implementation of CGoL demonstrating Proteus is TC.
 
 \section{Implementing Rule 110}\label{sec:ImplementRule110}
 
-Implementation of Rule 110 that is a demonstration of TC.
+Implementation of Rule 110 demonstrating Proteus is TC

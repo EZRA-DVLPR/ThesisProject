@@ -147,7 +147,7 @@ The definition of a TM is stated within \cite{IntroFormLangAuto} and \cite{TuBB}
 \end{definition}
 
 The transition function $\delta$ is defined as \[\delta: Q \times \Gamma \rightarrow Q \times \Gamma \times \{L, R, S\}.\]
-This means that for a given $\delta$ transition with inputs $q \in Q$ and $a \in \Gamma$, the tape will move to another state $x \in Q$, write nothing to the tape (indicated by \raisebox{0.1cm}{\fbox{}}) or some symbol $y \in \Gamma$, and choose to move the tape head Left one cell, Right one cell, or to Stay at the current cell.
+This means that for a given $\delta$ transition with inputs $q \in Q$ and $a \in \Gamma$, the tape will move to another state $x \in Q$, clear the current cell (indicated by \raisebox{0.1cm}{\fbox{}}) or some symbol $y \in \Gamma$, and choose to move the tape head Left one cell (L), Right one cell (R), or to Stay at the current cell (S).
 An example transition can be written: \[\delta(q_{0}, a) = (q_{1}, d, R)\] where the internal state is $q_{0}$, and we read input token a.
 After the transition, we have internal state $q_{1}$, wrote symbol d onto the tape, and moved to the right one cell.
 See the below diagram demonstrating this change:
