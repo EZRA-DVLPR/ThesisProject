@@ -29,7 +29,7 @@ There are two different kinds of TMs: Deterministic and Non-deterministic.
 Regardless of such a construction, both are equivalent in power to each other, and as such remain interchangeable until practice \cite{NDTMeqDTM}.
 Assume all TMs discussed are Deterministic unless otherwise stated.
 
-Figure \ref{Fig:TM} is an example of a Turing Machine designed using JFLAP, see \href{https://www.jflap.org/}{https://www.jflap.org/} for more information on this software.
+Figure \ref{Fig:TM} is an example of a Turing Machine designed using JFLAP, see the \href{https://www.jflap.org/}{official website for JFLAP} for more information on this software (\href{https://www.jflap.org/}{https://www.jflap.org/}).
 In fact JFLAP has been tested to grade students homework on computation \cite{JFLAPGrading}, showcasing just how useful this tool is.
 The described machine takes an input string of 1's followed by a 0.
 The machine then outputs whether there is an even number of 1's or not.
@@ -80,8 +80,7 @@ This is why the Church-Turing thesis is generally assumed to be true \cite{Gandy
 
 Another famous theorem to consider is Rice's Theorem.
 It is widely known in the domain of computability theory as it defines the bounds of research in a formal manner.
-Below is the Formal statement of Rice's Theorem, which will be supplemented with a concise statement summarizing the theorem.
-\href{https://mathworld.wolfram.com/RicesTheorem.html}{Wolfram Rice Thm}
+Below is the Formal statement of Rice's Theorem, which will be supplemented with a concise statement summarizing the theorem \cite{WolframRiceThm,WikiRiceThm}.
 
 \begin{thm}
     \label{thm:RiceThm}
@@ -97,8 +96,6 @@ Below is the Formal statement of Rice's Theorem, which will be supplemented with
 
     I.e. The only decidable index sets are $\emptyset$ and $\mathbb{N}$.
 \end{thm}
-
-\href{https://en.wikipedia.org/wiki/Rice\%27s_theorem}{Rice Thm wiki}
 
 This directly translates to programming languages as stating: All non-trivial smenatic properties of programs are undecidable.
 Thus, Rice's theorem is a generalization of the Halting Problem.
@@ -134,9 +131,7 @@ The instruction pointer points to the next instruction to be processed, starting
 Any characters besides those used in the instructions are considered comments and will be ignored.
 Instructions are executed sequentially unless branching logic is taken via the '[' or ']' instructions.
 The program terminates when the instruction pointer moves beyond the final command.
-Additionally, it has two streams of bytes for input and output which are used for entering keyboard input and displaying output on a monitor using the ASCII encoding scheme.
-[Wikipedia citation brainfuck](https://en.wikipedia.org/wiki/Brainfuck)
-[Github basics of Brainfuck](https://gist.github.com/roachhd/dce54bec8ba55fb17d3a)
+Additionally, it has two streams of bytes for input and output which are used for entering keyboard input and displaying output on a monitor using the ASCII encoding scheme \cite{BfWiki,BfGH}.
 
 The 8 instructions are as follows:
 \begin{table}[h!tb]
@@ -167,9 +162,7 @@ The 8 instructions are as follows:
 Each '[' or ']' must correspond to match with it's complement symbol, namely ']' and '[' respectively.
 Also, when input is read with the ',' command the given character from a keyboard input will have its value read as a decimal ASCII code
 (eg. '!' corresponds to 33. 'a' corresponds to 97, etc.).
-The decimal value is what is then converted to binary and stored within the current byte.
-
-\href{https://stackoverflow.com/questions/16836860/how-does-the-brainfuck-hello-world-actually-work/19869651#19869651}{BRAINFUCK CITATION FROM STACK OVERFLOW}
+The decimal value is what is then converted to binary and stored within the current byte \cite{BfSO}.
 
 Here is a simple program that modifies the value of the first cell in the 30,000 byte array.
 
@@ -184,6 +177,8 @@ Recall that comments include any character that is not listed as one of the 8 af
 \begin{verbatim}
     ++[-]
 \end{verbatim}
+
+\newpage
 
 An equivalent program in python is seen below:
 
@@ -213,15 +208,11 @@ Each line prints a new character.
     >>>++++[<++++++++>-]<+.         !
 \end{verbatim}
 
-For an in-depth breakdown of brainfuck with examples and guiding logic, see: [Github basics of Brainfuck](https://gist.github.com/roachhd/dce54bec8ba55fb17d3a).
-
+For an in-depth breakdown of brainfuck with examples and guiding logic like the one above, read: \cite{BfGH}.
 One common technique utilized when creating programming languages is to bootstrap them.
 This means that the developers will write a compiler for the language, using the language itself.
 This is done for many reasons, but the reason for introducing it here is to show how brainfuck is capable of complex logic that is more practically useful than simple programs as seen above.
-Below is the current smallest bootstrapped compiler for brainfuck.
-
-\href{https://esolangs.org/wiki/Brainfuck#Self-interpreters}{PLACE SAYING ITS THE SMALLEST BRAINFUCK COMPILER}
-[SMALLEST BRAINFUCK COMPILER][https://brainfuck.org/dbfi.b]
+Below is the current smallest bootstrapped compiler for brainfuck \cite{SmallestBfCompiler,SmallestBfCompilerActual}.
 
 \begin{verbatim}
     >>>+[[-]>>[-]++>+>+++++++[<++++>>++<-]++>>+>+>+++++[>++>++++++<<-]+>>>,
@@ -281,7 +272,7 @@ This means that any other function in the code in the same scope as the globalVa
 
 I will now describe the importance of functions in Procedural Programming Languages.
 Functions are designed to complete a single goal and return a single output.
-They are capable of accepting $0^{+}$ inputs and outputting 0 or 1 outputs.
+They are capable of accepting a non-negative number of inputs and outputting 0 or 1 outputs.
 These functions are capable of calling other functions, including themselves.
 When a function calls itself, this is called recursion.
 Here is an example constructing the fibonacci sequence in C in 2 ways: without recursion, and with recursion.
@@ -362,16 +353,11 @@ Some well known languages that are Turing Complete from this paradigm are:
 
 Although these languages are very old, with some coming from the 1960s, some still find modern use.
 Linus Torvalds, the creator of the Linux kernel and git, chose C to be the main language for developing both of these well known pieces of software.
-Both are still actively developed and improved to this day and remain majorly written in C.
-[SOURCE TO SEE THAT FILES FOR GIT ARE IN C][https://git.kernel.org/pub/scm/git/git.git/tree/]
-[SOURCE TO SEE THAT LINUX KERNEL FILES ARE IN C][https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/]
-Additionally, Richard Stallman led the development for the GNU operating system using C.
-\href{https://www.gnu.org/prep/standards/html_node/Source-Language.html}{SOURCE TO SHOW C IS PREFERRED}
-Although most users are on the Windows or Apple platform for PCs, the GNU operating system with the Linux kernel is still a popular choice amongst users looking for a different experience.
-[SOURCE SHOWING MARKET SHARE OF OS][https://gs.statcounter.com/os-market-share/desktop/worldwide/]
+Both are still actively developed and improved to this day and remain majorly written in C \cite{GitMadeinC,LinuxMadeinC}.
+Additionally, Richard Stallman led the development for the GNU operating system using C \cite{GNUPreferC}.
+Although most users are on the Windows or Apple platform for PCs, the GNU operating system with the Linux kernel is still a popular choice amongst users looking for a different experience \cite{MarketShareOS}.
 Besides C, COBOL remains a language that is used professionally for banking.
-Many banks still use COBOL their business application and management.
-[COBOL USED BY BANKS][https://increment.com/programming-languages/cobol-all-the-way-down/]
+Many banks still use COBOL their business application and management \cite{COBOLBanks}.
 
 \subsubsection{Object Oriented Languages}\label{subsubsec:OOPL}
 
@@ -435,12 +421,10 @@ class RunCode {
 }
 \end{verbatim}
 
-[SRC FOR CURRENT NUM CSUN STUDENTS][https://www.usnews.com/best-colleges/california-state-university-northridge-1153]
-
 There are more advanced features such as Inheritance that allow for more complex design models.
 Furthermore, Java contains Modifiers which are used to change the permission of which piece of code is capable of being accessed by another piece of code.
-In the above example, only the school object is capable of managing the data of numEnrolledStudents.
-Through the use of the methods getNumEnrolled and setNumEnrolled, any other class can modify the value of the class, but only through the reference of the school object,
+In the above example, only the school object is capable of managing the data of numEnrolledStudents \cite{CSUNStudents}.
+Through the use of the methods getNumEnrolled and setNumEnrolled, any other class can modify the value of the class, but only through the reference of the school object.
 
 Some well known languages that are Turing Complete from this paradigm are: 
 \begin{itemize}
@@ -497,16 +481,12 @@ Notice that some languages mentioned in the previous sections may show up in the
 \end{itemize}
 
 Multi Paradigm languages have a lot of flexibility for the applications that they can be used to create.
-The top frontend frameworks for web development use Javascript as their main language including React, Vue, Svelte, and more.
-[JS IN FRONTED][https://www.simform.com/blog/javascript-frontend-frameworks/]
+The top frontend frameworks for web development use Javascript as their main language including React, Vue, Svelte, and more \cite{JSPopular}.
 Python is very popular for its legible and flexible code.
 With its libraries such as Tensorflow and Keras, Machine Learning and other AI subgenres are easier to implement than in other languages.
-The popular LLM ChatGPT is primarily written in python.
-[chatgpt uses python][https://enjoymachinelearning.com/blog/is-chatgpt-written-in-python/]
+The popular LLM ChatGPT is primarily written in python \cite{ChatGPTPython}.
 R is another language that is popular for its data science capabilities.
-It is heavily used within the Sciences (alongside python) because of its simplistic syntax, as well as its numerous libraries for data analysis.
-[LINK TO MY PROJECT ON ML AND DL IN PYTHON AND R][INSERT LINKS]
-[R for data science][https://www.simplilearn.com/what-is-r-article]
+It is heavily used within the sciences (alongside python) because of its simplistic syntax, as well as its numerous libraries for data analysis \cite{RDataSci,DataSciLangs}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -591,7 +571,7 @@ Hierarchical State Machines allow developers to model the system that they are d
 These HSMs are an extension to the standard definition of a state machine as HSMs allow states to be HSMs themselves.
 This allows for simplification of the states and transitions amongst states allowing simpler models for usage in the real-world.
 
-Actors have $0^{+}$ HSMs while each HSM belongs to exactly one actor.
+Actors have a non-negative amount of associated HSMs while each HSM belongs to exactly one actor.
 Event Handlers are the way that messages are sent amongst machines as well as how the machine perform state transitions.
 Actors and states are statically defined, which means that they cannot be created nor destroyed at runtime.
 When compiled, Actors and states are created as C++ structs.

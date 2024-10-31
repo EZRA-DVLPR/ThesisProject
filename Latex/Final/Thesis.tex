@@ -5,7 +5,7 @@
 \usepackage{cite} % referencing citations in bib
 \usepackage[doublespacing]{setspace} %\doublespacing % set double spaced for entire doc
 \usepackage[margin=1in]{geometry} % 1 inch margins
-\usepackage{hyperref} % used for website linkes to be displayed correctly
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref} % used for website linkes to be displayed correctly
 \usepackage{etoolbox} % used for changing vertical space before chapter headers to 0
 \usepackage{titlesec} % customize title of TOC, and modify sections/subsections/etc.
 \usepackage{sectsty} % used for centering the chapters and text for chapter
@@ -226,14 +226,111 @@
             
             \bibitem{LambdaCalcKleene} Dezani‐Ciancaglini Mariangiola and J. R. Hindley, “Lambda-Calculus,” Wiley Encyclopedia of Computer Science and Engineering, pp. 1–8, Sep. 2008, doi: https://doi.org/10.1002/9780470050118.ecse212.
 
-            \bibitem{LambdaCalcRG} M. Dezani-Ciancaglini and J. R. Hindley, “Lambda-Calculus,” Nov. 2007, Available: \href{https://www.researchgate.net/publication/228107078_Lambda-Calculus}{Here}
+            \bibitem{LambdaCalcRG} M. Dezani-Ciancaglini and J. R. Hindley, “Lambda-Calculus,” Nov. 2007, Available: \href{https://www.researchgate.net/publication/228107078_Lambda-Calculus}{https://www.researchgate.net/publication/228107078\_Lambda-Calculus}
 
-            \bibitem{TutLambdaCalc} R. Rojas, “A Tutorial Introduction to the Lambda Calculus,” 2015, Available: \href{https://arxiv.org/pdf/1503.09060}{Here}
+            \bibitem{TutLambdaCalc} R. Rojas, “A Tutorial Introduction to the Lambda Calculus,” 2015, Available: \href{https://arxiv.org/pdf/1503.09060}{https://arxiv.org/pdf/1503.09060}
 
-            \bibitem{AckermannPR} CWoo, “Ackermann function is not primitive recursive,” Mar. 2013, Available: https://www.cs.tau.ac.il//~nachumd/term/42019.pdf
+            \bibitem{AckermannPR} CWoo, “Ackermann function is not primitive recursive,” Mar. 2013, Available: \href{https://www.cs.tau.ac.il//~nachumd/term/42019.pdf}{https://www.cs.tau.ac.il//~nachumd/term/42019.pdf}
         
-            \bibitem{RecursiveFuncs} W. Dean and A. Naibo, Recursive Functions, Fall 2024 Edition. Stanford University: Metaphysics Research Lab, Stanford University, 2024. Available: https://plato.stanford.edu/archives/fall2024/entries/recursive-functions/
+            \bibitem{RecursiveFuncs} W. Dean and A. Naibo, Recursive Functions, Fall 2024 Edition. Stanford University: Metaphysics Research Lab, Stanford University, 2024. Available: \href{https://plato.stanford.edu/archives/fall2024/entries/recursive-functions/}{https://plato.stanford.edu/archives/fall2024/entries/recursive-functions/}
         
+            \bibitem{ChemTM} A. Hjelmfelt, E. D. Weinberger, and J. Ross, “Chemical implementation of neural networks and Turing machines.,” Proceedings of the National Academy of Sciences, vol. 88, no. 24, pp. 10983–10987, Dec. 1991, doi: https://doi.org/10.1073/pnas.88.24.10983.
+
+            \bibitem{MCTM} “I Made a Working Computer with just Redstone!,” www.youtube.com. \href{https://www.youtube.com/watch?v=CW9N6kGbu2I}{https://www.youtube.com/watch?v=CW9N6kGbu2I}
+
+            \bibitem{TerrariaTM} From Scratch, “I Made a 32-bit Computer Inside Terraria,” YouTube, Jun. 24, 2023. \href{https://www.youtube.com/watch?v=zXPiqk0-zDY}{https://www.youtube.com/watch?v=zXPiqk0-zDY}
+
+            %This citation is weird because it wasn't being properly created from the ieee citation generator so i did it by hand. I hope it's okay
+            \bibitem{TerrariaTMGH} misprit7, "computerraria", Feb. 16, 2023, GitHub repository, \href{https://github.com/misprit7/computerraria}{https://github.com/misprit7/computerraria}
+            
+            \bibitem{nand2tetris} “Home | nand2tetris,” nand2tetris, 2017. \href{https://www.nand2tetris.org/}{https://www.nand2tetris.org/}
+
+            \bibitem{ELTCompSys} Noam Nisan, ELEMENTS OF COMPUTING SYSTEMS : building a modern computer from first principles. 2020.
+
+            % The above sources are the actual journals and books read/used in the thesis.
+            % the below sources are just citations for declarations of info which are not explicitly journals or formal publications
+
+            \bibitem{WolframRiceThm} Sakharov, Alex. “Rice’s Theorem.” From MathWorld--A Wolfram Web Resource, created by Eric W. Weisstein, Wolfram.com, 2024. \href{https://mathworld.wolfram.com/RicesTheorem.html}{https://mathworld.wolfram.com/RicesTheorem.html}
+            
+            \bibitem{WikiRiceThm} Wikipedia Contributors, “Rice’s theorem,” Wikipedia, Sep. 24, 2019. \href{https://en.wikipedia.org/wiki/Rice%27s_theorem}{https://en.wikipedia.org/wiki/Rice\%27s\_theorem}
+            
+            \bibitem{BfWiki} “Brainfuck,” Wikipedia, Oct. 05, 2021. \href{https://en.wikipedia.org/wiki/Brainfuck}{https://en.wikipedia.org/wiki/Brainfuck}
+            
+            \bibitem{BfGH} 262588213843476, “Basics of BrainFuck,” Gist, Oct. 29, 2024. \href{https://gist.github.com/roachhd/dce54bec8ba55fb17d3a}{https://gist.github.com/roachhd/dce54bec8ba55fb17d3a}
+
+            \bibitem{BfSO} speeder, “How does the Brainfuck Hello World actually work?,” Stack Overflow, May 30, 2013. \href{https://stackoverflow.com/questions/16836860/how-does-the-brainfuck-hello-world-actually-work/19869651#19869651}{https://stackoverflow.com/questions/16836860/how-does-the-brainfuck-hello-world-actually-work/19869651\#19869651}
+                        
+            \bibitem{SmallestBfCompiler} “brainfuck - Esolang,” Esolangs.org, 2023. \href{https://esolangs.org/wiki/Brainfuck#Self-interpreters}{https://esolangs.org/wiki/Brainfuck\#Self-interpreters}
+            
+            \bibitem{SmallestBfCompilerActual} Brainfuck.org, 2024. \href{https://brainfuck.org/dbfi.b}{https://brainfuck.org/dbfi.b}
+            
+            \bibitem{GitMadeinC} “git.git - The core git plumbing,” Kernel.org, 2024. \href{https://git.kernel.org/pub/scm/git/git.git/tree/}{https://git.kernel.org/pub/scm/git/git.git/tree/}
+
+            \bibitem{LinuxMadeinC} “kernel/git/torvalds/linux.git - Linux kernel source tree,” Kernel.org, 2024. \href{https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/}{https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/}
+
+            \bibitem{GNUPreferC}  “Source Language (GNU Coding Standards),” Gnu.org, 2024. \href{https://www.gnu.org/prep/standards/html_node/Source-Language.html}{https://www.gnu.org/prep/standards/html\_node/Source-Language.html}
+            
+            \bibitem{MarketShareOS} StatCounter, “Desktop Operating System Market Share Worldwide | StatCounter Global Stats,” StatCounter Global Stats, 2019. \href{https://gs.statcounter.com/os-market-share/desktop/worldwide/}{https://gs.statcounter.com/os-market-share/desktop/worldwide/}
+            
+            \bibitem{COBOLBanks} “On the past, present, and future of COBOL – Increment: Programming Languages,” increment.com. \href{https://increment.com/programming-languages/cobol-all-the-way-down/}{https://increment.com/programming-languages/cobol-all-the-way-down/}
+
+            \bibitem{CSUNStudents} “How Does California State University--Northridge Rank Among America’s Best Colleges?,” @USNews, 2015. \href{https://www.usnews.com/best-colleges/california-state-university-northridge-1153}{https://www.usnews.com/best-colleges/california-state-university-northridge-1153}
+
+            \bibitem{JSPopular} H. Shah, “7 Frontend JavaScript Frameworks Loved by Developers in 2022,” Simform - Product Engineering Company, Feb. 17, 2022. \href{https://www.simform.com/blog/javascript-frontend-frameworks/}{https://www.simform.com/blog/javascript-frontend-frameworks/}
+
+            \bibitem{ChatGPTPython} D. K. K. has years of experience as a S. D. S. H. enjoys coding, teaching, and has created this website to make M. L. accessible to everyone, “Is ChatGPT Written In Python??? [We FINALLY Found The Proof]» EML,” enjoymachinelearning.com, Feb. 09, 2023. \href{https://enjoymachinelearning.com/blog/is-chatgpt-written-in-python/}{https://enjoymachinelearning.com/blog/is-chatgpt-written-in-python/}
+
+            \bibitem{RDataSci} Simplilearn, “What is R: Overview, its Applications and what is R used for | Simplilearn,” Simplilearn.com, Oct. 25, 2021. \href{https://www.simplilearn.com/what-is-r-article}{https://www.simplilearn.com/what-is-r-article}
+
+            \bibitem{DataSciLangs} J. C. Luna, “Learn R, Python \& Data Science Online,” www.datacamp.com, Mar. 2023. \href{https://www.datacamp.com/blog/top-programming-languages-for-data-scientists-in-2022}{https://www.datacamp.com/blog/top-programming-languages-for-data-scientists-in-2022}
+
+            \bibitem{vonNeumannImg} Kapooht, “English: von Neumann Architecture,” Wikimedia Commons, Apr. 28, 2013. \href{https://commons.wikimedia.org/wiki/File:Von_Neumann_Architecture.svg}{https://commons.wikimedia.org/wiki/File:Von\_Neumann\_Architecture.svg}
+
+            \bibitem{HarvardArchImg} “File:Harvard architecture.svg - Wikimedia Commons,” Wikimedia.org, May 11, 2010. \href{https://commons.wikimedia.org/wiki/File:Harvard_architecture.svg}{https://commons.wikimedia.org/wiki/File:Harvard\_architecture.svg}
+
+            \bibitem{4080Specs} “NVIDIA GeForce RTX 4080 Specs,” TechPowerUp, Oct. 13, 2023. \href{https://www.techpowerup.com/gpu-specs/geforce-rtx-4080.c3888}{https://www.techpowerup.com/gpu-specs/geforce-rtx-4080.c3888}
+
+            \bibitem{IntelSpecs} “Intel® CoreTM i9-13900KS Processor (36M Cache, up to 6.00 GHz) - Product Specifications,” Intel. \href{https://www.intel.com/content/www/us/en/products/sku/232167/intel-core-i913900ks-processor-36m-cache-up-to-6-00-ghz/specifications.html}{https://www.intel.com/content/www/us/en/products/sku/232167/intel-core-i913900ks-processor-36m-cache-up-to-6-00-ghz/specifications.html}
+
+            \bibitem{ALUImg} “File:2-bit ALU.svg - Wikibooks, open books for an open world,” Wikibooks.org, Oct. 18, 2011. \href{https://en.wikibooks.org/wiki/File:2-bit_ALU.svg}{https://en.wikibooks.org/wiki/File:2-bit\_ALU.svg}
+
+            \bibitem{CellAutWiki} Wikipedia Contributors, “Cellular automaton,” Wikipedia, Dec. 05, 2019. \href{https://en.wikipedia.org/wiki/Cellular_automaton}{https://en.wikipedia.org/wiki/Cellular\_automaton}
+
+            \bibitem{CellAutWolfram} E. W. Weisstein, “Cellular Automaton,” From Mathworld--A Wolfram Web Resource, mathworld.wolfram.com. \href{https://mathworld.wolfram.com/CellularAutomaton.html}{https://mathworld.wolfram.com/CellularAutomaton.html}
+
+            \bibitem{CellAutBook} A. Ilachinski, Cellular Automata. World Scientific, 2001.
+
+            \bibitem{CGoLImg} “Math’s ‘Game of Life’ Reveals Long-Sought Repeating Patterns | Quanta Magazine,” Quanta Magazine, Jan. 18, 2024. \href{https://www.quantamagazine.org/maths-game-of-life-reveals-long-sought-repeating-patterns-20240118/}{https://www.quantamagazine.org/maths-game-of-life-reveals-long-sought-repeating-patterns-20240118/}
+
+            \bibitem{Rule110Img} “File:One-d-cellular-automaton-rule-110.gif - Wikimedia Commons,” Wikimedia.org, Nov. 20, 2018. \href{https://commons.wikimedia.org/wiki/File:One-d-cellular-automaton-rule-110.gif}{https://commons.wikimedia.org/wiki/File:One-d-cellular-automaton-rule-110.gif}
+
+            \bibitem{CalcTC} Code \& Optimism, “How to write a Turing-Complete Programming Language in 40 minutes in Ruby using Bable-Bridge,” YouTube, Sep. 19, 2012. \href{https://www.youtube.com/watch?v=_Uoyufkb5lk}{https://www.youtube.com/watch?v=\_Uoyufkb5lk}
+
+            \bibitem{CBfInter} M. Kenyon, “How to Write a Brainfuck Interpreter in C\#,” Thesharperdev.com, Oct. 12, 2019. \href{https://thesharperdev.com/how-to-write-a-brainfuck-interpreter-in-c/}{https://thesharperdev.com/how-to-write-a-brainfuck-interpreter-in-c/}
+
+            \bibitem{MeepWebsite} “Compiling to Brainf\#ck - Meep.,” InJuly, 2024. \href{https://injuly.in/blog/bfinbf/index.html}{https://injuly.in/blog/bfinbf/index.html}
+
+            \bibitem{MeepGH} srijan-paul, “GitHub - srijan-paul/meep: A programming language that compiles to brainfuck.,” GitHub, 2020. \href{https://github.com/srijan-paul/meep}{https://github.com/srijan-paul/meep}
+
+            \bibitem{PythonBfInt} M. Ueding, “Creating a Brainfuck interpreter,” Martin Ueding, Apr. 19, 2023. \href{https://martin-ueding.de/posts/creating-a-brainfuck-interpreter/}{https://martin-ueding.de/posts/creating-a-brainfuck-interpreter/}
+
+            \bibitem{FuncProgrChap} “Functional Programming,” learn.saylor.org. \href{https://learn.saylor.org/mod/book/tool/print/index.php?id=33044&chapterid=13087}{https://learn.saylor.org/mod/book/tool/print/\-index.php?id=33044\&chapterid=13087}
+
+            \bibitem{LambdaCalcWiki} Wikipedia Contributors, “Lambda calculus,” Wikipedia, Jan. 02, 2020. \href{https://en.wikipedia.org/wiki/Lambda_calculus}{https://en.wikipedia.org/wiki/Lambda\_calculus}
+
+            \bibitem{LambdaFuncsList} “Collected Lambdas,” jwodder.freeshell.org. \href{https://jwodder.freeshell.org/lambda.html}{https://jwodder.freeshell.org/lambda.html}
+
+            \bibitem{SKICalcWiki} Wikipedia Contributors, “SKI combinator calculus,” Wikipedia, Oct. 28, 2024. \href{https://en.wikipedia.org/wiki/SKI_combinator_calculus}{https://en.wikipedia.org/wiki/SKI\_combinator\_calculus}
+
+            \bibitem{RedditLambdaCalcPost} “Reddit - Dive into anything,” Reddit.com, 2017. \href{https://www.reddit.com/r/ProgrammerHumor/comments/78z90f/when_you_need_to_know_if_a_number_is_even_or_odd/}{https://www.reddit.com/r/ProgrammerHu\-mor/comments/78z90f/when\_you\_need\_to\_know\_if\_a\_number\_is\_even\_or\_odd/} 
+
+            \bibitem{RedditLambdaCalcComment} “Reddit - Dive into anything,” Reddit.com, 2017. \href{https://www.reddit.com/r/ProgrammerHumor/comments/78z90f/comment/doylzry/}{https://www.reddit.com/r/ProgrammerHu\-mor/comments/78z90f/comment/doylzry/}
+
+            \bibitem{TruncJava} “What is truncation in Java - Javatpoint,” www.javatpoint.com, 2021. \href{https://www.javatpoint.com/what-is-truncation-in-java}{https://www.javatpoint.com/what-is-truncation-in-java}
+
+            \bibitem{TruncC} GeeksforGeeks, “trunc() , truncf() , truncl() in C language,” GeeksforGeeks, Jan. 25, 2018. \href{https://www.geeksforgeeks.org/trunc-truncf-truncl-c-language/}{https://www.geeksforgeeks.org/trunc-truncf-truncl-c-language/}
+
+
 
         \end{thebibliography}
     
