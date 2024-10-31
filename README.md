@@ -13,17 +13,21 @@ Working title: "Survey of Imperative Style TC proof techniques & an application 
 ├── ARCS
 │   └── Project Progress Report
 │
+├── DrawIO
+│   └── ProteusTMDesign
+│
 ├── JFLAP
+│   ├── ProteusTM
 │   └── SampleTM
 │
 ├── Latex
-│   ├── Draft
+│   ├── Sample
 │   │   ├── Images
 │   │   ├── LaTeXSampleFiles
 │   │   └── Sample.pdf
 │   └── Final
 │       ├── Images
-│       ├── LaTeXThesisFiles
+│       ├── LaTeXThesisFiles (Thesis.tex, Intro.tex, etc.)
 │       └── Thesis.pdf
 │
 ├── OldBranch
@@ -39,12 +43,13 @@ Working title: "Survey of Imperative Style TC proof techniques & an application 
 │   ├── Final
 │   └── ThesisPrelim
 │
-├── Rule110.gif
-├── JCGoL.webp
-├── notes.txt
-│
 └── Readme.md
 ```
+
+## DrawIO
+
+DrawIO is a tool to draw and design diagrams for many different applications.
+There exists a downloadable version and a web version.
 
 ## JFLAP
 
@@ -76,6 +81,8 @@ Thus, I won't really be looking at it much more.
 Thank you Kyle for the books, guides, and resources you've provided.
 
 # Related Links
+- [DrawIO Online tool](https://app.diagrams.net/)
+- [DrawIO Website](https://www.drawio.com/)
 - [JFLAP](https://www.jflap.org/)
 - [Coq](https://coq.inria.fr/)
 - [Dafny](https://dafny.org/)

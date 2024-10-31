@@ -1,9 +1,9 @@
 # Remove temp/aux files from Latex folderas they're unnecessary
 
-/Latex/Draft/*.aux
-/Latex/Draft/*.log
-/Latex/Draft/*.synctex.gz
-/Latex/Draft/*.toc
+/Latex/Sample/*.aux
+/Latex/Sample/*.log
+/Latex/Sample/*.synctex.gz
+/Latex/Sample/*.toc
 
 /Latex/Final/*.aux
 /Latex/Final/*.log
