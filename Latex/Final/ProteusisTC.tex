@@ -326,139 +326,139 @@ with the transition functions:
     \end{aligned}
 \]
 
-\section{Implementing Conway's Game of Life}\label{sec:ImplementCGoL}
+% \section{Implementing Conway's Game of Life}\label{sec:ImplementCGoL}
 
-First I will describe the design for the overall program, then supplement it with the actual code implementation in Proteus.
+% First I will describe the design for the overall program, then supplement it with the actual code implementation in Proteus.
 
-\subsection{Design of the Program}
+% \subsection{Design of the Program}
 
-Recall CGoL in section \ref{subsubsec:CGoL}.
-To represent the standard 2-dimensional grid, I will use state machines for each cell.
-To remain consistent, I will be simulating the cartesian plane and assuming an arbitrary cell is the origin, (0,0).
-This is to allow for referencing the cells more digestible within the infinite plane of cells.
+% Recall CGoL in section \ref{subsubsec:CGoL}.
+% To represent the standard 2-dimensional grid, I will use state machines for each cell.
+% To remain consistent, I will be simulating the cartesian plane and assuming an arbitrary cell is the origin, (0,0).
+% This is to allow for referencing the cells more digestible within the infinite plane of cells.
 
-To begin, let there be a non-zero amount of cells that are to be initialized to some starting state.
-I will define the bounds of the grid of initialized cells with $n,m \in \mathbb{N}$.
-Each cell will be labeled with it's respective position according to the origin, (0,0).
-Figure \ref{fig:ProteusCGoLDesign} illustrates the design of the grid with each of the cells.
-Note that I have only depicted the cells within the first quadrant because these are the cells where the initialization process is described \cite{CartesianPlane}.
+% To begin, let there be a non-zero amount of cells that are to be initialized to some starting state.
+% I will define the bounds of the grid of initialized cells with $n,m \in \mathbb{N}$.
+% Each cell will be labeled with it's respective position according to the origin, (0,0).
+% Figure \ref{fig:ProteusCGoLDesign} illustrates the design of the grid with each of the cells.
+% Note that I have only depicted the cells within the first quadrant because these are the cells where the initialization process is described \cite{CartesianPlane}.
 
-Also in Figure \ref{fig:ProteusCGoLDesign}, there is a 'Controller'.
-This is because all the cells within the plane will be state machines, alongside this 'Controller'.
-The 'Controller' does not exist within the plane described, and is to be viewed as a separate entity entirely.
+% Also in Figure \ref{fig:ProteusCGoLDesign}, there is a 'Controller'.
+% This is because all the cells within the plane will be state machines, alongside this 'Controller'.
+% The 'Controller' does not exist within the plane described, and is to be viewed as a separate entity entirely.
 
-\begin{figure}[htb]
-    \centering
-    \includegraphics[width=10cm]{Images/CGoLDesign.png}
-       \caption{Design of System for Conway's Game of Life}
-           \label{fig:ProteusCGoLDesign}
-\end{figure}
+% \begin{figure}[htb]
+%     \centering
+%     \includegraphics[width=10cm]{Images/CGoLDesign.png}
+%        \caption{Design of System for Conway's Game of Life}
+%            \label{fig:ProteusCGoLDesign}
+% \end{figure}
 
-There will be two types of state machines: The cell, and the controller.
-I will now describe the data members associated with each state machine.
+% There will be two types of state machines: The cell, and the controller.
+% I will now describe the data members associated with each state machine.
 
-The cell has 5 local variables:
-\begin{enumerate}
-    \item myName: the name of the cell as a string. (Final)
-    \item Xcoord: the x coordinate as an integer. (Final)
-    \item Ycoord: the y coordinate as an integer. (Final)
-    \item currCellIsOn: holds the value of the current state of the cell (true == On).
-    \item nextStateCurrCellIsOn: holds the value of the next state of the cell (true == On).
-\end{enumerate}
+% The cell has 5 local variables:
+% \begin{enumerate}
+%     \item myName: the name of the cell as a string. (Final)
+%     \item Xcoord: the x coordinate as an integer. (Final)
+%     \item Ycoord: the y coordinate as an integer. (Final)
+%     \item currCellIsOn: holds the value of the current state of the cell (true == On).
+%     \item nextStateCurrCellIsOn: holds the value of the next state of the cell (true == On).
+% \end{enumerate}
 
-Each cell also has 3 states: 
-\begin{enumerate}
-    \item Display: broadcasts currState to whatever machine requested the current state of the cell.
-    Is the initial state the cell is in.
-    \item CalculateNext: Asks the neighbors in the 4 cardinal directions for their Display.
-    Then determines based on the rules of CGoL what the next state of this cell should be.
-    \item Update: updates currState to the value of nextStateCurrCellIsOn
-\end{enumerate}
+% Each cell also has 3 states: 
+% \begin{enumerate}
+%     \item Display: broadcasts currState to whatever machine requested the current state of the cell.
+%     Is the initial state the cell is in.
+%     \item CalculateNext: Asks the neighbors in the 4 cardinal directions for their Display.
+%     Then determines based on the rules of CGoL what the next state of this cell should be.
+%     \item Update: updates currState to the value of nextStateCurrCellIsOn
+% \end{enumerate}
 
-The controller is much simpler.
-It has no local variables and only 2 states:
+% The controller is much simpler.
+% It has no local variables and only 2 states:
 
-\begin{enumerate}
-    \item Setup: Determines cells to turn on/off when starting the program
-    \item nextStep: broadcasts a message to all Cells to (1) calculate their next state and (2) update after finding their next state.
-\end{enumerate}
+% \begin{enumerate}
+%     \item Setup: Determines cells to turn on/off when starting the program
+%     \item nextStep: broadcasts a message to all Cells to (1) calculate their next state and (2) update after finding their next state.
+% \end{enumerate}
 
-\subsection{Implementation of the Conway's Game of Life}
+% \subsection{Implementation of the Conway's Game of Life}
 
-First, I will describe the events in Proteus code.
-In total there are _:
-\begin{enumerate}
-    \item getDisplay(myName): the current cell requests another cell for their currState value.
-    It passes the current cells name so that the receiver may transmit the data back to this cell.
-    \item calculateNextState(): this event is sent from the controller to all cells.
-    It instructs the cells to calculate their next state (true == On).
-    \item updateAllCells(): this event is sent from the controller to all cells.
-    It instructs the cells to update their currState to the value of nextStateCurrCellIsOn.
-    \item initializeCell(Value): this event is sent from the controller to all programmer-defined cells.
-    It instructs the cell to update it's currState to the given Value, with Value $in$ {true,false}.
-\end{enumerate}
+% First, I will describe the events in Proteus code.
+% In total there are _:
+% \begin{enumerate}
+%     \item getDisplay(myName): the current cell requests another cell for their currState value.
+%     It passes the current cells name so that the receiver may transmit the data back to this cell.
+%     \item calculateNextState(): this event is sent from the controller to all cells.
+%     It instructs the cells to calculate their next state (true == On).
+%     \item updateAllCells(): this event is sent from the controller to all cells.
+%     It instructs the cells to update their currState to the value of nextStateCurrCellIsOn.
+%     \item initializeCell(Value): this event is sent from the controller to all programmer-defined cells.
+%     It instructs the cell to update it's currState to the given Value, with Value $in$ {true,false}.
+% \end{enumerate}
 
-The proteus code for a given cell at coordinates (X,Y) are as follows:
+% The proteus code for a given cell at coordinates (X,Y) are as follows:
 
-\begin{verbatim}
-actor cellXY{
-    string myName = "cellXY";
-    int Xcoord = X;
-    int Ycoord = Y;
-    bool currCellIsOn = false;
-    bool nextStateCurrCellIsOn = false;
-    statemachine {
-        initial Display;
-        state Display {
-            on getDisplay {otherCellName} {otherCellName ! currCellIsOn}
-            on getcalculateNextState {} {go calculateNext {}}
-            on updateAllCells {} {go Update {}}
-        }
-        state calculateNext {
-            int neighborTop = Ycoord + 1;
-            int neighborBot = Ycoord - 1;
-            int neighborLeft = Xcoord - 1;
-            int neighborRight = Xcoord + 1;
-            string neighborTopName = "cell" + Xcoord + neighborTop;
-            string neighborBotName = "cell" + Xcoord + neighborBot;
-            string neighborLeftName = "cell" + neighborLeft + Ycoord;
-            string neighborRightName = "cell" + neighborRight + Ycoord;
-            int count = 0;
-            if (neighborTopName ! getDisplay {myName}) {
-                count += 1;
-            }
-            if (neighborBotName ! getDisplay {myName}) {
-                count += 1;
-            }
-            if (neighborLeftName ! getDisplay {myName}) {
-                count += 1
-            }
-            if (neighborRightName ! getDisplay {myName}) {
-                count += 1
-            }
-            if ((!(currCellIsOn)) && (count == 3)) {
-                nextStateCurrCellIsOn = true;
-            } else if ((currCellIsOn) && ((count == 2) || (count == 3))) {
-                nextStateCurrCellIsOn = true;
-            } else if ((currCellIsOn) && (count < 2)) {
-                nextStateCurrCellIsOn = false;
-            } else if ((currCellIsOn) ** (count > 3)) {
-                nextStateCurrCellIsOn = false;
-            }
-            go Display {}
-        }
-        state Update {
-            currCellIsOn = nextStateCurrCellIsOn;
-            go Display {}
-        }
-    }
-}
-\end{verbatim}
+% \begin{verbatim}
+% actor cellXY{
+%     string myName = "cellXY";
+%     int Xcoord = X;
+%     int Ycoord = Y;
+%     bool currCellIsOn = false;
+%     bool nextStateCurrCellIsOn = false;
+%     statemachine {
+%         initial Display;
+%         state Display {
+%             on getDisplay {otherCellName} {otherCellName ! currCellIsOn}
+%             on getcalculateNextState {} {go calculateNext {}}
+%             on updateAllCells {} {go Update {}}
+%         }
+%         state calculateNext {
+%             int neighborTop = Ycoord + 1;
+%             int neighborBot = Ycoord - 1;
+%             int neighborLeft = Xcoord - 1;
+%             int neighborRight = Xcoord + 1;
+%             string neighborTopName = "cell" + Xcoord + neighborTop;
+%             string neighborBotName = "cell" + Xcoord + neighborBot;
+%             string neighborLeftName = "cell" + neighborLeft + Ycoord;
+%             string neighborRightName = "cell" + neighborRight + Ycoord;
+%             int count = 0;
+%             if (neighborTopName ! getDisplay {myName}) {
+%                 count += 1;
+%             }
+%             if (neighborBotName ! getDisplay {myName}) {
+%                 count += 1;
+%             }
+%             if (neighborLeftName ! getDisplay {myName}) {
+%                 count += 1
+%             }
+%             if (neighborRightName ! getDisplay {myName}) {
+%                 count += 1
+%             }
+%             if ((!(currCellIsOn)) && (count == 3)) {
+%                 nextStateCurrCellIsOn = true;
+%             } else if ((currCellIsOn) && ((count == 2) || (count == 3))) {
+%                 nextStateCurrCellIsOn = true;
+%             } else if ((currCellIsOn) && (count < 2)) {
+%                 nextStateCurrCellIsOn = false;
+%             } else if ((currCellIsOn) ** (count > 3)) {
+%                 nextStateCurrCellIsOn = false;
+%             }
+%             go Display {}
+%         }
+%         state Update {
+%             currCellIsOn = nextStateCurrCellIsOn;
+%             go Display {}
+%         }
+%     }
+% }
+% \end{verbatim}
 
-\section{Implementing Rule 110}\label{sec:ImplementRule110}
+% \section{Implementing Rule 110}\label{sec:ImplementRule110}
 
-Implementation of Rule 110 demonstrating Proteus is TC
+% Implementation of Rule 110 demonstrating Proteus is TC
 
-\subsection{Design of the Program}
+% \subsection{Design of the Program}
 
-\subsection{Implementation of the Rule 110}
+% \subsection{Implementation of the Rule 110}
