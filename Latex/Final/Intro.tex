@@ -284,7 +284,7 @@ Here is an example constructing the fibonacci sequence in C in 2 ways: without r
     void sequentialFibonacci (int n) {
         if (n < 1) {
             printf("Input must be an integer greater than 0");
-            return;
+                return;
         }
 
         int sub1 = 0;
@@ -436,6 +436,8 @@ Some well known languages that are Turing Complete from this paradigm are:
     \item Swift        
 \end{itemize}
 
+INSERT SECTION ON USE CASES HERE
+
 \subsubsection{Multi Paradigm Languages}\label{subsubsec:MultiParadigmPL}
 
 Some languages allow for the combination of OOP and Procedural Programming.
@@ -511,24 +513,13 @@ Some well known languages that are Turing Complete from this paradigm are:
     \item Haskell
     \item Elixir
     \item OCaml
-    \item Go
-    \item Rust
+    \item Scala
 \end{itemize}
 
 DESCRIBE SOME ACTUAL USAGE OF THESE PROGRAMS IN MODERN SOFTWARE DEVELOPMENT
 
 RUST IS BEING USED TO TRY TO CREATE A NEW AND DIFF LINUX KERNEL.
 GO IS NEW POPULAR PROGRAMMING LANGUAGE FOR WEB DEVELOPMENT, DEVOPS, ETC.
-
-
-\subsubsection{Logic Programming Languages}
-
-The most well known Logic Programming Language is Prolog.
-describe design of prolog
-Describe how it basically relies on recursion to do stuff.
-Other languages exist, but are not popular when compared to the aforementioned languages in the previous sections.
-
-IS PROLOG EVEN USED TODAY FOR STUFF IN INDUSTRY???
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -538,12 +529,6 @@ The main goal of this thesis is to outline a proof demonstrating that a novel pr
 In this section, I will describe in detail what Proteus is.
 
 \subsection{Proteus Description}\label{subsec:ProteusDescription}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-(
-EN - IS IT ALRIGHT TO COMPLETELY USE THE WHOLE LINE OF SOMEONE ELSES WORK???? WHOLE PARAGRAPHS???
-I CAN REWORD IF NEED BE, BUT THE FIRST SENTENCE IS PRETTY GOOD IMO
-)
 
 Proteus is a programming language and compiler being developed as a project for CSUN's Autonomy Research Center for STEAHM in collaboration with the NASA Jet Propulsion Laboratory (JPL).
 JPL system engineers needed a safer language to develop autonomous systems reliably, which is why Proteus was created.
@@ -552,8 +537,7 @@ It is compiled to C++ with the C++17 standard \cite{ProteusRunTime}.
 
 Proteus is a programming language that follows the Actor model paradigm, which is somewhat related to the OOP paradigm.
 The difference lies in that Actor model allows for concurrent computation, while OOP generally runs sequentially.
-This means that parallelism is inherently existent in the language.
-[NEED SOURCE HERE]
+This means that parallelism is inherently existent in the language \cite{ActorModelParallel,ActorJavaParallel}.
 Furthermore, because of the design of the events and event queue for Actors, any code involving them is run sequentially.
 This means that Proteus also supports the Procedural Programming langauge paradigm.
 Thus, Proteus is a Multi Paradigm language that enjoys the ability to utilize features such as scope, recursion, and so forth.
