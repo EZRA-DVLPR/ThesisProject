@@ -27,18 +27,45 @@
 {0.6em}
 {}
 
+% change bibliography to references
+\addto\captionsamerican{\renewcommand{\bibname}{References}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % FORMATTING FOR EACH SECTION
-
-% set each chapter/section/subsection/subsubsection to normal sized font. Centered chapters
-\chapterfont{\centering\normalsize}
-\sectionfont{\normalsize}
-\subsectionfont{\normalsize}
-\subsubsectionfont{\normalsize}
 
 % remove vertical space before & after the TOC title
 \setlength{\cftbeforetoctitleskip}{0em}
 \setlength{\cftaftertoctitleskip}{0em}
+
+% redefine makechapterhead to remove spacing and apply font styles
+\makeatletter
+\def\@makechapterhead#1{%
+  %%%%\vspace*{50\p@}% %%% removed!
+  {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+        \centering \bfseries \normalsize \@chapapp\space \thechapter
+        \par\nobreak
+        \vskip 20\p@
+    \fi
+    \interlinepenalty\@M
+    \normalsize #1\par\nobreak
+    \vskip 40\p@
+  }}
+\def\@makeschapterhead#1{%
+  %%%%%\vspace*{50\p@}% %%% removed!
+  {\parindent \z@ \raggedright
+    \centering
+    \normalfont
+    \interlinepenalty\@M
+    \normalsize  #1\par\nobreak
+    \vskip 40\p@
+  }}
+\makeatother
+
+% set each chapter/section/subsection/subsubsection to normal sized font. Centered chapters
+\sectionfont{\normalsize}
+\subsectionfont{\normalsize}
+\subsubsectionfont{\normalsize}
 
 % remove the vertical space before the chapter & chapter* title name
 \makeatletter
@@ -96,18 +123,18 @@
 
     \chapter*{}\label{chapter:SignPage}
     \addcontentsline{toc}{chapter}{Signature Page}
-        \vspace*{3in}
+        
         
         %this horizontal spacing keeps changing so just make sure it looks good in the pdf
         %such that it matches the vertical line to be above the 'K' in Kyle
-        \hspace*{0.9in}
+        \hspace{0.9in}
         The thesis of Isaiah Martinez is approved:
-        \vspace{1in}
+        \vspace{2in}
 
         \begin{center}
             \begin{tabular}{p{3in} p{1in}}
                 \rule{3in}{0.4pt} & \rule{1in}{0.4pt}\\
-                Kyle Dewey, PhD., Chair & Date \\
+                Maryam Jalali, PhD. & Date \\
             \end{tabular}
         \end{center}
 
@@ -121,8 +148,14 @@
         \begin{center}
             \begin{tabular}{p{3in} p{1in}}
                 \rule{3in}{0.4pt} & \rule{1in}{0.4pt}\\
-                Maryam Jalali, PhD. & Date \\
+                Kyle Dewey, PhD., Chair & Date \\
             \end{tabular}
+        \end{center}
+
+        \vspace{\fill}
+
+        \begin{center}
+            California State University, Northridge
         \end{center}
 
     \newpage
