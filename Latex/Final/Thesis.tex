@@ -39,8 +39,7 @@
 
 % redefine makechapterhead to remove spacing and apply font styles
 \makeatletter
-\def\@makechapterhead#1{%
-  %%%%\vspace*{50\p@}% %%% removed!
+\def\@makechapterhead#1{
   {\parindent \z@ \raggedright \normalfont
     \ifnum \c@secnumdepth >\m@ne
         \centering \bfseries \normalsize \@chapapp\space \thechapter
@@ -51,8 +50,7 @@
     \normalsize #1\par\nobreak
     \vskip 40\p@
   }}
-\def\@makeschapterhead#1{%
-  %%%%%\vspace*{50\p@}% %%% removed!
+\def\@makeschapterhead#1{
   {\parindent \z@ \raggedright
     \centering
     \normalfont
@@ -62,19 +60,10 @@
   }}
 \makeatother
 
-% set each chapter/section/subsection/subsubsection to normal sized font. Centered chapters
+% set each section/subsection/subsubsection to normal sized font
 \sectionfont{\normalsize}
 \subsectionfont{\normalsize}
 \subsubsectionfont{\normalsize}
-
-% remove the vertical space before the chapter & chapter* title name
-\makeatletter
-\patchcmd{\@makechapterhead}{50\p@}{\chapheadtopskip}{}{} % Space from top of page to CHAPTER X
-\patchcmd{\@makeschapterhead}{50\p@}{\chapheadtopskip}{}{} % Space from top of page to CHAPTER TITLE
-\makeatother
-
-% apply the changes to the chapter & chapter* vertical spacing before the title name
-\newlength{\chapheadtopskip}\setlength{\chapheadtopskip}{0pt}
 
 % change TOC name, center horizontally, and make non bold
 \addto\captionsamerican{
@@ -214,8 +203,6 @@
     \newpage
 
     % bibliography
-
-    %CHANGE TITLE TO REFERENCES
     
     %alphabetical order
     %retrieval date is only for non-journal instances where material might change at a later date

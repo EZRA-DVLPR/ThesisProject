@@ -4,11 +4,13 @@
 /Latex/Sample/*.log
 /Latex/Sample/*.synctex.gz
 /Latex/Sample/*.toc
+/Latex/Final/*.out
 
 /Latex/Final/*.aux
 /Latex/Final/*.log
 /Latex/Final/*.synctex.gz
 /Latex/Final/*.toc
+/Latex/Final/*.out
 
 # Remove sample theses and dissertations that were used here out of respect
 
