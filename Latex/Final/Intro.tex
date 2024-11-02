@@ -230,7 +230,7 @@ There exist many other esoteric TC programming languages, but the reason for cho
 As a result, we will now look at more useful and practical programming language paradigms.
 These languages within these paradigms will be much more efficient and legible, at the cost of increased complexity in instruction set.
 
-\subsubsection{Procedural Languages}\label{subsubsec:ProceduralPL}
+\subsubsection{Procedural Languages}\label{subsubsec:PL}
 
 Procedural Programming Languages are designed to be read linearly in execution order, top to bottom.
 The main idea behind this design of languages is to create procedures and subprocedures (equivalently routines and subroutines), to achieve a larger goal.
@@ -474,6 +474,9 @@ Here is an example snippet of Python code that demonstrates both object oriented
     # Utilizing a function created from sequential programming
     print(findSumOfSquares(2, 3))
 
+
+
+
     #####       Printed to Terminal     #####
 
     What is the sum of squares of 2 and 3?
@@ -505,36 +508,113 @@ It is heavily used within the sciences (alongside python) because of its simplis
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\subsubsection{Functional Programming Languages}\label{subsubsec:FPL}
 
-% \subsubsection{Functional Programming Languages}
+Functional Programming Languages take an entirely different approach to coding.
+These languages are based on lambda calculus and are not often taught to new programmers due to their unique style.
+They usually follow a simple design of pure functions:
+\begin{enumerate}
+    \item Referential Transparency: The same output is produced for all arguments given
+    \item Immutability: There is no modification to the arguments given, I/O streams, or local/global variables.
+\end{enumerate}
 
-% Consider these next two sections as an outline and series of notes on what to do.
-% They aren't fleshed out like the rest of the document that is written.
+FP has the unique property of being immutable for all functions and arguments \cite{FP1,FP2,RefTransp1,RefTransp2}.
+FP functions also only use the arguments given for a particular task.
+Below are some simplistic code examples in Haskell:
 
-% NOT SURE IF I WANT TO KEEP THE FOLLOWING 2 SECTIONS OR NOT: FUNCTIONAL PROGRAMMING LANGUAGES, LOGIC PROGRAMMING LANGUAGES.
-% I WOULD PROBABLY KEEP IT SIMPLE WITH 1-3 THINGS TO DESCRIBE ABOUT THE WAY THE LANGUAGE IS STRUCTURED W/ 1-2 CODE EXAMPLES AND EXPLANATIONS.
-% (I ESTIMATE 3-5 PAGES PER SECTION DEPENDING ON SIZE OF EXAMPLES).
-% I THINK I'VE SHOWN MY POINT, WHICH IS THAT THE DIFFERENT PARADIGMS ARE CAPABLE OF BEING TC DESPITE BEING SO DIFFERENT FROM EACH OTHER.
-% IT MIGHT BE COOL/INTERESTING TO SHOW THE DIFFERENT THINKING INVOLVED FOR LANGUAGES LIKE PROLOG.
-% I COULD ALSO COME BACK TO ACKNOWLEDGE CERTAIN ASPECTS OF LANGUAGE DESIGN PRINCIPLES HERE, WHICH WOULD REQUIRE FURTHER READING.
-% I DO ADMIT THAT THIS IS SOMEWHAT OUTSIDE THE SCOPE OF THIS THESIS BECAUSE IM NOT EXACTLY LOOKING AT THE STYLE OF LANGAUGE OF PROTEUS, NOR HOW IT COMPARES TO THESE PARADIGMS TO CATEGORIZE IT.
+\begin{verbatim}
+    -- Function to add two numbers
+    addTwoNumbers :: Num a => a -> a -> a
+    addTwoNumbers x y = x + y
+    
+    -- Function to find the square of a number
+    findSquare :: Num a => a -> a
+    findSquare x = x * x
+    
+    -- Function to find the sum of squares
+    findSumOfSquares :: Num a => a -> a -> a
+    findSumOfSquares x y = addTwoNumbers (findSquare x) (findSquare y)
+    
+    -- Main function
+    main :: IO ()
+    main = do
+        let num1 = 2
+        let num2 = 3
+        let result = findSumOfSquares num1 num2
+        putStrLn ("The sum of squares is: " ++ show result) 
 
-% describe design of these languages
-% Some well known languages that are Turing Complete from this paradigm are:  
-% \begin{itemize}
-%     \item Lisp
-%     \item Haskell
-%     \item Elixir
-%     \item OCaml
-%     \item Scala
-% \end{itemize}
+        #####       Printed to Terminal     #####
 
-% DESCRIBE SOME ACTUAL USAGE OF THESE PROGRAMS IN MODERN SOFTWARE DEVELOPMENT
+        The sum of squares is: 13
 
-% RUST IS BEING USED TO TRY TO CREATE A NEW AND DIFF LINUX KERNEL.
-% GO IS NEW POPULAR PROGRAMMING LANGUAGE FOR WEB DEVELOPMENT, DEVOPS, ETC.
+\end{verbatim}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+This looks like a more advanced version of lambda calculus seen in \ref{subsec:LambdaCalc}.
+It operates by defining the function and its arguments.
+Once the definition is completed, you write out the logic for the function.
+One can chain these outputs like the functions in section \ref{subsubsec:PL}.
+To implement loops, recursion is required.
+
+\begin{verbatim}
+    -- Function to compute the nth Fibonacci number
+    fibonacci :: Integer -> Integer
+    fibonacci n
+        | n < 0     = error "Negative input is not allowed"
+        | n == 0    = 0
+        | n == 1    = 1
+        | otherwise = fibonacci (n - 1) + fibonacci (n - 2)
+
+    -- Function to generate a list of Fibonacci numbers up to the nth number
+    fibonacciList :: Integer -> [Integer]
+    fibonacciList n = [fibonacci x | x <- [1..n]]
+
+    -- Main function to print Fibonacci numbers up to the nth Fibonacci number
+    main :: IO ()
+    main = do
+        let n = 4  -- User-defined bound for Fibonacci sequence
+        let fibNumbers = fibonacciList n
+        putStrLn ("The first " ++ show n ++  
+            " Fibonacci numbers are: " ++ show fibNumbers)
+
+    #####       Printed to Terminal     #####
+
+    The first 4 Fibonacci numbers are: [1,1,2,3]
+\end{verbatim}
+
+Some well known languages that are Turing Complete from this paradigm are:  
+\begin{itemize}
+    \item Lisp
+    \item Haskell
+    \item Elixir
+    \item OCaml
+    \item Scala
+\end{itemize}
+
+Haskell and Elixir are used by many companies as a way for writing their software \cite{HaskellList,HaskellListReadme,ElixirList,ElixirListReadme}.
+They are used for a variety of purposes such as security, browsers, and more.
+
+Coq is a proof assistant that allows users to codify their proofs and assert their results.
+Coq was developed in OCaml \cite{OCamlCoq}.
+For my experience using Coq alongside some other proof assistants Dafny and TLA+, see PAPER SECTION HERE
+
+Some benefits of using FP are:
+\begin{itemize}
+    \item Unit Testing
+    \item Debugging
+    \item Concurrency
+\end{itemize}
+
+Unit Testing is made easier because of the immutable property.
+By not allowing for modification of items, it is easier to determine which tests fail.
+Furthermore, it forces more thought to be considered when designing the program.
+
+Debugging is also made easier for similar reasons.
+Because functions are explicitly defined with inputs and ouputs with the immutability on all elements, this means that when there is an error it is simple to find.
+When there is a logical error, the solution is apparent more rapidly because of the logical flow of the program.
+When there is a compiler error, then instead the stack trace returns where the problem is.
+
+Concurrency is also inherently allowed in the language because each function operates from a single thread.
+This is why Erlang or ELixir is used for telecommunications from companies like CISCO or banking companies such as Goldman Sachs \cite{ErlangUses}.
 
 \section{Proteus}\label{sec:Proteus}
 
