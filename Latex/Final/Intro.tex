@@ -436,18 +436,30 @@ Some well known languages that are Turing Complete from this paradigm are:
     \item Swift        
 \end{itemize}
 
-%INSERT SECTION ON USE CASES HERE
+Java is utilized today for a variety of applications including: embedded systems, android mobile apps, and web-apps \cite{JavaUse1, JavaUse2}.
+PHP is a language that is mostly used for web development.
+It is primarily used as a scripting language for servers \cite{PHPScriptingServer}.
+It's most commonly seen in the Laravel framework as well as for WordPress \cite{PHPLaravel,PHPWP}.
+C++ also sees a wide variety of applications that it's used for.
+Some things include OSs like Microsoft Windows and Linux \cite{CPPUse1,CPPUse2}.
+Firefox, an open source browser, is also made using C++ \cite{CPPFirefox,FirefoxMain}.
+Java, PHP, and C++ remain some of the most desired languages for jobs in the market today \cite{TopLangs1,TopLangs2,TopLangs3}.
 
 \subsubsection{Multi Paradigm Languages}\label{subsubsec:MultiParadigmPL}
 
 Some languages allow for the combination of OOP and Procedural Programming.
 In such paradigms, the code allows for both to be run at the same time and enjoys the benefits of both approaches, at the cost of increased design overhead of the project.
-Here is an example snippet of Python code that demonstrates both at the same time:
+The most desired languages today are Python and Javascript due to their simplicity and numerous list of libraries to code just about any project of any scale \cite{EasyLangs1,EasyLangs2,PyLibs,NPM,Yarn}.
+Such languages are amongst the most desired as well today \cite{TopLangs1,TopLangs2,TopLangs3}.
+
+Here is an example snippet of Python code that demonstrates both object oriented and procedural programming at the same time:
 
 \begin{verbatim}
+    # Sequential Programming
     def findSumOfSquares(num1, num2):
         return (num1 ** 2) + (num2 ** 2)
 
+    # OOP
     class Homework:
         def __init__(self, problem):
             self.problem = problem
@@ -455,16 +467,17 @@ Here is an example snippet of Python code that demonstrates both at the same tim
         def problem(self, problem):
             self.problem = problem
 
+    # Creating the 'Homework' object and printing a method from it
     HW = Homework("What is the sum of squares of 2 and 3?")
     print(HW.problem)
 
+    # Utilizing a function created from sequential programming
     print(findSumOfSquares(2, 3))
 
     #####       Printed to Terminal     #####
 
     What is the sum of squares of 2 and 3?
-    13  
-    
+    13
 \end{verbatim}
 
 In the code example, we utilize Procedural Programming to create the findSumOfSquares function.
