@@ -42,20 +42,20 @@
 \def\@makechapterhead#1{
   {\parindent \z@ \raggedright \normalfont
     \ifnum \c@secnumdepth >\m@ne
-        \centering \bfseries \normalsize \@chapapp\space \thechapter
+        \centering \bfseries \normalsize \@chapapp\space \thechapter % center and normal size font with bold typesetting
         \par\nobreak
         \vskip 20\p@
     \fi
     \interlinepenalty\@M
-    \normalsize #1\par\nobreak
+    \normalsize #1\par\nobreak % normal size font
     \vskip 40\p@
   }}
 \def\@makeschapterhead#1{
   {\parindent \z@ \raggedright
-    \centering
-    \normalfont
+    \centering % centered text
+    \normalfont % normal sized font
     \interlinepenalty\@M
-    \normalsize  #1\par\nobreak
+    \normalsize  #1\par\nobreak % normal sized font
     \vskip 40\p@
   }}
 \makeatother
