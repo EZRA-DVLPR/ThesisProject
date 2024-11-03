@@ -1,0 +1,24 @@
+\chapter{Proof Assistants}\label{app:ProofAssist}
+
+Initially, my goal was to learn how to use proof assistants to assert properties about Proteus.
+I began to learn how to write basic and simple proofs using Coq.
+Coq was powerful enough to show properties of systems that were publishable.
+Whilst learning how to use Coq, I was learning to use TLA+ which proved equally as powerful, but not suited for my use case.
+TLA+ is used for simultaneous computing as well as state machines which seemed very appealing upon initial inspection, since Proteus uses state machines as well.
+However, this didn't extend well into demonstrating parts of Proteus that were not related to state machines.
+I then considered using a different proof assistant like Dafny, Lean, or Twelf to see which would be better suited for proving something about Proteus.
+I continued learning how to use the proof assistants and aimed to apply them to whatever proof I would eventually create about Proteus.
+
+The big idea hit me one day; To show that Proteus was Turing Complete.
+It was one of the biggest things to show in theory and was able to utilize all my knowledge and experience from this discipline.
+There was only 1 problem, I couldn't use any proof assistant.
+This is because fundamentally, it is impossible to show Turing Completeness using a proof assistant.
+
+Recall Turing Completeness means that the shown system is equivalently as powerful as a TM, see section \ref{sec:TC}.
+Also, recall the Church-Turing Thesis, Theorem \ref{thm:CTT}, which means that the definition of a TM is to be able calculate any calculable function.
+Additionally, recall the proof of showing a system is TC in section \ref{subsubsec:NotableEgsFormalLang}.
+The purpose of a proof assistant is to assert that the given proof is valid, step by step until the goal is reached.
+Therefore for all inputs for any proof assistant, they are decidable (assuming they are well-written).
+Thus, they are not capable of satisfying the Church-Turing Thesis, Theorem \ref{thm:CTT}, and also cannot be as powerful as a TM.
+As such, it is impossible to use a proof assistant to show Turing Completeness.
+This is when I abandoned using a proof assistant and moved forward in favor of proving Proteus TC.
