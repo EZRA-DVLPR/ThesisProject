@@ -47,7 +47,7 @@ Outside of the CPU are the Input and Output devices.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=10cm]{Images/Von_Neumann_Architecture.png}
-       \caption{Von Neumann architecture.}
+       \caption{Von Neumann architecture \cite{vonNeumannImg}.}
            \label{fig:VonNeumannArch}
 \end{figure}
 
@@ -66,7 +66,7 @@ Figure \ref{fig:HarvardArch} illustrates the Harvard Architecture \cite{HarvardA
 \begin{figure}[htb]
     \centering
     \includegraphics[width=10cm]{Images/Harvard_architecture.svg.png}
-       \caption{Harvard architecture.}
+       \caption{Harvard architecture \cite{HarvardArchImg}.}
            \label{fig:HarvardArch}
 \end{figure}
 
@@ -85,45 +85,83 @@ The basic building blocks for devices such as the ALU, CPU, and such are logic g
 These are simplistic logical components that allow for processing of data and performing operations on them.
 
 The core of the CPU relies on the ALU.
-The ALU is contains registers which simply hold data inside.
-Registers are associated with an address for referencing purposes.
+This is because the CPU determines what operations to perform on what data.
+The ALU then receives the command to perform some arithmetic logic, and returns the result.
+The ALU contains registers which hold the temporary data for calculations.
+Eg. the multi-step operation $(2 * 4) + 1$ requires several cycles and the ability to store the intermediary step $(2 * 4)$ without sending it as the result.
+These smaller registers are associated with an address for referencing purposes, and are not seen by the CPU.
+Instead the CPU manages it's own memory with caches and main memory.
 
 Within the ALU there are smallers components that perform specific operations such as addition and subtraction.
 These smaller components utilize logical gates such as the OR gate to compute the result with the given input.
-See Figure \ref{fig:2BitALU} for a 2-Bit ALU that can process OR, AND, XOR, and addition calculations \cite{ALUImg}.
+Figure \ref{fig:2BitALUSimp} describes a highly simplistic view of what a 2-Bit ALU may look like \cite{SimpleALU}.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=10cm]{Images/alu-simple.png}
+       \caption{A 2-Bit ALU \cite{SimpleALU}.}
+           \label{fig:2BitALUSimp}
+\end{figure}
+
+It accepts two inputs, $i_a$ and $i_b$ which are the inputs to the given operation.
+These inputs are fed into the respective operation handler, SUBtract, AND, ADDition, OR, XOR, or MOVe.
+The operation handles these inputs and uses the logical gates to perform the desired operation.
+This result then gets sent to the MUX which will also take in the operation $i_{op}$ and only accept the output from the desired operation.
+This result is then output as $o_c$.
+
+This simplistic design lacks the ability to handle multi-step operations.
+It also lacks the actual layout of the ADD or OR operations.
+It instead abstracts them to display the circuit in a more digestible manner.
+As such, I have provided a more in-depth version of an ALU which lacks many of the operations seen in Figure \ref{fig:2BitALUSimp}.
+It explicitly shows the physical design of a different ALU \cite{ALUImg}.
 
 \begin{figure}[htb]
     \centering
     \includegraphics[width=10cm]{Images/2-bit_ALU.svg.png}
-       \caption{A 2-Bit ALU.}
-           \label{fig:2BitALU}
+       \caption{A 2-Bit ALU \cite{ALUImg}.}
+           \label{fig:2BitALUAdv}
 \end{figure}
 
-EXPLAIN THE IMG
-find a diff image for an ALU
-    bitwise and, bitwise or
-    addition
-    subtraction
+Figure \ref{fig:2BitALUAdv} only has 3 operations: OR, AND, XOR.
+The inputs are labeled $A$ and $B$ with the operation defined as $OP[1], OP[2], OP[3]$.
+$A[0]$ refers to the least-significant bit of $A$ while $A[1]$ refers to the most-significant bit.
+These inputs are fed to all operation sequences (OR, AND, XOR), and sent to both the top and bottom MUX.
+These MUX then output the desired result from the $OP[NUMBER]$ desired as $OUT[0]$ and $OUT[1]$.
+
+Overall, by combining these circuits together, one can create more powerful mechanisms like ADD, MUX, etc.
+To construct a physical TM using such circuitry, assuming unbounded memory amongst other conditions, seems possible.
 
 \subsection{Constructing the TM}\label{subsec:CreateTM}
 
-With the ability to construct logic gates, we can create more complex components such as the ALU, CPU, and more.
-Accompanied with the ability to store memory, as well as have a way to interact with the system through Input and Output, we are able to create a functional computer.
+With the ability to construct logic gates, we can create more complex components such as the ALU, which would be used within the CPU, and overall create the computer from the bottom-up.
+Accompanied with the ability to store memory, as well as have a way to interact with the system through Input and Output, it is possible to create a functional computer.
 Developers have successfully created computers in the well-known video games of Minecraft and Terraria respectively in \cite{MCTM,TerrariaTM,TerrariaTMGH}.
-In fact, we will see later on that the computer built inside Terraria is verifiably TC via a method discussed in \ref{subsubsec:CGoL}.
+In fact, I will discuss a method to demonstrate TC that verifies that the computer built inside Terraria is verifiably TC via a method discussed in \ref{subsubsec:CGoL}.
 
-This means that to construct a TM on a physical level (of course alleviating the restriction of unbounded memory), these would be the minimum requirements \cite{nand2tetris,ELTCompSys}.
+This means that to construct a TM on a physical level (of course alleviating the restriction of unbounded memory), these would be the minimum requirements \cite{nand2tetris,ELTCompSys}:
+\begin{itemize}
+    \item ADD
+    \item SUB
+    \item MUX
+    \item OR
+    \item AND
+    \item XOR
+\end{itemize}
+
+Which themselves rely on logic gates as building blocks.
+Therefore, if it is possible to create simulate logic gates, or to create the above shown processes, then it is capable of satisfying any arithmetic or logical calculation.
+As such, the Church-Turing Thesis, Theorem \ref{thm:CTT}, is met and a TM can be created.
 
 \section{Computer Science}\label{sec:CompSci}
 
-In this section, we will conceptualize what a TM looks like under the lens of Computer Science.
-There are 2 main perspectives: that of the Automata Theory and the Software Engineering approach.
-The Automata Theory approach utilizes theoretical designs more reminiscent of those listed by Turing and Gavin.
-The Software Engineering approach instead applies it to a problem to showcase Turing Completeness via programs and code.
+In this section, I will conceptualize what a TM looks like under the lens of Computer Science.
+There are 2 main perspectives: that of Automata Theory and the Software Engineering approach.
+The Automata Theory approach utilizes theoretical designs based off of those utilized by Turing and Gavin.
+The Software Engineering approach instead applies it to a problem to showcase Turing Completeness via programming with code.
 
 \subsection{Automata Theory}\label{subsec:AutomataThy}
 
-We will now abstract from the physical understanding of how to create a TM, to creating a theoretical one using Automata theory.
+I will now abstract from the physical understanding of how to create a TM, to creating a theoretical one using Automata theory.
 In automata theory, Turing Machines are described using logical notation.
 The definition of a TM has several interpretations, but I will outline a slightly more advanced description \cite{IntroFormLangAuto,TuBB}.
 The illustrated TM allows for the machine to stay at the current cell.
@@ -248,7 +286,7 @@ As such, it is analogous to the Halting Problem.
 \begin{figure}[h!]
     \centering
     \includegraphics[width=10cm]{Images/CGoL.png}
-       \caption{Rules of Conway's Game of Life visualized.}
+       \caption{Rules of Conway's Game of Life visualized \cite{CGoLImg}.}
             \label{fig:cgolrules}
 \end{figure}
 
@@ -275,7 +313,7 @@ Below are the rules for Rule 110 with an associated graphic in Figure \ref{fig:R
 \begin{figure}[htb]
     \centering
     \includegraphics[width=10cm]{images/rule110.png}
-       \caption{Rules for Rule 110}
+       \caption{Rules for Rule 110 \cite{Rule110Img}.}
            \label{fig:Rule110}
 \end{figure}
 
@@ -424,4 +462,4 @@ See Figure \ref{fig:OddEvenLambda} for an example of an expanded lambda calculus
            \label{fig:OddEvenLambda}
 \end{figure}
 
-With the ability to define any calculable function, Lambda Calculus is TC, as stated in the Church-Turing Thesis, Theorem \ref{thm:CTT}.
+With the ability to define any calculable function, Lambda Calculus is TC, satisfying the Church-Turing Thesis, Theorem \ref{thm:CTT}.
