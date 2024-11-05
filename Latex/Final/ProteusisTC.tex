@@ -387,8 +387,7 @@ It has no local variables and only 2 states:
 
 \subsection{Implementation of Conway's Game of Life}
 
-First, I will describe the events in Proteus code.
-In total there are 4:
+In total there are 4 events that will be used in the Proteus code:
 \begin{enumerate}
     \item getDisplay(myName): the current cell requests another cell for their currState value.
     It passes the current cells name so that the receiver may transmit the data back to this cell.
@@ -400,28 +399,29 @@ In total there are 4:
     It instructs the cell to update it's currState to the given Value, with Value $\in$ \{true,false\}.
 \end{enumerate}
 
-The proteus code for a given cell at coordinates (X,Y) are as follows:
-(EN - if Proteus does not accept HSMName to be defined dynamically, then instead add 4 vars to store the name of each of the neighbors statically.)
+The Proteus code for a given cell at coordinates (X,Y) are as follows:
+(EN - if Proteus does not accept 'HSMName' to be defined dynamically, then instead add 4 vars to store the name of each of the neighbors statically. Another option would be to leave it outside of a variable and hardcode it)
 
 \begin{verbatim}
 actor cellXY{
     string myName = "cellXY";
-    int Xcoord = X;
-    int Ycoord = Y;
+    int Xcoord = [X];
+    int Ycoord = [Y];
     bool currCellIsOn = false;
     bool nextStateCurrCellIsOn = false;
     statemachine {
         initial Display;
         state Display {
             on getDisplay {otherCellName} {otherCellName ! currCellIsOn}
-            on getcalculateNextState {} {go calculateNext {}}
+            on calculateNextState {} {go calculateNext {}}
             on updateAllCells {} {go Update {}}
+            on initializeCell {Value} {currCellIsOn = Value}
         }
         state calculateNext {
-            int neighborTop = Ycoord + 1;
-            int neighborBot = Ycoord - 1;
-            int neighborLeft = Xcoord - 1;
-            int neighborRight = Xcoord + 1;
+            int neighborTop = [Y]coord + 1;
+            int neighborBot = [Y]coord - 1;
+            int neighborLeft = [X]coord - 1;
+            int neighborRight = [X]coord + 1;
             string neighborTopName = "cell" + Xcoord + neighborTop;
             string neighborBotName = "cell" + Xcoord + neighborBot;
             string neighborLeftName = "cell" + neighborLeft + Ycoord;
@@ -457,6 +457,37 @@ actor cellXY{
     }
 }
 \end{verbatim}
+
+Assuming that there are a nonzero amount of cells that are to be initialized to a desired state, the Proteus code for the controller is as follows.
+Let $cellXY, \dots, cellAB$ be the cells to be defined with initial states, and associated states $s0, \dots, sAB$.
+In order to send an event to all the cells, I will write $cellSS, \dots, cellFF$ to represent the start and finishing cells in this list of possible cells.
+
+\begin{verbatim}
+actor controller{
+    statemachine {
+        initial Setup;
+        state Setup {
+            cellXY ! initializeCell { s0 };
+            ...
+            cellAB ! initializeCell { sAB };
+            go nextStage {}
+        }
+        state nextStage {
+            cellSS ! calculateNextState {};
+            ...
+            cellFF ! calculateNextState {};
+
+            cellSS ! updateAllCells {};
+            ...
+            cellFF ! updateAllCells {};
+        }
+    }
+}
+\end{verbatim}
+
+The only thing missing is to tell the controller how many times to repeat the next stage.
+This is not a requirement for satisfying the capability of CGoL, but an extra nicety that would allow users to view the results.
+As such, the above Proteus code demonstrates CGoL, and is verifiably TC.
 
 \section{Creating Rule 110}\label{sec:ImplementRule110}
 
