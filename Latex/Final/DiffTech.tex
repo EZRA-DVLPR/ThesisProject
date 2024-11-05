@@ -250,7 +250,7 @@ With the work from Stephen Wolfram and other researchers such as Matthew Cook, s
 Famous examples of cellular automata include Conway's Game of Life and Rule 110 \cite{CellAutWiki,CellAutWolfram}.
 
 Cellular automata are sorted into 4 classes:
-\begin{itemize}
+\begin{itemize}[leftmargin=2cm]
     \item Class 1: Nearly all initial patterns evolve quickly into a stable, homogenous state.
     Any randomness in the initial pattern disappears.
     \item Class 2: Nearly all initial patterns evolve quickly into stable or oscillating structures.
@@ -377,7 +377,9 @@ Each lambda term is a valid statement in lambda calculus:
     \item \textit{(M N)}: An \textbf{application} where it applies the function \textit{M} to argument \textit{N}.
 \end{enumerate}
 
+\vspace{1cm}
 There also exist reduction operations to improve legibility but retain equivalent logical meaning:
+
 \begin{enumerate}
     \item \textit{($\lambda x.M[x]$) $\rightarrow$ ($\lambda y.M[y]$)}: $\alpha$-conversion, which renames the bound variables in the expression.
     This is be used to avoid name collisions.
@@ -404,6 +406,8 @@ We construct the list of Natural Numbers, $\mathbb{N}$, as follows:
 Now we construct the ideas of Arithmetic Boolean Logic, and other necessary logical operators.
 Treat 'f' as a function and variables as only locally defined to their respective operator \cite{LambdaFuncsList}.
 Some notation can be interpreted as SKI combinator calculus \cite{SKICalcWiki}.
+
+% make sure the text is spaced properly in the final version
 
 \[
     \begin{aligned}
