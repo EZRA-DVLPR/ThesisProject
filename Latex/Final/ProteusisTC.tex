@@ -330,14 +330,15 @@ with the transition functions:
 
 \section{Creating Conway's Game of Life}\label{sec:ImplementCGoL}
 
+To show some practical usage of Proteus as a language while also showing it TC, I will show how to simulate CGoL.
 First, I will describe the design for the overall program, then supplement it with the actual code implementation in Proteus.
 
 \subsection{Design of the Program}
 
 Recall CGoL in section \ref{subsubsec:CGoL}.
-To represent the standard 2-dimensional grid, I will use state machines for each cell.
-To remain consistent, I will be simulating the cartesian plane and assuming an arbitrary cell is the origin, (0,0).
-This is to allow for referencing the cells more digestible within the infinite plane of cells.
+To represent the standard two-dimensional (2D) grid, I will use state machines for each cell.
+To remain consistent, I will be simulating the cartesian plane (2D) and assuming an arbitrary cell is the origin, (0,0).
+This is to simplify the referencing of cells within the cartesian plane (2D).
 
 To begin, let there be a non-zero amount of cells that are to be initialized to some starting state.
 I will define the bounds of the grid of initialized cells with $n,m \in \mathbb{N}$.
@@ -394,9 +395,9 @@ In total there are 4 events that will be used in the Proteus code:
     \item calculateNextState(): this event is sent from the controller to all cells.
     It instructs the cells to calculate their next state (true == On).
     \item updateAllCells(): this event is sent from the controller to all cells.
-    It instructs the cells to update their currState to the value of nextStateCurrCellIsOn.
+    It instructs the cells to update their currCellIsOn to the value of nextStateCurrCellIsOn.
     \item initializeCell(Value): this event is sent from the controller to all programmer-defined cells.
-    It instructs the cell to update it's currState to the given Value, with Value $\in$ \{true,false\}.
+    It instructs the cell to update it's currCellIsOn to the given Value, with Value $\in$ \{true,false\}.
 \end{enumerate}
 
 The Proteus code for a given cell at coordinates (X,Y) are as follows:
@@ -434,10 +435,10 @@ actor cellXY{
                 count += 1;
             }
             if (neighborLeftName ! getDisplay {myName}) {
-                count += 1
+                count += 1;
             }
             if (neighborRightName ! getDisplay {myName}) {
-                count += 1
+                count += 1;
             }
             if ((!(currCellIsOn)) && (count == 3)) {
                 nextStateCurrCellIsOn = true;
@@ -476,7 +477,6 @@ actor controller{
             cellSS ! calculateNextState {};
             ...
             cellFF ! calculateNextState {};
-
             cellSS ! updateAllCells {};
             ...
             cellFF ! updateAllCells {};
@@ -486,13 +486,171 @@ actor controller{
 \end{verbatim}
 
 The only thing missing is to tell the controller how many times to repeat the next stage.
-This is not a requirement for satisfying the capability of CGoL, but an extra nicety that would allow users to view the results.
-As such, the above Proteus code demonstrates CGoL, and is verifiably TC.
+This is not a requirement for satisfying the capability of CGoL, but an extra nicety that would allow users to view the results at each stage.
+As such, the above Proteus code demonstrates CGoL, and is verifiably TC as shown previously in section \ref{subsubsec:CGoL}.
 
 \section{Creating Rule 110}\label{sec:ImplementRule110}
 
-Implementation of Rule 110 demonstrating Proteus is TC
+Another way to demonstrate that Proteus is TC is by implementing Rule 110.
+I will similarly start by outlining the design of the program followed by the implementation in Proteus code.
 
 \subsection{Design of the Program}
 
+Recall Rule 110 in section \ref{subsubsec:Rule110}.
+To represent the standard one-dimensional (1D) grid, I will use state machines for each cell.
+To remain consistent, I will be simulating the 1D plane and assuming an arbitrary cell is the origin, 0.
+This is to simplify referencing particular cells within the infinite 1D plane.
+
+To begin, let there be a non-zero amount of cells that are to be initialized to some starting state.
+I will define the bounds of the grid of initialized cells with $n \in \mathbb{N}$.
+Each cell will be labeled with it's respective position according to the origin, 0.
+
+Figure \ref{fig:ProteusRule110Design} illustrates the design of the line with each of the cells.
+Note that I have only depicted the cells within the first n cells because these are the cells where the initialization process is described.
+
+Similar to demonstarting CGoL seen in the previous section, there is also a 'Controller' which is not a part of this 1D plane but is capable of interacting with all cells in Figure \ref{fig:ProteusRule110Design}.
+All the cells within the plane will be state machines, alongside this 'Controller'.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=11cm]{Images/Rule110Design.png}
+       \caption{Design of System for Rule 110}
+           \label{fig:ProteusRule110Design}
+\end{figure}
+
+There will be two types of state machines: The cell, and the controller.
+I will now describe the data associated with each state machine.
+
+The cell has 4 local variables:
+\begin{enumerate}[leftmargin=4\parindent]
+    \item myName: the name of the cell as a string. (Final)
+    \item coord: the coordinate of the cell as an integer. (Final)
+    \item currCellIsOn: holds the value of the current state of the cell (true == On).
+    \item nextStateCurrCellIsOn: holds the value of the next state of the cell (true == On).
+\end{enumerate}
+
+Each cell also has 3 states: 
+\begin{enumerate}[leftmargin=4\parindent]
+    \item Display: broadcasts currState to whatever machine requested the current state of the cell.
+    Is the initial state the cell is in.
+    \item CalculateNext: Asks the adjacent neighbors for their Display.
+    Then determines based on the rules of Rule 110 what the next state of this cell should be.
+    \item Update: updates currState to the value of nextStateCurrCellIsOn
+\end{enumerate}
+
+The controller is simpler.
+It has no local variables and only 2 states:
+
+\begin{enumerate}[leftmargin=4\parindent]
+    \item Setup: Determines cells to turn on/off when starting the program
+    \item nextStep: broadcasts a message to all Cells to (1) calculate their next state and (2) update after finding their next state.
+\end{enumerate}
+
 \subsection{Implementation of the Rule 110}
+
+In total there are 4 events that will be used in the Proteus code:
+\begin{enumerate}
+    \item getDisplay(myName): the current cell requests another cell for their currState value.
+    It passes the current cells name so that the receiver may transmit the data back to this cell.
+    \item calculateNextState(): this event is sent from the controller to all cells.
+    It instructs the cells to calculate their next state (true == On).
+    \item updateAllCells(): this event is sent from the controller to all cells.
+    It instructs the cells to update their currCellIsOn to the value of nextStateCurrCellIsOn.
+    \item initializeCell(Value): this event is sent from the controller to all programmer-defined cells.
+    It instructs the cell to update it's currCellIsOn to the given Value, with Value $\in$ \{true,false\}.
+\end{enumerate}
+
+The Proteus code for a given cell at coordinate X are as follows:
+(EN - if Proteus does not accept 'HSMName' to be defined dynamically, then instead add 2 vars to store the name of each of the neighbors statically. Another option would be to leave it outside of a variable and hardcode it)
+
+\begin{verbatim}
+actor cellXY{
+    string myName = "cellX";
+    int coord = [X];
+    bool currCellIsOn = false;
+    bool nextStateCurrCellIsOn = false;
+    statemachine {
+        initial Display;
+        state Display {
+            on getDisplay {otherCellName} {otherCellName ! currCellIsOn}
+            on calculateNextState {} {go calculateNext {}}
+            on updateAllCells {} {go Update {}}
+            on initializeCell {Value} {currCellIsOn = Value}
+        }
+        state calculateNext {
+            int neighborLeft = coord - 1;
+            int neighborRight = coord + 1;
+            string neighborLeftName = "cell" + neighborLeft;
+            string neighborRightName = "cell" + neighborRight;
+            bool valNeighborLeft = neighborLeftName ! getDisplay {myName};
+            bool valNeighborRight = neighborRightName ! getDisplay {myName};
+            if ((valNeighborLeft) && (currCellIsOn) 
+                    && (valNeighborRight)) {
+                nextStateCurrCellIsOn = false;
+            } else if ((valNeighborLeft) && (currCellIsOn) 
+                    && (!(valNeighborRight))) {
+                nextStateCurrCellIsOn = true;
+            } else if ((valNeighborLeft) && (!(currCellIsOn)) 
+                    && (valNeighborRight)) {
+                nextStateCurrCellIsOn = true;
+            } else if ((valNeighborLeft) && (!(currCellIsOn)) 
+                    && (!(valNeighborRight))) {
+                nextStateCurrCellIsOn = false;
+            } else if ((!(valNeighborLeft)) && (currCellIsOn) 
+                    && (valNeighborRight)) {
+                nextStateCurrCellIsOn = true;
+            } else if ((!(valNeighborLeft)) && (currCellIsOn) 
+                    && (!(valNeighborRight))) {
+                nextStateCurrCellIsOn = true;
+            } else if ((!(valNeighborLeft)) && (!(currCellIsOn)) 
+                    && (valNeighborRight)) {
+                nextStateCurrCellIsOn = true;
+            } else {
+                nextStateCurrCellIsOn = false;
+            }
+            go Display {}
+        }
+        state Update {
+            currCellIsOn = nextStateCurrCellIsOn;
+            go Display {}
+        }
+    }
+}
+\end{verbatim}
+
+Assuming that there are a nonzero amount of cells that are to be initialized to a desired state, the Proteus code for the controller is as follows.
+Let $cellX, \dots, cellY$ be the cells to be defined with initial states, and associated states $s1, \dots, sN$.
+In order to send an event to all the cells, I will write $cellS, \dots, cellF$ to represent the start and finishing cells in this list of possible cells.
+
+\begin{verbatim}
+actor controller{
+    statemachine {
+        initial Setup;
+        state Setup {
+            cellX ! initializeCell { s1 };
+            ...
+            cellY ! initializeCell { sN };
+            go nextStage {}
+        }
+        state nextStage {
+            cellS ! calculateNextState {};
+            ...
+            cellF ! calculateNextState {};
+            cellS ! updateAllCells {};
+            ...
+            cellF ! updateAllCells {};
+        }
+    }
+}
+\end{verbatim}
+
+The only thing missing is to tell the controller how many times to repeat the next stage.
+This is not a requirement for satisfying the capability of Rule 110, but an extra nicety that would allow users to view the results at each stage.
+As such, the above Proteus code demonstrates Rule 110, and is verifiably TC as shown previously in section \ref{subsubsec:Rule110}.
+
+With this, I have concluded showing that Proteus is TC with 3 verified methods:
+\begin{enumerate}
+    \item Constructing a TM with an undecidable input
+    \item Implementing Conway's Game of Life in a Proteus program
+    \item Implementing Rule 110 in a Proteus program
+\end{enumerate}
