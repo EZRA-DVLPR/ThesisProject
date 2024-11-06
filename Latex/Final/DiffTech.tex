@@ -221,6 +221,8 @@ The proofs constructed using formal language usually modify the given system to 
 They must first demonstrate that the input to the system is Undecidable or able to reduced to the Halting problem.
 Furthermore, they must create a TM using the system to demonstrate that it is capable of calculating anything.
 
+(EN - I can explain deeper how they work in this section, but it is pretty complex and so i avoid that by briefly describing them)
+
 In "Magic: the Gathering is Turing Complete", the authors modified the way the game is understood between 2 players.
 They make the system force moves through clever leverage of the cards and their functions within the game \cite{MtGTC}.
 
@@ -238,6 +240,7 @@ This technique is also seen in a paper titled "The Game Description Language is 
 As opposed to the various theoretical approaches seen previously in section \ref{subsec:AutomataThy}, this section outlines a different perspective.
 Instead of constructing a TM within the compounds of the system, an equivalent proof is to implement a program that demonstrates TC.
 By implementing any known TC program successfully implies that the overall system is TC.
+For example, the popular Sony PlayStation game "LittleBigPlanet" released for the PlayStation 3, is TC as shown by someone implementing Conway's Game of Life inside of it \cite{LittleBigCGoL}.
 
 One such implementation would be to create a functional example of a known TC cellular automata.
 Cellular automata are models of computation which use grids of cells.
