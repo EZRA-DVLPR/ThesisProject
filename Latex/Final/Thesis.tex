@@ -9,7 +9,7 @@
 \usepackage{etoolbox} % used for changing vertical space before chapter headers to 0
 \usepackage{titlesec} % customize title of TOC, and modify sections/subsections/etc.
 \usepackage{sectsty} % used for centering the chapters and text for chapter
-\usepackage{tocloft} % adjust spacing in TOC. adjust chapter and titles to be not bold in TOC
+\usepackage{tocloft} % adjust spacing in TOC. adjust chapter and titles to be not bold in TOC. Also change List of Figures/Illustrations
 \usepackage{amsmath} % insert text inside of math sections
 \usepackage{amssymb} % math symbols like Naturals, Integers, etc.
 \usepackage{enumitem} % change spacing on itemize
@@ -37,6 +37,10 @@
 % remove vertical space before & after the TOC title
 \setlength{\cftbeforetoctitleskip}{0em}
 \setlength{\cftaftertoctitleskip}{0em}
+
+% remove vertical space before & after the "List of Figures" title
+\setlength{\cftbeforeloftitleskip}{0em}
+\setlength{\cftafterloftitleskip}{0em}
 
 % redefine makechapterhead to remove spacing and apply font styles
 \makeatletter
@@ -66,12 +70,25 @@
 \subsectionfont{\normalsize}
 \subsubsectionfont{\normalsize}
 
-% change TOC name, center horizontally, and make non bold
 \addto\captionsamerican{
+    % change TOC name, center horizontally, and make non bold
     \renewcommand{\contentsname}{\hfill Table of Contents \hfill}
     \renewcommand{\cfttoctitlefont}{\normalsize}
     \renewcommand{\cftaftertoctitle}{\hfill}
+%
+    % Adjust List of Figures title, center, and make non-bold
+    \renewcommand{\listfigurename}{\hfill List of Figures}
+    \renewcommand{\cftloftitlefont}{\normalsize}
+    \renewcommand{\cftafterloftitle}{\hfill}
+%    
+    % Add "Figure" prefix and ":" suffix for each entry in List of Figures
+    \renewcommand{\cftfigpresnum}{Figure\ }
+    \renewcommand{\cftfigaftersnum}{:\ }
+%
 }
+
+% set space after "Figure X" by adjusting num width
+\setlength{\cftfignumwidth}{2cm}
 
 % change chapters to be non-bold in TOC
 \renewcommand{\cftchapfont}{\normalfont}
@@ -149,7 +166,7 @@
 
     \newpage
 
-    % acknowledgements
+    % acknowledgements page
     \chapter*{\normalfont Acknowledgements}\label{chapter:Acknowledgements}
     \addcontentsline{toc}{chapter}{Acknowledgements}
     \vspace{3in}
@@ -164,29 +181,16 @@
             Phasellus faucibus purus at magna tempus, sit amet aliquet nulla cursus.
         \end{center}
     
-
     \newpage
 
     \tableofcontents
 
     \newpage
 
-    % List of figures/tables/illustrations
+    \phantomsection % when clicked with e-reader or whatever, it takes you to the proper page
+    \listoffigures % create the list of figures page dynamically
+    \addcontentsline{toc}{chapter}{List of Figures} % add to TOC
 
-    \chapter*{\normalfont List of Figures}\label{chapter:ListFigures}
-    \addcontentsline{toc}{chapter}{List of Figures}
-    \begin{center}
-        This list must reference the figure, page it appears, and subject matter.
-    \end{center}
-    
-    \newpage
-
-    \chapter*{\normalfont List of Illustrations}\label{chapter:ListIllustrations}
-    \addcontentsline{toc}{chapter}{List of Illustrations}
-    \begin{center}
-        This list must reference the illustration, page it appears, and subject matter.
-    \end{center}
-    
     \newpage
 
     \input{Abstract}
