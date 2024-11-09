@@ -13,64 +13,69 @@ These include Computer Engineering, Computer Science, and Mathematics where the 
 
 With this understanding of showing a system is Turing Complete, I will outline a proof to show that Proteus is Turing Complete.
 With the proof outlined, I will discuss the design and approach.
-After this, I will follow the outline to flesh out the proof.
+After this, I will follow the outline to flesh out the proof, followed by code implementations to demonstrate that fact.
 
 After demonstrating that Proteus is Turing Complete, I will reflect on the knowledge gained and applied towards this project.
 I will remark on some points of improvement, and then conclude the Thesis.
 
 \section{Turing Machines}\label{sec:TM}
 
-Alan Turing is generally considered the father of computer science for his numerous contributions including: formalization of computation theory, algorithm design, complexity theory, as well as creating the idea of the Turing Machine.
-A Turing machine can be described as a machine/automata that is capable of performing operations towards some desired goal given an input.
+Alan Turing is generally considered the father of computer science for his numerous contributions including: formalization of computation theory, algorithm design, complexity theory, as well as creating the Turing Machine.
+A Turing machine (TM) can be described as a machine/automaton that is capable of performing operations towards some desired goal given an input.
 In a sense, it was designed to be capable of performing any single computable task, such as addition, division, concatenating strings, rendering graphics, etc. \cite{TTTTM}.
 TMs are at the highest level of computational power, i.e. capable of handling any computation \cite{ShallityAutomataThy}.
 
-There are two different kinds of TMs: Deterministic and Non-deterministic.
-Regardless of such a construction, both are equivalent in power to each other, and as such remain interchangeable until practice \cite{NDTMeqDTM}.
-Assume all TMs discussed are Deterministic unless otherwise stated.
+There are two different kinds of TMs: Deterministic (DTM) and Non-Deterministic (NDTM).
+Regardless of such a construction, both are equivalent in power, and as such remain interchangeable until implementation \cite{NDTMeqDTM}.
+Assume all TMs discussed henceforth are Deterministic unless otherwise stated, i.e. DTMs.
 
-Figure \ref{fig:TM} is an example of a Turing Machine designed using JFLAP, see the \href{https://www.jflap.org/}{official website for JFLAP} for more information on this software (\href{https://www.jflap.org/}{https://www.jflap.org/}).
+Figure \ref{fig:TM} is an example of a TM designed using JFLAP, see the \href{https://www.jflap.org/}{official websiteJFLAP} for more information on this software (\href{https://www.jflap.org/}{https://www.jflap.org/}).
 In fact JFLAP has been tested to grade students homework on computation \cite{JFLAPGrading}, showcasing just how useful this tool is.
 The described machine takes an input string of 1's followed by a 0.
-The machine then outputs whether there is an even number of 1's or not.
-We will revisit this exact machine later in section \ref{sec:CompSci}.
+The machine then outputs whether there is an even number of 1's or not, i.e. its parity.
 
 \begin{figure}[htb]
     \centering
     \includegraphics[width=10cm]{Images/SampleTMCrop.png}
-       \caption{A TM that determines the cardinality of the length of a sequence of 1's on the tape.}
+       \caption{A TM that determines the parity of the length of a sequence of 1's on the tape.}
            \label{fig:TM}
 \end{figure}
 
 \subsection{Oracles}\label{subsec:Oracles}
 
-Of course there also exists the Oracle, sometimes called Turing Machines with an oracle, which is capable of solving problems that TMs cannot.
-It does so by having the ability to respond to any given problem from the TM it is connected to.
-For example, the oracle would be able to solve the Halting Problem for the associated Turing Machine, but not the Halting Problem in general for all Turing Machines.
-The reason the oracle is not considered more powerful is because in practice (i.e. reality), is because there is no such all-knowing source to retrieve information from.
+There also exists the Oracle, sometimes called Turing Machines with an oracle, which is capable of solving problems that TMs cannot.
+The TM is given a problem and then consults the oracle which is said to contain the answer to any problem associated with the TM.
+The oracle has the ability to solve the problem and returns that information to the TM.
+This does have its own limitations, however.
+The oracle would be able to solve the Halting Problem for the associated TM, but not the Halting Problem in general for all TMs.
+Although oracles are considered more powerful in theory, they are disregarded in reality because there is no such all-knowing source to retrieve information from.
 As a result, I will disregard the Oracles for the rest of the thesis.
 
 \subsection{Universal Turing Machines}\label{subsec:UTM}
 
-A simple abstraction of the standard TM is a Universal Turing Machine. A UTM is capable of solving any computable problem, given the exact process/rules of the TM that will solve it.
-In essence it is a machine that is not hard-coded with what to perform when given input.
+A simple abstraction of the standard TM is a Universal Turing Machine (UTM).
+The UTM functions similar to the TM, except it requires the instructions needed to simulate any other TM in order to function.
+In essence it is a machine that is a blank slate that when given an operation, the input, and a means to perform the operation, performs the operation on the given inputs.
 The UTM will read the input, and respond based on the rules given.
 As a result, the UTM is equivalently as powerful as a TM.
 The only functional difference is the usability of the UTM towards a larger number of problems as opposed to the TM being created for a singular problem.
 
 \subsection{The Church-Turing Thesis}\label{subsec:Church-Turing Thesis}
 
-According to the Church-Turing Thesis, every effectively calculable function can be computed by a Turing Machine.
-As explained by Robin Gandy, the main idea was to show that there is an upper bound on the computation of TMs.
-This upper bound does not exist for humans and is therefore the basis of separation between computation power of TMs and humans.
+Robin Gandy formalized the works of Turing and his mentor, Alonzo Church, into a concise theorem \cite{GandyPaper}.
+This theorem is well-known in computability theory, and discusses the capabilities of functions, automata, and more.
 
 \begin{thm}
     \label{thm:CTT}
     (Church-Turing Thesis) Every effectively calculable function can be computed by a Turing Machine.
 \end{thm}
 
-He proposed a series of four Principles that we still use today as a basis for determining what one of the definitions of a TM is capable of computing.
-Any automata that violates any of these Principles is said to have "free will", which in context means being able to compute any non-computable function.
+According to the Church-Turing Thesis, every effectively calculable function can be computed by a Turing Machine.
+As explained by Robin Gandy, the main idea was to show that there is an upper bound on the computation of TMs \cite{GandyPaper}.
+This upper bound does not exist for humans and is therefore the basis of separation between computation power of TMs and humans.
+
+He proposed a series of four Principles that are still used today as a basis for determining what a TM is capable of computing.
+Any automaton that violates any of these principles is said to have "free will", which in context means being able to compute any non-computable function.
 As an example, the Oracle machine would be capable of computing a non-computable function, namely the halting problem, and thus would have "free will".
 We disregard such automata as there aren't any systems that exist in reality as of yet to display "free will".
 As a result, TMs are the most powerful automata that can compute any calculable function.
@@ -78,9 +83,9 @@ This is why the Church-Turing thesis is generally assumed to be true \cite{Gandy
 
 \subsection{Rice's Theorem}\label{subsec:RiceThm}
 
-Another famous theorem to consider is Rice's Theorem.
-It is widely known in the domain of computability theory as it defines the bounds of research in a formal manner.
-Below is the Formal statement of Rice's Theorem, which will be supplemented with a concise statement summarizing the theorem \cite{WolframRiceThm,WikiRiceThm}.
+Another famous theorem to consider in the domain of computability theory is Rice's Theorem.
+It defines the bounds of research for programming languages, and more generally computing systems, in a formal manner.
+Below is the formal statement of Rice's Theorem, which will be supplemented with a summarization of the theorem \cite{WolframRiceThm,WikiRiceThm}.
 
 \begin{thm}
     \label{thm:RiceThm}
@@ -99,15 +104,14 @@ Below is the Formal statement of Rice's Theorem, which will be supplemented with
 
 This directly translates to programming languages as stating: All non-trivial smenatic properties of programs are undecidable.
 Thus, Rice's theorem is a generalization of the Halting Problem.
-Because of this theorem, it is impossible to design a program that determines if a given program is able to execute without error.
-Another view of thie theorem is that it states only trivial properties of programs are algorithmically decidable.
-Eg. If a program has an if statement inside the code.
+Because of this theorem, it is impossible to design a program that determines if a seperate given program is able to execute without error.
+Another view of this theorem is: only trivial properties of programs are algorithmically decidable, eg. If a program has an if statement inside the code.
 
 \section{Turing Completeness}\label{sec:TC}
 
 Turing Completeness is a closely related term when discussing Turing Machines.
-For a system to be Turing Complete, it must be capable of performing any computation that a standard TM can perform.
-An equivalent description would be that for a system to be TC, it must simulate a UTM.
+For a system to be Turing Complete (TC), it must be capable of performing any computation that a standard TM can perform.
+An equivalent description would be that for a system to be TC, it must simulate a TM.
 By transitivity, if any system is proven to be TC, then it must be equivalent in power to all other systems that are TC.
 Therefore, all TC systems are considered the most powerful computation machine.
 
@@ -116,7 +120,7 @@ Therefore, all TC systems are considered the most powerful computation machine.
 Despite all TC systems being equivalent in computation power, this does not mean that all are practically useful.
 This is because despite the TC being able to simulate any TM, it may have a more complex method for simulation or calculation of the same problem.
 This is considered a non-issue as the length of time needed for computation is not considered when discussing TMs and TC systems.
-This is only a factor for practical purposes, such as programming languages, space and time complexity are of major importance.
+This is only a factor for practical purposes, such as programming languages, where space and time complexity are of major importance.
 
 \subsubsection{Esoteric Progamming Languages}\label{subsubsec:EsotericPL}
 
@@ -162,7 +166,7 @@ The 8 instructions are as follows:
 Each '[' or ']' must correspond to match with it's complement symbol, namely ']' and '[' respectively.
 Also, when input is read with the ',' command the given character from a keyboard input will have its value read as a decimal ASCII code
 (eg. '!' corresponds to 33. 'a' corresponds to 97, etc.).
-The decimal value is what is then converted to binary and stored within the current byte \cite{BfSO}.
+The decimal value is then converted to binary and stored within the current byte \cite{BfSO}.
 
 Here is a simple program that modifies the value of the first cell in the 30,000 byte array.
 
@@ -199,7 +203,7 @@ Each line prints a new character.
     +++++++..                       l
     +++.                            l
     >>++++++[<+++++++>-]<++.        o
-    ------------.                   [space]
+    ------------.                   "space"
     >++++++[<+++++++++>-]<+.        W
     <.                              o
     +++.                            r
@@ -212,6 +216,7 @@ For an in-depth breakdown of brainfuck with examples and guiding logic like the 
 One common technique utilized when creating programming languages is to bootstrap them.
 This means that the developers will write a compiler for the language, using the language itself.
 This is done for many reasons, but the reason for introducing it here is to show how brainfuck is capable of complex logic that is more practically useful than simple programs as seen above.
+
 Below is the current smallest bootstrapped compiler for brainfuck \cite{SmallestBfCompiler,SmallestBfCompilerActual}.
 
 \begin{verbatim}
@@ -225,16 +230,16 @@ Below is the current smallest bootstrapped compiler for brainfuck \cite{Smallest
 
 As we quickly found out, using brainfuck in any practical sense is simply too much work due to its extreme inefficiency.
 It also is extremely difficult to understand without comments indicating the goal of each step.
-Due to the simplicity of the language, it is very useful for studying Turing Completeness.
+However, due to the simplicity of the language, it is very useful for studying Turing Completeness.
 There exist many other esoteric TC programming languages, but the reason for choosing brainfuck in particular is its simple instruction set.
 As a result, we will now look at more useful and practical programming language paradigms.
-These languages within these paradigms will be much more efficient and legible, at the cost of increased complexity in instruction set.
+The languages within these paradigms will be much more efficient and legible, at the cost of increased complexity in instruction set.
 
 \subsubsection{Procedural Languages}\label{subsubsec:PL}
 
 Procedural Programming Languages are designed to be read linearly in execution order, top to bottom.
 The main idea behind this design of languages is to create procedures and subprocedures (equivalently routines and subroutines), to achieve a larger goal.
-For example to calculate the sum of squares in code you may design it in the C code as follows:
+For example, in the C code below, I have 2 functions that are used to find the sum of the squares of 2 given numbers. 
 
 \begin{verbatim}
     float squareNumber(float a) {
@@ -275,7 +280,16 @@ Functions are designed to complete a single goal and return a single output.
 They are capable of accepting a non-negative number of inputs and outputting 0 or 1 outputs.
 These functions are capable of calling other functions, including themselves.
 When a function calls itself, this is called recursion.
+
+Recursion relies on defining the exit conditions, sometimes called base cases, which stop the recursion from propogating further.
+The other essential part of defining a recursive function is the set of conditions in which to recurse.
+Typically, using recursion uses less overall lines, but comes at the increased complexity of the implementation.
+Another consideration would be the space and time complexity being compounded at each step of recursion.
+However, recursion remains an elegant approach towards progamming nonetheless.
+
 Here is an example constructing the fibonacci sequence in C in 2 ways: without recursion, and with recursion.
+
+(EN - The first code segment I may add to the appendix)
 
 \begin{verbatim}
     //Given an integer n, calculate the first n numbers
@@ -286,11 +300,10 @@ Here is an example constructing the fibonacci sequence in C in 2 ways: without r
             printf("Input must be an integer greater than 0");
                 return;
         }
-
+        int i = 1;
         int sub1 = 0;
         int sub2 = 1;
-
-        for (int i = 1; i <= n; i+=1) {
+        for (i = 1; i <= n; i+=1) {
             if (i > 2) {
                 int curr = sub1 + sub2;
                 sub1 = sub2;
@@ -337,11 +350,9 @@ Here is an example constructing the fibonacci sequence in C in 2 ways: without r
     }
 \end{verbatim}
 
-As shown above, recursion is a powerful tool to simplify the amount of lines needed to code the main functionality of the procedure.
-It simplifies the amount of lines written because the overall logical design is more complex.
-
 Through the use of scope and compartmentalizing procedures, Procedural programming is a very straightforward and capable design paradigm for software development.
 Some well known languages that are Turing Complete from this paradigm are: 
+
 \begin{itemize}
     \item C
     \item Pascal
@@ -351,7 +362,7 @@ Some well known languages that are Turing Complete from this paradigm are:
     \item Basic        
 \end{itemize}
 
-Although these languages are very old, with some coming from the 1960s, some still find modern use.
+Although these languages are old, with some coming from the 1960s, they may still find modern use.
 Linus Torvalds, the creator of the Linux kernel and git, chose C to be the main language for developing both of these well known pieces of software.
 Both are still actively developed and improved to this day and remain majorly written in C \cite{GitMadeinC,LinuxMadeinC}.
 Additionally, Richard Stallman led the development for the GNU operating system using C \cite{GNUPreferC}.
@@ -362,22 +373,26 @@ Many banks still use COBOL their business application and management \cite{COBOL
 \subsubsection{Object Oriented Languages}\label{subsubsec:OOPL}
 
 A different scheme altogether for a programming language is an Object Oriented Language.
-Developing in this language paradigm is known as a Object Oriented Programming.
+Developing in this language paradigm is known as a Object Oriented Programming (OOP).
 OOP is structured entirely different than Procedural Programming.
-Instead of defining procedures to solve the problem, we utilize a new idea of coding.
-We outline classes, which are representations of some system that we wish to design.
+Instead of defining procedures to solve the problem, OOP utilizes a new idea of coding.
+It outlines classes, which are descriptions of the system, and defines objects, which are the implementations of the parts of the system.
 Classes contain 3 parts: Data Members, Constructors, and Methods.
-Data Members are used to describe what the Class is.
+
+\begin{enumerate}
+    \item Data Members: Used to describe attributes about the class.
+    \item Constructors: Ways to create an instance (object) of this class.
+    \item Methods: Ways of manipulating the Data Members associated with the class of objects or a particular object.
+\end{enumerate}
+
 For example, if I want to model a school, an important data member would be the amount of students enrolled.
-Constructors are ways to create an instance of the class.
-This is where the object is created.
-In the school example, perhaps there would be two ways to create a school: with a total amount of students enrolled already, and another without.
+Perhaps there would be two ways to create a school: with a total amount of students already enrolled, and another with no students.
 Both are valid as adding an existing school to the digital system would use the first constructor, while creating a new school would utilize the second constructor.
-Methods are ways we modify the attributes of the objects.
-Perhaps a certain amount of students enroll into the newly created school.
-We must have a way to update the amount of students for any school.
-These 3 parts form the basis of what OOP looks like.
-Below is a snippet of Java code demonstrating these principles.
+Each academic year, a certain amount of students enroll into either school.
+There must be a way to update the amount of students for any school.
+Below is a snippet of Java code demonstrating these principles implementing the above school example.
+
+(EN - The second snippet of code I am considering adding to the Appendix)
 
 \begin{verbatim}
 class School {
@@ -449,8 +464,7 @@ Java, PHP, and C++ remain some of the most desired languages for jobs in the mar
 
 Some languages allow for the combination of OOP and Procedural Programming.
 In such paradigms, the code allows for both to be run at the same time and enjoys the benefits of both approaches, at the cost of increased design overhead of the project.
-The most desired languages today are Python and Javascript due to their simplicity and numerous list of libraries to code just about any project of any scale \cite{EasyLangs1,EasyLangs2,PyLibs,NPM,Yarn}.
-Such languages are amongst the most desired as well today \cite{TopLangs1,TopLangs2,TopLangs3}.
+The most desired languages today are Python and Javascript due to their simplicity and numerous list of libraries to code just about any project of any scale \cite{TopLangs1,TopLangs2,TopLangs3,EasyLangs1,EasyLangs2,PyLibs,NPM,Yarn}.
 
 Here is an example snippet of Python code that demonstrates both object oriented and procedural programming at the same time:
 
@@ -467,15 +481,13 @@ Here is an example snippet of Python code that demonstrates both object oriented
         def problem(self, problem):
             self.problem = problem
 
+
     # Creating the 'Homework' object and printing a method from it
     HW = Homework("What is the sum of squares of 2 and 3?")
     print(HW.problem)
 
     # Utilizing a function created from sequential programming
     print(findSumOfSquares(2, 3))
-
-
-
 
     #####       Printed to Terminal     #####
 
@@ -484,8 +496,8 @@ Here is an example snippet of Python code that demonstrates both object oriented
 \end{verbatim}
 
 In the code example, we utilize Procedural Programming to create the findSumOfSquares function.
-Through the usage of OOP, we create a Homework object that has a single data member, a single problem.
-By accessing the problem within the Homework object, we are able to print it out, then use the function to solve it.
+Through the usage of OOP, we create a homework object that has a single data member, a string containing the problem.
+By accessing the problem within the homework object, we are able to print it out, then use the function to solve it.
 
 Some well known languages that are Turing Complete from this paradigm are shown below.
 Notice that some languages mentioned in the previous sections may show up in the list: 
@@ -502,9 +514,9 @@ Multi Paradigm languages have a lot of flexibility for the applications that the
 The top frontend frameworks for web development use Javascript as their main language including React, Vue, Svelte, and more \cite{JSPopular}.
 Python is very popular for its legible and flexible code.
 With its libraries such as Tensorflow and Keras, Machine Learning and other AI subgenres are easier to implement than in other languages.
-The popular LLM ChatGPT is primarily written in python \cite{ChatGPTPython}.
+The popular LLM ChatGPT is primarily written in Python \cite{ChatGPTPython}.
 R is another language that is popular for its data science capabilities.
-It is heavily used within the sciences (alongside python) because of its simplistic syntax, as well as its numerous libraries for data analysis \cite{RDataSci,DataSciLangs}.
+It is heavily used within the sciences (alongside Python) because of its simplistic syntax, as well as its numerous libraries for data analysis \cite{RDataSci,DataSciLangs}.
 
 \subsubsection{Functional Programming Languages}\label{subsubsec:FPL}
 
@@ -512,7 +524,7 @@ Functional Programming Languages take an entirely different approach to coding.
 These languages are based on lambda calculus and are not often taught to new programmers due to their unique style.
 They usually follow a simple design of pure functions:
 \begin{enumerate}
-    \item Referential Transparency: The same output is produced for all arguments given
+    \item Referential Transparency: The same output is produced for all arguments given.
     \item Immutability: There is no modification to the arguments given, I/O streams, or local/global variables.
 \end{enumerate}
 
@@ -529,6 +541,7 @@ Below are some simplistic code examples in Haskell:
     findSquare :: Num a => a -> a
     findSquare x = x * x
     
+
     -- Function to find the sum of squares
     findSumOfSquares :: Num a => a -> a -> a
     findSumOfSquares x y = addTwoNumbers (findSquare x) (findSquare y)
@@ -592,9 +605,8 @@ Haskell and Elixir are used by many companies as a way for writing their softwar
 They are used for a variety of purposes such as security, browsers, and more.
 Coq is a proof assistant that allows users to codify their proofs and assert their findings.
 Coq was developed using OCaml \cite{OCamlCoq}.
-For my experience using Coq alongside some other proof assistants Dafny and TLA+, see Appendix \ref{app:ProofAssist}.
+For my experience using Coq alongside other proof assistants including Dafny and TLA+, see Appendix \ref{app:ProofAssist}.
 
-\newpage
 Some benefits of using functional programming are:
 \begin{itemize}
     \item Unit Testing
@@ -621,15 +633,15 @@ In this section, I will describe in detail what Proteus is.
 
 \subsection{Proteus Description}\label{subsec:ProteusDescription}
 
-Proteus is a programming language and compiler being developed as a project for CSUN's Autonomy Research Center for STEAHM in collaboration with the NASA Jet Propulsion Laboratory (JPL).
+Proteus is a programming language and compiler being developed as a project for CSUN's Autonomy Research Center for STEAHM (ARCS) in collaboration with the NASA Jet Propulsion Laboratory (JPL).
 JPL system engineers needed a safer language to develop autonomous systems reliably, which is why Proteus was created.
 Proteus allows for the creation of different models: actors and hierarchical state machines.
 It is compiled to C++ with the C++17 standard \cite{ProteusRunTime}.
 
-Proteus is a programming language that follows the Actor model paradigm, which is somewhat related to the OOP paradigm.
-The difference lies in that Actor model allows for concurrent computation, while OOP generally runs sequentially.
+Proteus is a programming language that follows the actor model paradigm, which is somewhat related to the OOP paradigm.
+The difference lies in that actor model allows for concurrent computation, while OOP generally runs sequentially.
 This means that parallelism is inherently existent in the language \cite{ActorModelParallel,ActorJavaParallel}.
-Furthermore, because of the design of the events and event queue for Actors, any code involving them is run sequentially.
+Furthermore, because of the design of the events and event queue for actors, any code involving them is run sequentially.
 This means that Proteus also supports the Procedural Programming langauge paradigm.
 Thus, Proteus is a Multi Paradigm language that enjoys the ability to utilize features such as scope, recursion, and so forth \cite{ProteusPaper}.
 
@@ -638,25 +650,31 @@ Thus, Proteus is a Multi Paradigm language that enjoys the ability to utilize fe
 Actors are independent entities within concurrent systems.
 By allowing several actors to operate independently, there is: no sharing of resources, concurrent runtime, and only interact amongst each other via a message system.
 Communication is asynchronous because the messages get buffered by the system until the recipient can handle them.
-Actors can send messages, modify local state, or create more actors based on the message handling.
+Actors can send messages or modify local state based on the message handling.
 
 \subsubsection{Hierarchical State Machines}\label{subsubsec:HSM}
 
 Hierarchical State Machines allow developers to model the system that they are developing for.
-These HSMs are an extension to the standard definition of a state machine as HSMs allow states to be HSMs themselves.
+These HSMs are an extension to the standard definition of a state machine.
+This is because in Proteus HSMs allow states to be HSMs themselves.
 This allows for simplification of the states and transitions amongst states allowing simpler models for usage in the real-world.
 
+A real-world example would be that a manual car is within the "Drive" state.
+Within this drive state, it has a number of sub-states to determine which gear is being used at the moment, eg. 1-6.
+The car would still be able to transition into the "Neutral" gear (state), despite also being within the "Drive" state.
+
 Actors have a non-negative amount of associated HSMs while each HSM belongs to exactly one actor.
-Event Handlers are the way that messages are sent amongst machines as well as how the machine perform state transitions.
+Event Handlers are used to manage messages sent amongst machines as well as how the machine perform state transitions.
 Actors and states are statically defined, which means that they cannot be created nor destroyed at runtime.
-When compiled, Actors and states are created as C++ structs.
+When compiled, Actors and states are created as C++ structs \cite{ProteusRunTime}.
 
 \subsection{Proteus Grammar}\label{subsec:ProteusGrammar}
 
 Below is the Grammar for Proteus.
 It outlines the command followed by the definition for writing the command.
 Anything outlined in single quotations indicates text to be written explicitly.
-It is to be read as: 'OPERATION' can be written as 'HOW TO WRITE THE OPERATION'.
+
+(EN - Another big piece of text that I'm considering moving to the Appenxix)
 
 \begin{verbatim}
 Program: DefEvent* DefGlobalConst* DefFunc* DefActor+
@@ -727,9 +745,10 @@ EventName: NAME
 \end{verbatim}
 
 Looking at the grammar is similar to looking at the pieces of a puzzle without actually arranging the pieces together.
+It gives insight into what the final image might be, but won't help unless you actually start using the pieces.
 Below is an example written in Proteus code that showcases Actors and HSMs in a system.
 
-There are a total of 3 events: POWER\_ON which accepts a boolean as input, POWER\_OFF, and NEXT with the latter two not accepting an inputs.
+There are a total of 3 events: POWER\_ON which accepts a boolean as input, POWER\_OFF, and NEXT with the latter two not accepting any inputs.
 There are 2 actors: Main and Driver.
 Main has a single state machine with 2 states: On and Off.
 Main defines an internal boolean for whether Mode2 is enabled.
@@ -743,7 +762,7 @@ Mode1 prints to the output the current Mode, and then has logic determining what
 If the machine has mode2\_enabled set to true, then it should should go to Mode2.
 Mode2 simply prints the current mode when it is entered.
 The second actor is the Driver.
-It determines the actions to be taken by Main in a series of messages (events) that are broadcasted from its internal statemachine.
+It determines the actions to be taken by Main in a series of messages (events) that are broadcasted from its internal state machine.
 Upon turning on the machine, it will send the event for Main to turn on with an input of true.
 Then it sends Main the NEXT event twice.
 It then tells Main to power off with the POWER\_OFF event.
@@ -801,7 +820,7 @@ When this code is run, the output is seen below:
     turning off
 \end{verbatim}
 
-The goal of this Thesis is to analyze this language to prove that it is TC.
+The goal of this Thesis is to analyze Protes and to prove that it is TC.
 This is done by looking at the grammar and type of programming paradigm.
-With this understanding, we will also look at different approaches for proving Turing Completeness.
-Afterwards, we will demonstrate that Proteus is in fact turing complete using some of the methods seen in the next chapter.
+Furthermore, there is an extensive analysis into proofs for proving Turing Completeness.
+By combining this knowledge together, I will then demonstrate that Proteus is in fact TC using some of the methods seen in the next chapter.
