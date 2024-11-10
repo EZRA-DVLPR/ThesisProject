@@ -1,25 +1,37 @@
 \chapter{Proteus is Turing Complete}\label{chapter:ProteusTC}
 
-This section will describe how we will construct the proof showing that Proteus is TC.
+This section will describe how I will construct the proof showing that Proteus is TC.
 
 \section{Useful information to be used in the proof}
 
 First, I will discuss features about Proteus programs on a theoretical level.
-Then, I will discuss features about the Proteus language that allow for the creation of a TM.
+Then I will discuss features about the Proteus language that allow for the creation of a TM.
 This is the background information that will guide the construction of the proof outline and ultimately the proof itself.
+The outline of this chapter is as follows:
+
+\begin{enumerate}
+    \item Show all inputs (Proteus programs) are Undecidable.
+    \item Create a TM in Proteus.
+    \item Show CGoL in Proteus code.
+    \item Show Rule 110 in Proteus code.
+\end{enumerate}
+
+On a technical level, by the second step, Proteus is proven TC.
+By adding CGoL and Rule 110, I demonstrate how to utilize Proteus code, as well as showcase its property of being TC.
 
 \subsection{Undecidable input}\label{subsec:UndecidableInput}
 
-Because Proteus is a higher-level programming language, we can leverage the usage of Rice's Theorem, Theorem \ref{thm:RiceThm}.
+Because Proteus is a higher-level programming language, I leverage the usage of Rice's Theorem, Theorem \ref{thm:RiceThm}.
 Thus, given any input it is impossible to determine an answer to the Halting Problem.
 Furthermore, one cannot determine if there is an actor that will be told to switch to a particular state.
 With this knowledge, it is understood that any given Proteus program is undecidable.
-Thus, I will look at how to create a TM in Proteus.
+Now I will look at how to create a TM in Proteus.
 
 \subsection{Requirements of a TM}\label{subsec:ReqsofTM}
 
 In this section, I will point out critical pieces of Proteus that prove useful to create a TM.
-We can see that the core features to create a TM, seen previously in sections \ref{subsec:TMLogicalDesign} and \ref{subsubsec:ProgCalc}, include:
+Recall the core features to create a TM, seen previously in sections \ref{subsec:TMLogicalDesign} and \ref{subsubsec:ProgCalc}, include:
+
 \begin{enumerate}
     \item Arithmetic and Logical Processing
     \item Memory storage and manipulation
@@ -34,6 +46,7 @@ I will now describe from the Proteus grammar how to construct/use Proteus creati
 \subsubsection{Arithmetic and Logical Processing}\label{subsubsec:ArithLogProc}
 
 The grammar provides the following definitions for arithmetic and logical processing:
+
 \begin{itemize}
     \item BinOp
     \item Type
@@ -47,7 +60,7 @@ Furthermore, the only logical processing is seen in the looping mechanism.
 If the value at the pointer is 0 and the input token is a '[', then the loop is skipped.
 This means that there is an equality check which returns a boolean result.
 
-Looking deeper at the types of Proteus, type consists of all the possible types that are built into the language:
+Here is the list of types for Proteus:
 \begin{itemize}
     \item int
     \item string
@@ -57,8 +70,7 @@ Looking deeper at the types of Proteus, type consists of all the possible types 
     \item eventname
 \end{itemize}
 
-Despite allowing for division, the set of integers is closed under truncation, which is how Proteus handles cases where normally it wouldn't be.
-eg. 5 / 2 = 2.5, but under truncation 5 / 2 = 2.
+Despite allowing for division, the set of integers is closed under truncation, which is how Proteus handles cases where normally it wouldn't be capable of responding (eg. 5 / 2 = 2.5, but under truncation 5 / 2 = 2).
 These truncation rules are similar to those seen in other languages such as Java and C \cite{TruncJava,TruncC}.
 
 'ConstExpr' describes the 3 simple data types: Int, String, and Boolean.
@@ -82,7 +94,7 @@ These logical processes may utilize local or global variables that are stored, v
 
 To modify data, the 'AssignStmt' was defined which allows for modifying the value of a given variable.
 State Machines can modify state via the 'SendStmt' command.
-Utilizing 'SendStmt', state machines can modify the state of themselves and other state machines as well.
+Utilizing 'SendStmt', state machines can modify their own state as well as other state machines.
 
 \subsubsection{Conditional Logic}\label{subsubsec:CondLog}
 
@@ -113,7 +125,8 @@ The only looping logic that can be seen in the garmmar that is built in, is the:
 This is the only necessary form of looping, as it can be broken by conditional statements and is capable of performing like other loops such as the do-while, for, and so forth.
 This allows for more complex logical processing, such as recursion, which is a necessary requirement for TMs to perform any calculation.
 A simplistic example of a problem that requires recursion would be the Ackermann Function.
-See the definition of the Ackermann function here:
+The Ackermann function is defined:
+
 \[
 \begin{aligned}
     A(0, n) &= n + 1\\
@@ -150,9 +163,11 @@ By showing that any input to Proteus programs are undecidable and it is possible
 This proof leverages the usage of both the Church-Turing Thesis, Theorem \ref{thm:CTT}, and Rice's Theorem, Theorem \ref{thm:RiceThm}.
 
 I will explicitly create a TM using the built-in features seen previously in section \ref{subsec:ReqsofTM}.
-After showing how to create a TM within Proteus, I will use Proteus to implement Conway's Game of Life and Rule 110 .
+After showing how to create a TM within Proteus, I will use Proteus to implement CGoL and Rule 110.
 This is to demonstrate that the system is TC.
 Recall demonstrating an implementation of CGoL or Rule110 indicates the system is TC from sections \ref{subsubsec:CGoL} and \ref{subsubsec:Rule110}.
+
+I will construct the TM in the following steps:
 
 \begin{enumerate}
     \item Define the set of internal states
@@ -164,7 +179,7 @@ Recall demonstrating an implementation of CGoL or Rule110 indicates the system i
     \item Define the blank symbol
 \end{enumerate}
 
-I will now describe how to create a TM within Proteus from a higher abstraction layer with section \ref{sec:DefnTMProteus} going into the formal definition.
+I will now describe how to create a TM within Proteus from a higher abstraction layer with section \ref{sec:DefnTMProteus} then going into the explicit formal definition.
 The tape is a series of state machines, HSMs, that will be ordered as $c_{0}, c_{1}, \dots , c_{\text{n}}$ arbitrarily with $c_{\text{n}}$ being the last non-empty cell.
 This order will be consistent and not allow state machines to swap places with each other in the sequence.
 There will be an additional state machine which functions as the read/write head.
@@ -185,6 +200,13 @@ If the tape is empty, as in there are no state machines that are created by the 
 If instead the cell is non-empty, then the read/write head enters the 'Read' state which begins the process of reading information from the tape.
 If a write is to be issued, then the read/write head enter the 'Write' state and writes the new data in the current cell.
 After the write, the read/write enters the 'Read' state once again.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=16cm]{images/ProteusTM.png}
+       \caption{TM State Diagram in Proteus}
+           \label{fig:ProteusStateTM}
+\end{figure}
 
 The logic for movement to an adjacent cell is mirrored on the left and right sides.
 I will describe the movement to the left-adjacent cell.
@@ -209,13 +231,6 @@ In order to find the proper state machine to send the event to, the read/write h
 This searching cannot utilize 'FindStart', because if all state machines are off and there are some nonzero number of events still in the queue, then the machine will still have events to process, but end up in the 'ProgramOff' state.
 As such, it must search for them and find them using an unoptimized algorithm such as brute forcing all possible movements across the non-empty tape.
 Note that I will explicitly describe what values $x, y, \text{O}$ must be in the following section \ref{sec:DefnTMProteus}.
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=16cm]{images/ProteusTM.png}
-       \caption{TM State Diagram in Proteus}
-           \label{fig:ProteusStateTM}
-\end{figure}
 
 \section{Definition of a Turing Machine in Proteus}\label{sec:DefnTMProteus}
 
@@ -254,6 +269,8 @@ Because JFLAP does not allow for multiple characters to be a single element with
 
 The transition function determines the conditions for the read/write head to change states.
 These transitions can be seen clearly in Figure \ref{fig:ProteusStateTM}.
+
+% Make sure it fits properly onto the page nicely
 
 \[
     \begin{aligned}
