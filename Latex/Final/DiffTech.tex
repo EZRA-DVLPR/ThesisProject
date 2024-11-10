@@ -2,8 +2,8 @@
 
 \section{Overview}\label{sec:ProofOverview}
 
-We will be exploring the different approaches to demonstrate TC for different systems.
-I have outlined the approaches based on their respective discipline, increasing in abstraction.
+I will be exploring the different approaches to demonstrate TC for different systems.
+I have outlined the approaches based on their respective discipline, increasing in abstraction level, starting from the Hardware and increasing in theory at each step.
 With each discipline comes a more theoretical view and understanding of TMs and TC systems.
 My intention is to add clarity on the logic for these proofs/techniques.
 For example, in the Computer Engineering perspective, TM is created from its mechanical properties through the usage of logic gates.
@@ -11,23 +11,24 @@ This is vastly different compared to how Mathematicians show TC, which is throug
 All proofs are equivalent in goal, however.
 These are not the only perspectives and types of proofs for showing Turing Completeness as well as TMs.
 This is simply a survey into what TMs and Turing Completeness looks like across the disciplines.
+By looking at these different approaches, I can apply them to Proteus.
 
 \section{Computer Engineering}\label{sec:CE}
 
-In this section, we will analyze what a TM looks like from a physical perspective.
-This may seem contradictory because the TM is described as a theoeretical machine.
+In this section, I will analyze what a TM looks like from a physical perspective.
+This may seem contradictory because the TM is described as a theoeretical machine from Turing.
 But in fact, the very computers that we use today are are capable of processing TC systems through the usage of programming languages.
 This means that they are limited TMs, because they are bounded only in memory.
-In this approach, we will look at the core components of Computer Engineering to create a TM.
+In this approach, I will look at the core components of Computer Engineering to create a TM.
 
 \subsection{Logical Design of a TM}\label{subsec:TMLogicalDesign}
 
 To define what a TM does, we must explore what it is capable of.
-Recall Theorem \ref{thm:CTT} in section \ref{subsec:Church-Turing Thesis}, "Every effectively calculable function can be computed by a Turing Machine."
+Recall Theorem \ref{thm:CTT}, the Church-Turing Thesis, "Every effectively calculable function can be computed by a Turing Machine."
 Every effectively calculable function, as Turing and Church understood, was any mathematical calculation.
-This means that a TM must have some ability to perform any operation on numbers, such as the basic operations of addition, subtraction, multiplication, and division.
-Furthermore, they must be capable of combining these together to form more complex operations such as exponential arithmetic.
-Beyond the mathematical aspect, they must allow for logical processing \cite{ChemTM}.
+This means that a TM must have some ability to perform any operation on numbers, such as the basic operations of addition and subtraction.
+Furthermore, they must be capable of combining these simplistic operations together to form more complex operations such as exponential arithmetic.
+Beyond the mathematical aspect, they must allow for logical processing including logical AND, logical OR, and Logical XOR \cite{ChemTM}.
 
 \subsubsection{Architecture}\label{subsubsec:Arch}
 
@@ -35,14 +36,14 @@ Looking at modern day computer architecture, there are several components that w
 It is based off of the Modified Harvard Structure which is a variation of the Harvard computer architecture and Von Neumann architecture.
 It combines both approaches towards computer architecture to handle many tasks that were difficult to handle using one of either architecture.
 
-The von Neumann Architecture which has a centralized CPU to handle tasks for the computer.
+The von Neumann Architecture has a centralized CPU to handle tasks for the computer.
 All processes are handled by the CPU directly.
 It contains several parts inside for processing data.
 Inside the CPU is an ALU with registers, as well as a Control Unit.
 The ALU processes arithmetic and logical computation, with the assistance of registers to store data at each step.
 The Control unit determines the commands to be given to the ALU and other parts of the computer.
 There is an associated Memory Unit which is where the bulk of memory storage lies.
-Outside of the CPU are the Input and Output devices \cite{vonNeumannBook}.
+Outside of the CPU are the Input and Output devices such as the keyboard and monitor \cite{vonNeumannBook}.
 
 \begin{figure}[htb]
     \centering
@@ -55,13 +56,13 @@ Figure \ref{fig:VonNeumannArch} visually describes the architecture \cite{vonNeu
 The von Neumann architecture has several limitations, with one of the biggest criticisms being that it is bottlenecked by the throughput between the CPU and memory.
 Essentially, the CPU will eventually have more processing power than the bus can handle to write/read from memory.
 This causes the CPU to wait until the bus is freed to continue processing.
-As an alternative, we will now look at the Harvard Architecture
+As an alternative, the Harvard Architecture was created.
 
-The Harvard architecture looks at the problem as says that if the CPU is too large and complex, then each individual component should be separated.
+The Harvard architecture separates the large and complex CPU from the von Neumann architecture into its several smaller components.
 This allows for the tasks to be distributed evenly amongst the several smaller components like the ALU and Instruction memory as opposed to having them live inside the CPU.
-The CPU is capable of simultaneous reads and writes.
+This allows the CPU to be capable of simultaneous reads and writes.
 However, a similar bottleneck occurs where the bus connecting each of the components is the limiting factor.
-Figure \ref{fig:HarvardArch} illustrates the Harvard Architecture \cite{HarvardArchImg}.
+See figure \ref{fig:HarvardArch} for an illustration of this concept \cite{HarvardArchImg}.
 
 \begin{figure}[htb]
     \centering
@@ -73,11 +74,11 @@ Figure \ref{fig:HarvardArch} illustrates the Harvard Architecture \cite{HarvardA
 However, modern day computers utilize a mixed computer architecture called the Modified Harvard architecture.
 It combines both architectures into a single model.
 This usually is of the form of separating the components of the computer, but allowing several smaller memory caches for the CPU.
-This is why modern computers utilize several components such as the CPU, GPU, Main Memory (SDD or HDD) and so forth.
+This is why modern computers utilize several components such as the CPU, GPU, main memory (SDD or HDD) and so forth.
 Furthermore, this advancement allows for paralellism or multi-core systems to arise.
 Some notable examples include the NVIDIA RTX 4080 which has over 8000 cores or for the intel i9-13900ks CPU to have 16 cores \cite{4080Specs,IntelSpecs}.
 By allowing each one to independently operate, but still have the CPU as the "brains" of the operation.
-We will now dive slightly deeper into the discussion to see what lies beneath these components within modern computer systems.
+With this knowledge of the architecture, I will now dive deeper into the discussion to see what lies beneath these components within modern computer systems.
 
 \subsubsection{Logic Gates}\label{subsec:LogicGates}
 
@@ -93,7 +94,7 @@ These smaller registers are associated with an address for referencing purposes,
 Instead the CPU manages it's own memory with caches and main memory.
 
 Within the ALU there are smallers components that perform specific operations such as addition and subtraction.
-These smaller components utilize logical gates such as the OR gate to compute the result with the given input.
+These smaller components utilize logical gates such as the OR gate to compute the result with the given inputs.
 Figure \ref{fig:2BitALUSimp} describes a highly simplistic view of what a 2-Bit ALU may look like \cite{SimpleALU}.
 
 \begin{figure}[htb]
@@ -128,17 +129,18 @@ $A[0]$ refers to the least-significant bit of $A$ while $A[1]$ refers to the mos
 These inputs are fed to all operation sequences (OR, AND, XOR), and sent to both the top and bottom MUX.
 These MUX then output the desired result from the $OP[NUMBER]$ desired as $OUT[0]$ and $OUT[1]$.
 
-Overall, by combining these circuits together, one can create more powerful mechanisms like ADD, MUX, etc.
-To construct a physical TM using such circuitry, assuming unbounded memory amongst other conditions, seems possible.
+Overall, by combining these circuits together, one can create more powerful mechanisms such as logarithms, division, and more.
+To construct a physical TM using such circuitry, assuming unbounded memory amongst other conditions, is possible.
 
 \subsection{Constructing the TM}\label{subsec:CreateTM}
 
-With the ability to construct logic gates, we can create more complex components such as the ALU, which would be used within the CPU, and overall create the computer from the bottom-up.
+With the ability to construct logic gates, one can create more complex components such as the ALU, which would be used within the CPU, and overall create the computer from the bottom-up.
 Accompanied with the ability to store memory, as well as have a way to interact with the system through Input and Output, it is possible to create a functional computer.
 Developers have successfully created computers in the well-known video games of Minecraft and Terraria respectively in \cite{MCTM,TerrariaTM,TerrariaTMGH}.
-In fact, I will discuss a method to demonstrate TC that verifies that the computer built inside Terraria is verifiably TC via a method discussed in \ref{subsubsec:CGoL}.
+In fact, I will discuss a method to demonstrate Turing Completeness that verifies that the computer built inside Terraria is verifiably TC via a method discussed in \ref{subsubsec:CGoL}.
 
-This means that to construct a TM on a physical level (of course alleviating the restriction of unbounded memory), these would be the minimum requirements \cite{nand2tetris,ELTCompSys}:
+In summary, to construct a TM on a physical level (of course alleviating the restriction of unbounded memory), these would be the minimum requirements \cite{nand2tetris,ELTCompSys}:
+
 \begin{itemize}
     \item ADD
     \item SUB
@@ -149,22 +151,23 @@ This means that to construct a TM on a physical level (of course alleviating the
 \end{itemize}
 
 Which themselves rely on logic gates as building blocks.
-Therefore, if it is possible to create simulate logic gates, or to create the above shown processes, then it is capable of satisfying any arithmetic or logical calculation.
+Therefore, if it is possible to create/simulate logic gates, or to create the above shown processes, then it is capable of satisfying any arithmetic or logical calculation.
 As such, the Church-Turing Thesis, Theorem \ref{thm:CTT}, is met and a TM can be created.
 
 \section{Computer Science}\label{sec:CompSci}
 
 In this section, I will conceptualize what a TM looks like under the lens of Computer Science.
+I will now abstract from the physical understanding of how to create a TM, to creating a theoretical one using Automata theory or implementing a system that is TC using code.
 There are 2 main perspectives: that of Automata Theory and the Software Engineering approach.
 The Automata Theory approach utilizes theoretical designs based off of those utilized by Turing and Gavin.
 The Software Engineering approach instead applies it to a problem to showcase Turing Completeness via programming with code.
 
 \subsection{Automata Theory}\label{subsec:AutomataThy}
 
-I will now abstract from the physical understanding of how to create a TM, to creating a theoretical one using Automata theory.
 In automata theory, Turing Machines are described using logical notation.
 The definition of a TM has several interpretations, but I will outline a slightly more advanced description \cite{IntroFormLangAuto,TuBB}.
-The illustrated TM allows for the machine to stay at the current cell.
+Definition \ref{def:TM} allows for the machine to stay at the current cell.
+This will be needed later on for the proof, but as stated in section \ref{subsec:Church-Turing Thesis}, all TMs are equivalently the most powerful computational machine.
 
 \begin{definition}
     \label{def:TM}
@@ -183,11 +186,11 @@ The illustrated TM allows for the machine to stay at the current cell.
 
 The transition function $\delta$ is defined as \[\delta: Q \times \Gamma \rightarrow Q \times \Gamma \times \{L, R, S\}.\]
 This means that for a given $\delta$ transition with inputs $q \in Q$ and $a \in \Gamma$, the tape will move to another state $x \in Q$, clear the current cell (indicated by \raisebox{0.1cm}{\fbox{}}) or some symbol $y \in \Gamma$, and choose to move the tape head Left one cell (L), Right one cell (R), or to Stay at the current cell (S).
-An example transition can be written: \[\delta(q_{0}, a) = (q_{1}, d, R)\] where the internal state is $q_{0}$, and we read input token a.
-After the transition, we have internal state $q_{1}$, wrote symbol d onto the tape, and moved to the right one cell.
-See Figure \ref{fig:DeltaTransition} demonstrating this change:
+An example transition can be written: \[\delta(q_{0}, a) = (q_{1}, d, R)\] where the internal state is $q_{0}$, and reads the input token a.
+After the transition, the internal state becomes $q_{1}$, the symbol d is written onto the tape at the current cell, and the cell pointer is moved to the right one cell.
+Figure \ref{fig:DeltaTransition} demonstrates the change.
 
-\begin{figure}[htb]
+\begin{figure}[h]
     \centering
     \includegraphics[width=16cm]{Images/deltatransition.png}
        \caption{Delta transition example from \cite{IntroFormLangAuto}.}
@@ -195,7 +198,11 @@ See Figure \ref{fig:DeltaTransition} demonstrating this change:
 \end{figure}
 
 Recall Figure \ref{fig:TM} which represents a simplistic TM.
-In formal nomenclature, it can be written as follows:
+This TM reads an input containing a string of 1's followed by a single 0.
+It then outputs whether the parity of the amount of 1's.
+This output overwrites the value at the cell containing 0, with 0 meaning odd and 1 meaning Even.
+In formal nomenclature, the described TM can be written as follows:
+
 \[
     \begin{aligned}
         Q &= \{q_{0}, q_{1}, q_{2}\} \text{ with associated labels \{Even, Odd, Halt\}}\\
@@ -205,7 +212,7 @@ In formal nomenclature, it can be written as follows:
         q_{0} &\in \text{ Q as the initial state}
     \end{aligned}
 \]
-and
+\hspace{3.3cm}and the following delta transitions
 \[
     \begin{aligned}
         \delta (q_{0}, 0) &= (q_{2}, 1, S),\\
@@ -215,10 +222,10 @@ and
     \end{aligned}
 \]
 
-\subsubsection{Notable examples using Formal language}\label{subsubsec:NotableEgsFormalLang}
+\subsubsection{Notable examples using formal language}\label{subsubsec:NotableEgsFormalLang}
 
 The proofs constructed using formal language usually modify the given system to meet these requirements.
-They must first demonstrate that the input to the system is Undecidable or able to reduced to the Halting problem.
+They must first demonstrate that the input to the system is Undecidable or able to be reduced to the Halting problem.
 Furthermore, they must create a TM using the system to demonstrate that it is capable of calculating anything.
 
 (EN - I can explain deeper how they work in this section, but it is pretty complex and so i avoid that by briefly describing them)
@@ -238,8 +245,9 @@ This technique is also seen in a paper titled "The Game Description Language is 
 \subsection{Software Implementation}\label{subsec:SoftwareImplementation}
 
 As opposed to the various theoretical approaches seen previously in section \ref{subsec:AutomataThy}, this section outlines a different perspective.
-Instead of constructing a TM within the compounds of the system, an equivalent proof is to implement a program that demonstrates TC.
-By implementing any known TC program successfully implies that the overall system is TC.
+This approach utilizes the capabilities of the system as opposed to adjusting how they are understood/used.
+Instead of constructing a TM within the confines of the system, an equivalent proof is to implement a program that demonstrates Turing Completeness.
+By implementing any known TC program implies that the overall system is TC.
 For example, the popular Sony PlayStation game "LittleBigPlanet" released for the PlayStation 3, is TC as shown by someone implementing Conway's Game of Life inside of it \cite{LittleBigCGoL}.
 
 One such implementation would be to create a functional example of a known TC cellular automata.
@@ -250,7 +258,7 @@ These rules are applied to all cells simultaneously, and thus form the next step
 These steps are made sequentially to show the changes over time.
 This makes all cellular automata 0-player games, meaning after an initial configuration there is no further input from the user.
 With the work from Stephen Wolfram and other researchers such as Matthew Cook, some of these rules of cellular automata have been shown to be TC.
-Famous examples of cellular automata include Conway's Game of Life, Rule 110, and Langton's Ant \cite{CellAutWiki,CellAutWolfram,CGolTM,AntyParticles,AntWiki}.
+Famous examples of TC cellular automata include Conway's Game of Life, Rule 110, and Langton's Ant \cite{CellAutWiki,CellAutWolfram,CGoLTM,AntyParticles,AntWiki}.
 
 Cellular automata are sorted into 4 classes:
 \begin{itemize}[leftmargin=2cm]
@@ -263,16 +271,17 @@ Cellular automata are sorted into 4 classes:
     Any stable structures that appear are quickly destroyed by the surrounding noise.
     Local changes to the initial pattern tend to spread infinitely.
     \item Class 4: Nearly all initial patterns evolve into structures that interact in complex and interesting ways, with the formation of local structures that are able to survive for long periods of time.
-    Class 2 type stable or oscillating structures may be the eventual outcome, but the number of required to reach this state may be very large, even when the initial pattern is realtively simple.
+    Class 2 type stable or oscillating structures may be the eventual outcome, but the number of required to reach this state may be very large, even when the initial pattern is relatively simple.
     Local changes to the initial pattern may spread indefinitely.
 \end{itemize}
 
 Wolfram conjectured that many class 4 cellular automata are capable of universal computation.
 Both Conway's Game of Life and Rule 110 exhibit "Class 4 behavior" and have been proven to be Turing Complete \cite{CGoLTM,CellAutBook}.
+Although not discussed further, Langton's Ant is another TC cellular automaton \cite{AntWiki,AntyParticles}.
 
 \subsubsection{Conway's Game of Life}\label{subsubsec:CGoL}
 
-Conway's Game of Life is a 2D grid of cells extending infinitely in the cartesian plane.
+Conway's Game of Life (CGoL) is a 2D grid of cells extending infinitely in the cartesian plane.
 Each cell may switch between only 2 states: Alive (On) or Dead (Off).
 The rules of CGoL are simple and are illustrated in Figure \ref{fig:cgolrules} \cite{CGoLImg}.
 CGoL is considered undecidable.
@@ -321,7 +330,7 @@ Below are the rules for Rule 110 with an associated graphic in Figure \ref{fig:R
 \end{figure}
 
 Rule 110 is one of the simplest TC system that is known.
-This makes it a relatively easy system to create to demonstrate Turing Completeness as opposed to CGoL.
+This makes it a relatively easy system to create for demonstrating Turing Completeness as opposed to CGoL.
 
 \subsubsection{Programmable Calculator}\label{subsubsec:ProgCalc}
 
@@ -340,6 +349,7 @@ In a basic sense, this means that the system is capable of:
 Programmable Calculators meet all of these requirements.
 By being able to store values into variables which can be referenced later, it can read/write memory.
 Because it is a calculator, it is capable of performing arithmetic operations.
+Allowing boolean operators is also trivial to add in addition to the arithmetic operations.
 If statements and while loops are sufficient for handling the conditional and looping logic.
 A programmable calculator thefore is TC \cite{CalcTC}.
 This much simpler approach is clear and follows software engineering design principles.
@@ -347,6 +357,7 @@ A simplistic set of steps is outlined below:
 
 \begin{enumerate}
     \item Start by making a basic arithmetic calculator.
+    \item Implement boolean operators.
     \item Then add the ability to store values into variables.
     \item Afterwards, create functionality for if statements, allowing boolean logic.
     \item Finally, create looping logic with while statements.
@@ -356,13 +367,13 @@ A simplistic set of steps is outlined below:
 
 Alternatively, to show a programming language is TC, one can create an interpreter for a known TC language.
 Many programming languages feature complex grammars and rulesets, which is why TC esoteric programming languages are preferred.
-In fact brainfuck, as seen in section \ref{subsubsec:EsotericPL}, is used to demonstrate TC for its concise ruleset \cite{CBfInter,MeepWebsite,MeepGH,PythonBfInt}.
+In fact brainfuck, seen in section \ref{subsubsec:EsotericPL}, is often used to demonstrate a programming language is TC for its concise ruleset \cite{CBfInter,MeepWebsite,MeepGH,PythonBfInt}.
 
 \section{Mathematics}\label{sec:Maths}
 
 In this section, I will take a look at the mathematical system that is most well known for being TC, Lambda Calculus.
 This is an abstract form of understanding functions and their capabilities.
-It was actually designed by Church, and proven to be TC later on based off the work of Turing and Church by a famous mathematician: Stephen Cole Kleene \cite{LambdaCalcKleene}.
+It was actually designed by Alonzo Church, and proven to be TC later on based off the work of Turing and Church by a famous mathematician -- Stephen Cole Kleene \cite{LambdaCalcKleene}.
 
 \subsection{Lambda Calculus}\label{subsec:LambdaCalc}
 
@@ -380,7 +391,6 @@ Each lambda term is a valid statement in lambda calculus:
     \item \textit{(M N)}: An \textbf{application} where it applies the function \textit{M} to argument \textit{N}.
 \end{enumerate}
 
-\vspace{1cm}
 There also exist reduction operations to improve legibility but retain equivalent logical meaning:
 
 \begin{enumerate}
@@ -394,9 +404,10 @@ Parentheses may be used to to disambiguate terms from each other.
 This is especially useful when constructing complex applications using lambda calculus \cite{LambdaCalcWiki}.
 
 I will define an equivalent TM to the previously mentioned TM seen in Figure \ref{fig:TM} and in section \ref{subsec:AutomataThy}.
-Recall that the goal of the TM was to determine if there are an even or odd number of '1's in a sequence.
+Recall that the goal of the TM was to determine the parity of the total number of 1's in the given string.
 
-We construct the list of Natural Numbers, $\mathbb{N}$, as follows:
+I construct the list of Natural Numbers, $\mathbb{N}$, as follows using the idea of succession:
+
 \[
     \begin{aligned}
         0 &\equiv \lambda sz.s(z)\\
@@ -406,7 +417,7 @@ We construct the list of Natural Numbers, $\mathbb{N}$, as follows:
     \end{aligned}
 \]
 
-Now we construct the ideas of Arithmetic Boolean Logic, and other necessary logical operators.
+Now I construct the ideas of Arithmetic Boolean Logic, and other necessary logical operators.
 Treat 'f' as a function and variables as only locally defined to their respective operator \cite{LambdaFuncsList}.
 Some notation can be interpreted as SKI combinator calculus \cite{SKICalcWiki}.
 
@@ -447,26 +458,28 @@ Some notation can be interpreted as SKI combinator calculus \cite{SKICalcWiki}.
     \end{aligned}
 \]
 
-Now one can combine these lambda functions from a higher abstraction level to perform the operation.
+Now I will combine these lambda functions to perform the operation on the given input string.
+I list out the order of operations to produce the desired result.
 
-\begin{verbatim}
-    Obtain the Length of the List.
-    With the list length, subtract 1 from it.
-    Take the mod of the result.
-    If the new result is 0, then that means it was even.
-    If instead it was 1, then it was odd.
-\end{verbatim}
+\begin{enumerate}
+    \item Obtain the length of the List.
+    \item With the list length, subtract 1 from it.
+    \item Take the mod of the result.
+    \item If the new result is 0, then that means it was even.
+    \item If instead it was 1, then it was odd.
+\end{enumerate}
 
 Resulting in the following simplified lambda calculus operation:\[MOD \hspace{0.1cm} (SUB \hspace{0.1cm} (LENGTH \hspace{0.1cm} (\textbf{input}) \hspace{0.1cm} 1)) \hspace{0.1cm} 2\]
 with \textbf{input} being the input string.
 One can expand this result to the above lambda calculus notation, resulting in an extraneously long sequence.
-See Figure \ref{fig:OddEvenLambda} for an example of an expanded lambda calculus function that determines if a number is even or odd, i.e. it's cardinality \cite{RedditLambdaCalcPost,RedditLambdaCalcComment}.
+See Figure \ref{fig:OddEvenLambda} for an example of an expanded lambda calculus function that determines the parity of a given number \cite{RedditLambdaCalcPost,RedditLambdaCalcComment}.
 
 \begin{figure}[htb]
     \centering
     \includegraphics[width=16cm]{Images/oddevenlambda.png}
-       \caption{Expanded lambda calculus function to determine the cardinality of a number \cite{RedditLambdaCalcPost,RedditLambdaCalcComment}.}
+       \caption{Expanded lambda calculus function to determine the parity of a number \cite{RedditLambdaCalcPost,RedditLambdaCalcComment}.}
            \label{fig:OddEvenLambda}
 \end{figure}
 
 With the ability to define any calculable function, Lambda Calculus is TC, satisfying the Church-Turing Thesis, Theorem \ref{thm:CTT}.
+This is reminiscent of brainfuck, seen in section \ref{subsubsec:EsotericPL}, which is so abstract that it becomes unusable for practical purposes.
