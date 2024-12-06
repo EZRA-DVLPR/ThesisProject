@@ -142,15 +142,20 @@ In fact, I will discuss a method to demonstrate Turing Completeness that verifie
 In summary, to construct a TM on a physical level (of course alleviating the restriction of unbounded memory), these would be the minimum requirements \cite{nand2tetris,ELTCompSys}:
 
 \begin{itemize}
-    \item ADD
-    \item SUB
-    \item MUX
-    \item OR
     \item AND
+    \item OR
     \item XOR
 \end{itemize}
 
-Which themselves rely on logic gates as building blocks.
+or more complex circuitry components such as:
+
+\begin{itemize}
+    \item ADD
+    \item SUB
+    \item MUX
+\end{itemize}
+
+Accompanied by the additional logic for the instruction set, data storage, as well as the I/O mechanisms, which themselves rely partially on logic gates as building blocks.
 Therefore, if it is possible to create/simulate logic gates, or to create the above shown processes, then it is capable of satisfying any arithmetic or logical calculation.
 As such, the Church-Turing Thesis, Theorem \ref{thm:CTT}, is met and a TM can be created.
 
