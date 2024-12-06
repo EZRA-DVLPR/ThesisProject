@@ -1,4 +1,111 @@
 \chapter{Code Segments}\label{app:CodeSegments}
 
-In this appendix section, I hope to put some of the larger code segments so that there is less interruption when reading the text.
-If you feel that there is a particular code segment that should be here, please let me know so I can add it.
+\section{Fibonacci in C}\label{sec:FibC}
+
+This code segment shows an example for constructing the fibonacci sequence in C in 2 ways: without recursion, and with recursion.
+
+\begin{verbatim}
+    //Given an integer n, calculate the first n numbers
+    //of the fibonacci sequence without recursion
+    
+    void sequentialFibonacci (int n) {
+        if (n < 1) {
+            printf("Input must be an integer greater than 0");
+                return;
+        }
+        int i = 1;
+        int sub1 = 0;
+        int sub2 = 1;
+        for (i = 1; i <= n; i+=1) {
+            if (i > 2) {
+                int curr = sub1 + sub2;
+                sub1 = sub2;
+                sub2 = curr;
+                printf("%d ", curr);
+            }
+            else if (i == 1) {
+                printf("%d ", sub1);
+            }
+            else if (i == 2) {
+                printf("%d ", sub2);
+            }
+        }
+    }
+
+    /***************************************************************/
+
+    //Recursive case
+
+    //keep track of current Index, given amount of fibonacci numbers
+    //to print, and propogate the two subnumbers to the next step
+    void recursiveFibonacci (int currIndex, int n, int sub1, int sub2) {
+        if (currIndex < n) {
+            printf("%d ", sub1 + sub2);
+            recursiveFibonacci(currIndex + 1, n, sub2, sub1 + sub2);
+        }
+        return;
+    }
+
+    //handle base cases (exit conditions)
+    //otherwise start the recursive process
+    void startRecursiveFibonacci (int n) {
+        if (n < 1) {
+            printf("Input must be an integer greater than 0");
+        } else if (n == 1) {
+            printf("%d ", 0);
+        } else if (n == 2) {
+            printf("%d %d ", 0, 1);
+        } else {
+            printf("%d %d ", 0, 1);
+            recursiveFibonacci(0, n - 2, 0, 1);
+        }
+        return;
+    }
+\end{verbatim}
+
+\section{Java School Example}\label{sec:JavaSchool}
+
+Java code to demonstrate OOP using the school example mentioned in \ref{subsubsec:OOPL}
+
+
+\begin{verbatim}
+    class School {
+        private int numEnrolledStudents;
+        
+        public School () {
+            this.numEnrolledStudents = 0;
+        }
+        
+        public School (int numAlreadyEnrolled) {
+            this.numEnrolledStudents = numAlreadyEnrolled;
+        }
+        
+        public int getNumEnrolled() {
+            return this.numEnrolledStudents;
+        }
+        
+        public void setNumEnrolled(int numStudents) {
+            this.numEnrolledStudents = numStudents;
+            return;
+        }
+    }
+    
+    class RunCode {
+        public static void main(String[] args) {
+            School NewSchool = new School();
+            
+            System.out.println("The number of students enrolled 
+                in the new school is: " + NewSchool.getNumEnrolled()); // 0
+            
+            NewSchool.setNumEnrolled(100);
+            
+            System.out.println("The number of students enrolled
+                in the new school is: " + NewSchool.getNumEnrolled()); // 100
+            
+            School CSUN = new School(32172);
+            
+            System.out.println("The number of students enrolled
+                at CSUN is: " + CSUN.getNumEnrolled());                // 32172
+        }
+    }
+\end{verbatim}

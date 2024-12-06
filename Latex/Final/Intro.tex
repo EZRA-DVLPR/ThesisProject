@@ -287,68 +287,7 @@ Typically, using recursion uses less overall lines, but comes at the increased c
 Another consideration would be the space and time complexity being compounded at each step of recursion.
 However, recursion remains an elegant approach towards progamming nonetheless.
 
-Here is an example constructing the fibonacci sequence in C in 2 ways: without recursion, and with recursion.
-
-(EN - The first code segment I may add to the appendix)
-
-\begin{verbatim}
-    //Given an integer n, calculate the first n numbers
-    //of the fibonacci sequence without recursion
-    
-    void sequentialFibonacci (int n) {
-        if (n < 1) {
-            printf("Input must be an integer greater than 0");
-                return;
-        }
-        int i = 1;
-        int sub1 = 0;
-        int sub2 = 1;
-        for (i = 1; i <= n; i+=1) {
-            if (i > 2) {
-                int curr = sub1 + sub2;
-                sub1 = sub2;
-                sub2 = curr;
-                printf("%d ", curr);
-            }
-            else if (i == 1) {
-                printf("%d ", sub1);
-            }
-            else if (i == 2) {
-                printf("%d ", sub2);
-            }
-        }
-    }
-
-    /***************************************************************/
-
-    //Recursive case
-
-    //keep track of current Index, given amount of fibonacci numbers
-    //to print, and propogate the two subnumbers to the next step
-    void recursiveFibonacci (int currIndex, int n, int sub1, int sub2) {
-        if (currIndex < n) {
-            printf("%d ", sub1 + sub2);
-            recursiveFibonacci(currIndex + 1, n, sub2, sub1 + sub2);
-        }
-        return;
-    }
-
-    //handle base cases (exit conditions)
-    //otherwise start the recursive process
-    void startRecursiveFibonacci (int n) {
-        if (n < 1) {
-            printf("Input must be an integer greater than 0");
-        } else if (n == 1) {
-            printf("%d ", 0);
-        } else if (n == 2) {
-            printf("%d %d ", 0, 1);
-        } else {
-            printf("%d %d ", 0, 1);
-            recursiveFibonacci(0, n - 2, 0, 1);
-        }
-        return;
-    }
-\end{verbatim}
+See section \ref{sec:FibC} in Appendix \ref{app:CodeSegments} for an example constructing the fibonacci sequence in C in 2 ways: without recursion, and with recursion.
 
 Through the use of scope and compartmentalizing procedures, Procedural programming is a very straightforward and capable design paradigm for software development.
 Some well known languages that are Turing Complete from this paradigm are: 
@@ -390,51 +329,7 @@ Perhaps there would be two ways to create a school: with a total amount of stude
 Both are valid as adding an existing school to the digital system would use the first constructor, while creating a new school would utilize the second constructor.
 Each academic year, a certain amount of students enroll into either school.
 There must be a way to update the amount of students for any school.
-Below is a snippet of Java code demonstrating these principles implementing the above school example.
-
-(EN - The second snippet of code I am considering adding to the Appendix)
-
-\begin{verbatim}
-class School {
-    private int numEnrolledStudents;
-    
-    public School () {
-        this.numEnrolledStudents = 0;
-    }
-    
-    public School (int numAlreadyEnrolled) {
-        this.numEnrolledStudents = numAlreadyEnrolled;
-    }
-    
-    public int getNumEnrolled() {
-        return this.numEnrolledStudents;
-    }
-    
-    public void setNumEnrolled(int numStudents) {
-        this.numEnrolledStudents = numStudents;
-        return;
-    }
-}
-
-class RunCode {
-    public static void main(String[] args) {
-        School NewSchool = new School();
-        
-        System.out.println("The number of students enrolled 
-            in the new school is: " + NewSchool.getNumEnrolled()); // 0
-        
-        NewSchool.setNumEnrolled(100);
-        
-        System.out.println("The number of students enrolled
-            in the new school is: " + NewSchool.getNumEnrolled()); // 100
-        
-        School CSUN = new School(32172);
-        
-        System.out.println("The number of students enrolled
-            at CSUN is: " + CSUN.getNumEnrolled());                // 32172
-    }
-}
-\end{verbatim}
+See section \ref{sec:JavaSchool} in the Appendix \ref{app:CodeSegments} for a snippet of Java code demonstrating these principles and implementing the above school example.
 
 There are more advanced features such as Inheritance that allow for more complex design models.
 Furthermore, Java contains Modifiers which are used to change the permission of which piece of code is capable of being accessed by another piece of code.
@@ -557,7 +452,6 @@ Below are some simplistic code examples in Haskell:
         #####       Printed to Terminal     #####
 
         The sum of squares is: 13
-
 \end{verbatim}
 
 This looks like a more advanced version of lambda calculus seen in \ref{subsec:LambdaCalc}.
@@ -673,76 +567,7 @@ When compiled, Actors and states are created as C++ structs \cite{ProteusRunTime
 Below is the Grammar for Proteus.
 It outlines the command followed by the definition for writing the command.
 Anything outlined in single quotations indicates text to be written explicitly.
-
-(EN - Another big piece of text that I'm considering moving to the Appenxix)
-
-\begin{verbatim}
-Program: DefEvent* DefGlobalConst* DefFunc* DefActor+
-DefActor: 'actor' ActorName '{' ActorItem* '}'
-ActorItem: DefHSM | DefActorOn | DefMember | DefMethod
-DefActorOn: 'on' EventMatch OnBlock
-DefHSM:   'statemachine' '{' StateItem* '}'
-DefState: 'state' StateName '{' StateItem* '}'
-StateItem: DefOn | DefEntry | DefExit | DefMember | 
-            DefMethod | DefState | InitialState
-DefOn: 'on' EventMatch OnBody
-EventMatch: EventName '{' [VarName (',' VarName)*] '}'
-OnBody: GoStmt | OnBlock
-OnBlock: Block
-DefEntry: 'entry' '{' Block '}'
-DefExit: 'exit' '{' Block '}'
-DefMember: Type VarName '=' ConstExpr ';'
-DefMethod: 'func' FuncName FormalFuncArgs ['->' Type] Block
-InitialState: 'initial' StateName ';'
-Block: '{' Stmt* '}'
-Stmt: IfStmt | WhileStmt | DecStmt | AssignStmt | ExitStmt | 
-            ApplyStmt | SendStmt | PrintStmt | PrintlnStmt
-DefEvent: 'event' EventName '{' [Type (',' Type )*] }' ';'
-DefFunc: 'func' FuncName FormalFuncArgs ['->' Type] Block
-DefGlobalConst: 'const' Type VarName '=' ConstExpr ';'
-ExitStmt: 'exit' '(' NUMBER ')' ';'
-ReturnStmt: 'return' Expr ';'
-DecStmt: Type VarName '=' Expr ';'
-AssignStmt: VarName '=' Expr ';'
-ApplyStmt: ApplyExpr ';'
-SendStmt : HSMName '!' EventName ExprListCurly ';'
-PrintStmt : 'print' ExprListParen ';'
-PrintlnStmt : 'println' ExprListParen ';'
-FormalFuncArgs : '(' [Type VarName (',' Type VarName)*] ')'
-ExprListParen :'(' [Expr (',' Expr)*] ')'
-ExprListCurly :'{' [Expr (',' Expr)*] '}'
-Type: 'int' | 'string' | 'bool' | 'actorname' | 'statename' | 
-            'eventname'
-GoStmt: JustGoStmt | GoIfStmt
-JustGoStmt: 'go' StateName Block
-GoIfStmt: 'goif' ParenExpr StateName Block 
-            ['else' (GoIfStmt | ElseGoStmt)]
-ElseGoStmt: 'go' StateName Block
-IfStmt: 'if' ParenExpr Block ['else' (IfStmt | Block)] 
-WhileStmt: 'while' ParenExpr Block 
-ParenExpr: '(' Expr ')' 
-ConstExpr: IntExpr | BoolExpr | StrExpr
-Expr: ValExpr | BinOpExpr | ApplyExpr
-BinOpExpr: ValExpr BinOp Expr 
-BinOp: '*' | '/' | '%' | '+' | '-' | '<<' | '>>' | '<' | '>' |
-            '<=' | '>=' | '==' | '!=' | '^' | '&&' | '||' | '*=' | 
-            '/=' | '%=' | '+=' | '-=' | '<<=' | '>>=' | '^='
-ApplyExpr: FuncName ExprListParen
-ValExpr: VarExpr | IntExpr | StrExpr | BoolExpr | ActorExpr | 
-            StateExpr | EventExpr | ParenExpr
-VarExpr: VarName
-IntExpr: NUMBER 
-StrExpr: STRING 
-BoolExpr: BOOL
-ActorExpr: 'actor' ActorName
-StateExpr: 'state' StateName
-EventExpr: 'event' EventName
-StateName: NAME
-ActorName: NAME
-FuncName: NAME
-VarName: NAME
-EventName: NAME
-\end{verbatim}
+See Appendix \ref{app:ProtGram} for the grammar.
 
 Looking at the grammar is similar to looking at the pieces of a puzzle without actually arranging the pieces together.
 It gives insight into what the final image might be, but won't help unless you actually start using the pieces.
