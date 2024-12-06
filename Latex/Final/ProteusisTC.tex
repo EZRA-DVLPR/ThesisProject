@@ -270,8 +270,6 @@ Because JFLAP does not allow for multiple characters to be a single element with
 The transition function determines the conditions for the read/write head to change states.
 These transitions can be seen clearly in Figure \ref{fig:ProteusStateTM}.
 
-% Make sure it fits properly onto the page nicely
-
 \[
     \begin{aligned}
         \text{let \hspace{0.1cm}} x, y \in \Gamma\\
@@ -288,6 +286,10 @@ These transitions can be seen clearly in Figure \ref{fig:ProteusStateTM}.
         \delta (\text{'BoundLeft'}, x) &= (\text{'Read'}, x, S)\\
         \delta (\text{'BoundLeft'}, \raisebox{0.1cm}{\fbox{}}) &= (\text{'Read'}, \raisebox{0.1cm}{\fbox{}}, R)\\
 %
+    \end{aligned}
+\]
+\[
+    \begin{aligned}
         \delta (\text{'BoundRight'}, x) &= (\text{'Read'}, x, S)\\
         \delta (\text{'BoundRight'}, \raisebox{0.1cm}{\fbox{}}) &= (\text{'Read'}, \raisebox{0.1cm}{\fbox{}}, L)\\
 %
@@ -299,8 +301,6 @@ These transitions can be seen clearly in Figure \ref{fig:ProteusStateTM}.
         \delta (\text{'Check'}, \raisebox{0.1cm}{\fbox{}}) &= (\text{'ProgramOff'}, \raisebox{0.1cm}{\fbox{}}, S)\\
     \end{aligned}
 \]
-
-\newpage
 
 In summary, the following definitions create a TM for an arbitrary Proteus program:
 \[
@@ -315,8 +315,6 @@ In summary, the following definitions create a TM for an arbitrary Proteus progr
 
 with the transition functions:
 
-% consider breaking it down so that it fits onto the page nicely
-
 \[
     \begin{aligned}
         \text{let \hspace{0.1cm}} x, y \in \Gamma\\
@@ -328,8 +326,11 @@ with the transition functions:
         \delta (\text{'Read'}, x) &= (\text{'BoundRight'}, x, R)\\
         \delta (\text{'FindStart'}, x) &= (\text{'BoundLeft'}, x, S)\\
 %
-        \delta (\text{'Write'}, x) &= (\text{'BoundLeft'}, y, S)\\
-%
+        \delta (\text{'Write'}, x) &= (\text{'BoundLeft'}, y, S)
+    \end{aligned}
+\]
+\[
+    \begin{aligned}
         \delta (\text{'BoundLeft'}, x) &= (\text{'Read'}, x, S)\\
         \delta (\text{'BoundLeft'}, \raisebox{0.1cm}{\fbox{}}) &= (\text{'Read'}, \raisebox{0.1cm}{\fbox{}}, R)\\
 %
@@ -417,64 +418,7 @@ In total there are 4 events that will be used in the Proteus code:
     It instructs the cell to update it's currCellIsOn to the given Value, with Value $\in$ \{true,false\}.
 \end{enumerate}
 
-The Proteus code for a given cell at coordinates (X,Y) are as follows:
-(EN - if Proteus does not accept 'HSMName' to be defined dynamically, then instead add 4 vars to store the name of each of the neighbors statically. Another option would be to leave it outside of a variable and hardcode it)
-
-\begin{verbatim}
-actor cellXY{
-    string myName = "cellXY";
-    int Xcoord = [X];
-    int Ycoord = [Y];
-    bool currCellIsOn = false;
-    bool nextStateCurrCellIsOn = false;
-    statemachine {
-        initial Display;
-        state Display {
-            on getDisplay {otherCellName} {otherCellName ! currCellIsOn}
-            on calculateNextState {} {go calculateNext {}}
-            on updateAllCells {} {go Update {}}
-            on initializeCell {Value} {currCellIsOn = Value}
-        }
-        state calculateNext {
-            int neighborTop = [Y]coord + 1;
-            int neighborBot = [Y]coord - 1;
-            int neighborLeft = [X]coord - 1;
-            int neighborRight = [X]coord + 1;
-            string neighborTopName = "cell" + Xcoord + neighborTop;
-            string neighborBotName = "cell" + Xcoord + neighborBot;
-            string neighborLeftName = "cell" + neighborLeft + Ycoord;
-            string neighborRightName = "cell" + neighborRight + Ycoord;
-            int count = 0;
-            if (neighborTopName ! getDisplay {myName}) {
-                count += 1;
-            }
-            if (neighborBotName ! getDisplay {myName}) {
-                count += 1;
-            }
-            if (neighborLeftName ! getDisplay {myName}) {
-                count += 1;
-            }
-            if (neighborRightName ! getDisplay {myName}) {
-                count += 1;
-            }
-            if ((!(currCellIsOn)) && (count == 3)) {
-                nextStateCurrCellIsOn = true;
-            } else if ((currCellIsOn) && ((count == 2) || (count == 3))) {
-                nextStateCurrCellIsOn = true;
-            } else if ((currCellIsOn) && (count < 2)) {
-                nextStateCurrCellIsOn = false;
-            } else if ((currCellIsOn) && (count > 3)) {
-                nextStateCurrCellIsOn = false;
-            }
-            go Display {}
-        }
-        state Update {
-            currCellIsOn = nextStateCurrCellIsOn;
-            go Display {}
-        }
-    }
-}
-\end{verbatim}
+The Proteus code for a given cell at coordinates (X,Y) are seen in Appendix \ref{app:ProtCode} in section \ref{sec:ProtCGoL}.
 
 Assuming that there are a nonzero amount of cells that are to be initialized to a desired state, the Proteus code for the controller is as follows.
 Let $cellXY, \dots, cellAB$ be the cells to be defined with initial states, and associated states $s0, \dots, sAB$.
@@ -578,62 +522,6 @@ In total there are 4 events that will be used in the Proteus code:
 \end{enumerate}
 
 The Proteus code for a given cell at coordinate X are as follows:
-(EN - if Proteus does not accept 'HSMName' to be defined dynamically, then instead add 2 vars to store the name of each of the neighbors statically. Another option would be to leave it outside of a variable and hardcode it)
-
-\begin{verbatim}
-actor cellXY{
-    string myName = "cellX";
-    int coord = [X];
-    bool currCellIsOn = false;
-    bool nextStateCurrCellIsOn = false;
-    statemachine {
-        initial Display;
-        state Display {
-            on getDisplay {otherCellName} {otherCellName ! currCellIsOn}
-            on calculateNextState {} {go calculateNext {}}
-            on updateAllCells {} {go Update {}}
-            on initializeCell {Value} {currCellIsOn = Value}
-        }
-        state calculateNext {
-            int neighborLeft = coord - 1;
-            int neighborRight = coord + 1;
-            string neighborLeftName = "cell" + neighborLeft;
-            string neighborRightName = "cell" + neighborRight;
-            bool valNeighborLeft = neighborLeftName ! getDisplay {myName};
-            bool valNeighborRight = neighborRightName ! getDisplay {myName};
-            if ((valNeighborLeft) && (currCellIsOn) 
-                    && (valNeighborRight)) {
-                nextStateCurrCellIsOn = false;
-            } else if ((valNeighborLeft) && (currCellIsOn) 
-                    && (!(valNeighborRight))) {
-                nextStateCurrCellIsOn = true;
-            } else if ((valNeighborLeft) && (!(currCellIsOn)) 
-                    && (valNeighborRight)) {
-                nextStateCurrCellIsOn = true;
-            } else if ((valNeighborLeft) && (!(currCellIsOn)) 
-                    && (!(valNeighborRight))) {
-                nextStateCurrCellIsOn = false;
-            } else if ((!(valNeighborLeft)) && (currCellIsOn) 
-                    && (valNeighborRight)) {
-                nextStateCurrCellIsOn = true;
-            } else if ((!(valNeighborLeft)) && (currCellIsOn) 
-                    && (!(valNeighborRight))) {
-                nextStateCurrCellIsOn = true;
-            } else if ((!(valNeighborLeft)) && (!(currCellIsOn)) 
-                    && (valNeighborRight)) {
-                nextStateCurrCellIsOn = true;
-            } else {
-                nextStateCurrCellIsOn = false;
-            }
-            go Display {}
-        }
-        state Update {
-            currCellIsOn = nextStateCurrCellIsOn;
-            go Display {}
-        }
-    }
-}
-\end{verbatim}
 
 Assuming that there are a nonzero amount of cells that are to be initialized to a desired state, the Proteus code for the controller is as follows.
 Let $cellX, \dots, cellY$ be the cells to be defined with initial states, and associated states $s1, \dots, sN$.

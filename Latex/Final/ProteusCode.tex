@@ -1,0 +1,116 @@
+\chapter{Proteus Code}\label{app:ProtCode}
+
+\section{Conway's Game of Life cell code}\label{sec:ProtCGoL}
+
+\begin{verbatim}
+    actor cellXY{
+        string myName = "cellXY";
+        int Xcoord = [X];
+        int Ycoord = [Y];
+        bool currCellIsOn = false;
+        bool nextStateCurrCellIsOn = false;
+        statemachine {
+            initial Display;
+            state Display {
+                on getDisplay {otherCellName} {otherCellName ! currCellIsOn}
+                on calculateNextState {} {go calculateNext {}}
+                on updateAllCells {} {go Update {}}
+                on initializeCell {Value} {currCellIsOn = Value}
+            }
+            state calculateNext {
+                int neighborTop = [Y]coord + 1;
+                int neighborBot = [Y]coord - 1;
+                int neighborLeft = [X]coord - 1;
+                int neighborRight = [X]coord + 1;
+                string neighborTopName = "cell" + Xcoord + neighborTop;
+                string neighborBotName = "cell" + Xcoord + neighborBot;
+                string neighborLeftName = "cell" + neighborLeft + Ycoord;
+                string neighborRightName = "cell" + neighborRight + Ycoord;
+                int count = 0;
+                if (neighborTopName ! getDisplay {myName}) {
+                    count += 1;
+                }
+                if (neighborBotName ! getDisplay {myName}) {
+                    count += 1;
+                }
+                if (neighborLeftName ! getDisplay {myName}) {
+                    count += 1;
+                }
+                if (neighborRightName ! getDisplay {myName}) {
+                    count += 1;
+                }
+                if ((!(currCellIsOn)) && (count == 3)) {
+                    nextStateCurrCellIsOn = true;
+                } else if ((currCellIsOn) && ((count == 2) || (count == 3))) {
+                    nextStateCurrCellIsOn = true;
+                } else if ((currCellIsOn) && (count < 2)) {
+                    nextStateCurrCellIsOn = false;
+                } else if ((currCellIsOn) && (count > 3)) {
+                    nextStateCurrCellIsOn = false;
+                }
+                go Display {}
+            }
+            state Update {
+                currCellIsOn = nextStateCurrCellIsOn;
+                go Display {}
+            }
+        }
+    }
+\end{verbatim}
+
+\section{Rule 110 cell code}\label{sec:ProtRule110}
+
+\begin{verbatim}
+    actor cellXY{
+        string myName = "cellX";
+        int coord = [X];
+        bool currCellIsOn = false;
+        bool nextStateCurrCellIsOn = false;
+        statemachine {
+            initial Display;
+            state Display {
+                on getDisplay {otherCellName} {otherCellName ! currCellIsOn}
+                on calculateNextState {} {go calculateNext {}}
+                on updateAllCells {} {go Update {}}
+                on initializeCell {Value} {currCellIsOn = Value}
+            }
+            state calculateNext {
+                int neighborLeft = coord - 1;
+                int neighborRight = coord + 1;
+                string neighborLeftName = "cell" + neighborLeft;
+                string neighborRightName = "cell" + neighborRight;
+                bool valNeighborLeft = neighborLeftName ! getDisplay {myName};
+                bool valNeighborRight = neighborRightName ! getDisplay {myName};
+                if ((valNeighborLeft) && (currCellIsOn) 
+                        && (valNeighborRight)) {
+                    nextStateCurrCellIsOn = false;
+                } else if ((valNeighborLeft) && (currCellIsOn) 
+                        && (!(valNeighborRight))) {
+                    nextStateCurrCellIsOn = true;
+                } else if ((valNeighborLeft) && (!(currCellIsOn)) 
+                        && (valNeighborRight)) {
+                    nextStateCurrCellIsOn = true;
+                } else if ((valNeighborLeft) && (!(currCellIsOn)) 
+                        && (!(valNeighborRight))) {
+                    nextStateCurrCellIsOn = false;
+                } else if ((!(valNeighborLeft)) && (currCellIsOn) 
+                        && (valNeighborRight)) {
+                    nextStateCurrCellIsOn = true;
+                } else if ((!(valNeighborLeft)) && (currCellIsOn) 
+                        && (!(valNeighborRight))) {
+                    nextStateCurrCellIsOn = true;
+                } else if ((!(valNeighborLeft)) && (!(currCellIsOn)) 
+                        && (valNeighborRight)) {
+                    nextStateCurrCellIsOn = true;
+                } else {
+                    nextStateCurrCellIsOn = false;
+                }
+                go Display {}
+            }
+            state Update {
+                currCellIsOn = nextStateCurrCellIsOn;
+                go Display {}
+            }
+        }
+    }
+\end{verbatim}
