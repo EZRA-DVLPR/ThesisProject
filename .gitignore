@@ -5,6 +5,7 @@
 /Latex/Sample/*.synctex.gz
 /Latex/Sample/*.toc
 /Latex/Final/*.out
+/Latex/Final/*.lof
 
 /Latex/Final/*.aux
 /Latex/Final/*.log
